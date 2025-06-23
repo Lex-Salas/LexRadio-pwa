@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-lexradio.png"/>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log("Service Worker registrado"))
-        .catch(err => console.log("Error al registrar SW:", err));
+      navigator.serviceWorker.register('service-worker.js');
     }
   </script>
   <style>
@@ -18,35 +17,37 @@
       margin: 0;
       font-family: 'Orbitron', sans-serif;
       background: linear-gradient(to bottom, #000428, #004e92);
-      color: #ffffff;
+      color: #fff;
       text-align: center;
       padding: 20px;
     }
 
     header {
-      padding: 30px 0;
+      animation: fadeIn 1.5s ease-in;
     }
 
     header img {
       width: 120px;
       border-radius: 50%;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px #00f0ff;
     }
 
     h1 {
       font-size: 28px;
       margin: 10px 0;
+      text-shadow: 0 0 8px #00f0ff;
     }
 
-    nav {
-      margin: 20px 0;
-    }
-
-    nav a {
-      margin: 0 10px;
-      color: #00f0ff;
-      text-decoration: none;
+    .barra-info {
+      background-color: #00f0ff;
+      color: #000;
+      padding: 8px 12px;
       font-weight: bold;
+      border-radius: 30px;
+      margin: 20px auto;
+      display: inline-block;
+      animation: slideIn 1s ease-in-out;
     }
 
     audio {
@@ -58,37 +59,63 @@
       background-color: #00f0ff;
       border: none;
       color: black;
-      padding: 15px 30px;
-      font-size: 18px;
+      padding: 12px 25px;
+      font-size: 16px;
       border-radius: 30px;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 15px;
       transition: background-color 0.3s;
     }
 
     .boton:hover {
-      background-color: #00b7c2;
+      background-color: #00c3d4;
+    }
+
+    nav {
+      margin: 30px 0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffffff;
     }
 
     .volumen {
-      margin-top: 15px;
+      margin-top: 12px;
+    }
+
+    input[type=range] {
+      width: 200px;
     }
 
     footer {
       margin-top: 40px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    input[type="range"] {
-      width: 200px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo">
+    <img src="logo-lexradio.png" alt="LEX Radio Logo" />
     <h1>LEX Radio</h1>
-    <p>Tus recuerdos en el presente</p>
+    <div class="barra-info">🎶 Escuchás: LEXTRONICA con Jessica</div>
   </header>
 
   <main>
@@ -114,9 +141,9 @@
 
     <nav>
       <a href="#programas">Programas</a>
+      <a href="#equipo">Equipo</a>
       <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
-      <a href="https://instagram.com/lexxradio" target="_blank">Instagram</a>
-      <a href="https://www.lexxradio.com" target="_blank">Sitio web</a>
+      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
     </nav>
   </main>
 
