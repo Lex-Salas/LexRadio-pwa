@@ -25,6 +25,10 @@
     }
   </script>
 
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -34,20 +38,24 @@
       text-align: center;
       padding: 20px;
     }
+
     header {
       animation: fadeIn 1.5s ease-in;
     }
+
     header img {
       width: 120px;
       border-radius: 50%;
       margin-bottom: 10px;
       box-shadow: 0 0 15px #00f0ff;
     }
+
     h1 {
       font-size: 28px;
       margin: 10px 0;
       text-shadow: 0 0 8px #00f0ff;
     }
+
     .barra-info {
       background-color: #00f0ff;
       color: #000;
@@ -58,10 +66,12 @@
       display: inline-block;
       animation: slideIn 1s ease-in-out;
     }
+
     audio {
       margin: 20px auto;
       display: block;
     }
+
     .boton {
       background-color: #00f0ff;
       border: none;
@@ -73,12 +83,15 @@
       margin-top: 15px;
       transition: background-color 0.3s;
     }
+
     .boton:hover {
       background-color: #00c3d4;
     }
+
     nav {
       margin: 30px 0;
     }
+
     nav a {
       margin: 0 10px;
       color: #00f0ff;
@@ -86,33 +99,84 @@
       font-weight: bold;
       transition: color 0.3s;
     }
+
     nav a:hover {
       color: #ffffff;
     }
+
     .volumen {
       margin-top: 12px;
     }
+
     input[type=range] {
       width: 200px;
     }
+
     footer {
       margin-top: 40px;
       font-size: 13px;
     }
+
+    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
+
     @keyframes slideIn {
       from { transform: translateY(-15px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    /* Neon text effect */
+    .neon-text {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12, 0 0 20px #f39c12;
+    }
+
+    /* Neon button effect */
+    .neon-button {
+      padding: 10px 20px;
+      border: 2px solid #f39c12;
+      background-color: transparent;
+      color: #f39c12;
+      font-size: 1.5em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
+    }
+
+    .neon-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #f39c12, 0 0 30px #f39c12;
+    }
+
+    /* Animated neon background */
+    @keyframes neonBackground {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+
+    body {
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
+    }
   </style>
 </head>
-<body>
+<body onload="AOS.init()">
   <header>
     <img src="logo-lexradio.png" alt="LEX Radio Logo" />
-    <h1>LEX Radio</h1>
+    <h1 class="neon-text">LEX Radio</h1>
     <div class="barra-info">🎶 Escuchá: LEX RADIO Dale Play Abajo</div>
   </header>
 
@@ -135,7 +199,7 @@
       });
     </script>
 
-    <button class="boton" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
+    <button class="boton neon-button" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
 
     <nav>
       <a href="#programas">Programas</a>
@@ -146,10 +210,10 @@
 
     <!-- Programas -->
     <section id="programas" style="padding: 40px 20px;">
-      <h2 style="font-size: 26px; color: #00f0ff; text-shadow: 0 0 10px #00f0ff;">📺 Nuestros Programas</h2>
+      <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
-
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #7c4dff;">
+        
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #7c4dff;" data-aos="fade-up">
           <img src="artista.png" alt="Artista de la Semana" style="width: 100%; display: block;">
           <div style="padding: 15px;">
             <h3 style="margin: 0 0 10px; color: #7c4dff;">Artista de la Semana</h3>
@@ -158,7 +222,7 @@
           </div>
         </div>
 
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00f0ff;">
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00f0ff;" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA" style="width: 100%; display: block;">
           <div style="padding: 15px;">
             <h3 style="margin: 0 0 10px; color: #00f0ff;">LEXTRONICA</h3>
@@ -167,7 +231,7 @@
           </div>
         </div>
 
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #ffc107;">
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #ffc107;" data-aos="fade-up">
           <img src="startpop.png" alt="POPSTART" style="width: 100%; display: block;">
           <div style="padding: 15px;">
             <h3 style="margin: 0 0 10px; color: #ffc107;">POPSTART</h3>
@@ -176,7 +240,7 @@
           </div>
         </div>
 
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #f06292;">
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #f06292;" data-aos="fade-up">
           <img src="concierto.png" alt="Concierto para Enamorados" style="width: 100%; display: block;">
           <div style="padding: 15px;">
             <h3 style="margin: 0 0 10px; color: #f06292;">Concierto para Enamorados</h3>
@@ -185,7 +249,7 @@
           </div>
         </div>
 
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00e676;">
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00e676;" data-aos="fade-up">
           <img src="retrovibe.png" alt="RETROVIBES" style="width: 100%; display: block;">
           <div style="padding: 15px;">
             <h3 style="margin: 0 0 10px; color: #00e676;">RETROVIBES</h3>
@@ -193,7 +257,6 @@
             <p style="color: #ccc; font-size: 13px;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
           </div>
         </div>
-
       </div>
     </section>
   </main>
@@ -201,5 +264,11 @@
   <footer>
     <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    AOS.init({
+      duration: 1000,  // Duración de la animación
+    });
+  </script>
 </body>
 </html>
