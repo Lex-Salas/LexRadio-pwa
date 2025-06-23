@@ -1,6 +1,6 @@
 {
   "name": "LEX Radio",
-  "short_name": "LEX Radio",
+  "short_name": "LEXRadio",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000428",
