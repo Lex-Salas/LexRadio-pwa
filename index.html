@@ -8,20 +8,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
 
-<!-- OneSignal Push Notifications -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
-      autoResubscribe: true,
-      notifyButton: {
-        enable: false
-      }
+  <!-- SEO básico -->
+  <meta name="description" content="LEX Radio - Éxitos de los 80s, 90s y 2000s. Tus recuerdos en el presente.">
+  <meta name="keywords" content="radio online, música retro, pop 80s 90s 2000s, streaming en vivo, LEX Radio">
+  <meta name="author" content="LEX Productions">
+
+  <!-- PWA y Apple Touch -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LEX Radio">
+  <link rel="apple-touch-icon" href="icon-512.png" />
+
+  <!-- OneSignal Push Notifications -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
+        autoResubscribe: true,
+        notifyButton: {
+          enable: false
+        }
+      });
     });
-  });
-</script>
+  </script>
 
   <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -35,6 +46,9 @@
       color: #fff;
       text-align: center;
       padding: 20px;
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
     }
 
     header {
@@ -115,7 +129,7 @@
       font-size: 13px;
     }
 
-    /* Animations */
+    /* Animaciones */
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
@@ -126,14 +140,18 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Neon text effect */
+    @keyframes neonBackground {
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
+    }
+
     .neon-text {
       font-size: 3em;
       color: #fff;
       text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12, 0 0 20px #f39c12;
     }
 
-    /* Neon button effect */
     .neon-button {
       padding: 10px 20px;
       border: 2px solid #f39c12;
@@ -149,25 +167,6 @@
     .neon-button:hover {
       transform: scale(1.1);
       box-shadow: 0 0 20px #f39c12, 0 0 30px #f39c12;
-    }
-
-    /* Animated neon background */
-    @keyframes neonBackground {
-      0% {
-        background-position: 0 0;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    body {
-      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
-      background-size: 300% 300%;
-      animation: neonBackground 6s ease infinite;
     }
   </style>
 </head>
@@ -210,7 +209,8 @@
     <section id="programas" style="padding: 40px 20px;">
       <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
-        
+
+        <!-- Programa 1 -->
         <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #7c4dff;" data-aos="fade-up">
           <img src="artista.png" alt="Artista de la Semana" style="width: 100%; display: block;">
           <div style="padding: 15px;">
@@ -220,6 +220,7 @@
           </div>
         </div>
 
+        <!-- Programa 2 -->
         <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00f0ff;" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA" style="width: 100%; display: block;">
           <div style="padding: 15px;">
@@ -229,6 +230,7 @@
           </div>
         </div>
 
+        <!-- Programa 3 -->
         <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #ffc107;" data-aos="fade-up">
           <img src="startpop.png" alt="POPSTART" style="width: 100%; display: block;">
           <div style="padding: 15px;">
@@ -238,6 +240,7 @@
           </div>
         </div>
 
+        <!-- Programa 4 -->
         <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #f06292;" data-aos="fade-up">
           <img src="concierto.png" alt="Concierto para Enamorados" style="width: 100%; display: block;">
           <div style="padding: 15px;">
@@ -247,6 +250,7 @@
           </div>
         </div>
 
+        <!-- Programa 5 -->
         <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00e676;" data-aos="fade-up">
           <img src="retrovibe.png" alt="RETROVIBES" style="width: 100%; display: block;">
           <div style="padding: 15px;">
@@ -255,6 +259,7 @@
             <p style="color: #ccc; font-size: 13px;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
           </div>
         </div>
+
       </div>
     </section>
   </main>
@@ -265,7 +270,7 @@
 
   <script>
     AOS.init({
-      duration: 1000,  // Duración de la animación
+      duration: 1000,
     });
   </script>
 </body>
