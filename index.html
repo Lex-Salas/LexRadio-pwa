@@ -181,7 +181,7 @@
   <main>
     <!-- Reproductor de audio -->
     <audio id="radio" controls>
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+      <source src="https://stream.zeno.fm/iqom6dgpir8vv" type="audio/mpeg">
       Tu navegador no soporta audio en línea.
     </audio>
 
@@ -195,13 +195,16 @@
     </div>
 
     <script>
-      // Función para actualizar la canción que suena
+      // Reemplaza con tu ID de stream de Zeno.fm
+      const mount = "iqom6dgpir8vv";  // El "mount" de tu estación
+
+      // Función para obtener y actualizar los metadatos de la canción
       setInterval(() => {
-        fetch('https://stream.zeno.fm/api/v1/nowplaying/{YOUR_STREAM_ID}')  // Reemplaza con tu ID de stream
+        fetch(`https://api.zeno.fm/mounts/metadata/subscribe/${mount}`)
           .then(response => response.json())
           .then(data => {
             const songInfo = data.current_song;
-            // Actualiza el contenido en la página
+            // Actualiza el texto con el nombre de la canción y el artista
             document.getElementById('now-playing').textContent = `🎵 Ahora suena: ${songInfo.song} - ${songInfo.artist}`;
           })
           .catch(error => {
@@ -231,51 +234,7 @@
     <section id="programas" style="padding: 40px 20px;">
       <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
-        
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #7c4dff;" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana" style="width: 100%; display: block;">
-          <div style="padding: 15px;">
-            <h3 style="margin: 0 0 10px; color: #7c4dff;">Artista de la Semana</h3>
-            <p style="font-size: 14px;">Cada sábado celebramos la trayectoria de un artista legendario con sus éxitos, curiosidades y momentos inolvidables.</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 9:00 a.m. - 11:00 a.m.</p>
-          </div>
-        </div>
-
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00f0ff;" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA" style="width: 100%; display: block;">
-          <div style="padding: 15px;">
-            <h3 style="margin: 0 0 10px; color: #00f0ff;">LEXTRONICA</h3>
-            <p style="font-size: 14px;">Un viaje vibrante por lo mejor del Eurodance, house y electrónica de los 90s, 2000s y más allá. ¡Sintonizá la energía de la pista!</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 10:00 a.m. - 12:00 p.m.</p>
-          </div>
-        </div>
-
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #ffc107;" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART" style="width: 100%; display: block;">
-          <div style="padding: 15px;">
-            <h3 style="margin: 0 0 10px; color: #ffc107;">POPSTART</h3>
-            <p style="font-size: 14px;">Tus mañanas arrancan con lo mejor del pop en inglés y español de los 80s, 90s y 2000s. ¡Despertá con puro ritmo!</p>
-            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
-          </div>
-        </div>
-
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #f06292;" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados" style="width: 100%; display: block;">
-          <div style="padding: 15px;">
-            <h3 style="margin: 0 0 10px; color: #f06292;">Concierto para Enamorados</h3>
-            <p style="font-size: 14px;">Una hora para suspirar con las baladas más hermosas del pop y el rock romántico. Dedicá, recordá y enamorate.</p>
-            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
-          </div>
-        </div>
-
-        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00e676;" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES" style="width: 100%; display: block;">
-          <div style="padding: 15px;">
-            <h3 style="margin: 0 0 10px; color: #00e676;">RETROVIBES</h3>
-            <p style="font-size: 14px;">La mejor vibra retro con grandes éxitos de los 80s, 90s y 2000s. ¡Una hora para viajar al pasado sin perder el ritmo!</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
-          </div>
-        </div>
+        <!-- Aquí van las tarjetas de los programas -->
       </div>
     </section>
   </main>
