@@ -8,13 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
 
-  <!-- OneSignal Push Notifications -->
+<!-- OneSignal Push Notifications -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
-      appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38", // Tu nuevo App ID
+      appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
       autoResubscribe: true,
       notifyButton: {
         enable: false
