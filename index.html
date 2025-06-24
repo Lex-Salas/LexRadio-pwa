@@ -9,15 +9,19 @@
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
 
   <!-- OneSignal Push Notifications -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({
-        appId: "4d63482d-bf9e-486b-8de9-dd763388ff2a",
-      });
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38", // Tu nuevo App ID
+      autoResubscribe: true,
+      notifyButton: {
+        enable: false
+      }
     });
-  </script>
+  });
+</script>
 
   <script>
     if ('serviceWorker' in navigator) {
