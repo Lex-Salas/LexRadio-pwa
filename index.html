@@ -21,6 +21,13 @@
     });
   </script>
 
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+
   <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -29,12 +36,12 @@
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
-      background-size: 300% 300%;
-      animation: neonBackground 6s ease infinite;
       color: #fff;
       text-align: center;
       padding: 20px;
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
     }
 
     @keyframes neonBackground {
@@ -50,10 +57,9 @@
       box-shadow: 0 0 15px #00f0ff;
     }
 
-    h1.neon-text {
+    .neon-text {
       font-size: 3em;
-      color: #fff;
-      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12;
     }
 
     .barra-info {
@@ -71,6 +77,21 @@
       display: block;
     }
 
+    #meta-info {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #fff;
+      text-shadow: 0 0 3px #00f0ff;
+    }
+
+    .volumen {
+      margin-top: 12px;
+    }
+
+    input[type=range] {
+      width: 200px;
+    }
+
     .boton {
       background-color: #00f0ff;
       border: none;
@@ -80,6 +101,15 @@
       border-radius: 30px;
       cursor: pointer;
       margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #00c3d4;
+    }
+
+    nav {
+      margin: 30px 0;
     }
 
     nav a {
@@ -87,16 +117,51 @@
       color: #00f0ff;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s;
     }
 
-    #metadata {
-      font-weight: bold;
-      font-size: 16px;
-      color: #fff;
-      margin-top: 15px;
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+    }
+
+    /* Program Cards */
+    .programa {
+      background-color: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      width: 300px;
+      box-shadow: 0 0 20px #00f0ff;
+      margin: 20px;
+    }
+
+    .programa img {
+      width: 100%;
+      display: block;
+    }
+
+    .programa h3 {
+      margin: 0 0 10px;
+      color: #00f0ff;
+    }
+
+    .programa p {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .contenedor-programas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 </head>
+
 <body onload="AOS.init()">
   <header>
     <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
@@ -110,34 +175,91 @@
       Tu navegador no soporta audio en línea.
     </audio>
 
-    <!-- Metadatos del stream -->
-    <div id="metadata">
-      🎧 Ahora suena: <span id="current-song">Cargando...</span>
+    <div id="meta-info">🔊 Cargando canción actual...</div>
+
+    <script>
+      function fetchMetadata() {
+        fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json")
+          .then(res => res.json())
+          .then(data => {
+            const title = data?.title || "Sin datos disponibles";
+            document.getElementById("meta-info").textContent = "🎵 Ahora suena: " + title;
+          })
+          .catch(() => {
+            document.getElementById("meta-info").textContent = "🎵 Ahora suena: Información no disponible";
+          });
+      }
+
+      fetchMetadata(); // primera vez
+      setInterval(fetchMetadata, 15000); // cada 15 seg
+    </script>
+
+    <div class="volumen">
+      <label for="volumen">🔊 Volumen:</label>
+      <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
 
     <script>
-      async function fetchMetadata() {
-        try {
-          const response = await fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json");
-          const data = await response.json();
-          const song = data.title || 'Sin información';
-          document.getElementById("current-song").textContent = song;
-        } catch (error) {
-          document.getElementById("current-song").textContent = 'No se pudo obtener';
-        }
-      }
-      fetchMetadata();
-      setInterval(fetchMetadata, 15000);
+      const radio = document.getElementById('radio');
+      const volumenSlider = document.getElementById('volumen');
+      volumenSlider.addEventListener('input', () => {
+        radio.volume = volumenSlider.value;
+      });
     </script>
 
     <button class="boton" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
 
     <nav>
       <a href="#programas">Programas</a>
-      <a href="#equipo">Equipo</a>
       <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
       <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
     </nav>
+
+    <section id="programas">
+      <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
+      <div class="contenedor-programas">
+        <div class="programa" data-aos="fade-up">
+          <img src="artista.png" alt="Artista de la Semana">
+          <div style="padding: 15px;">
+            <h3>Artista de la Semana</h3>
+            <p>Cada sábado celebramos un artista legendario con sus éxitos y curiosidades.</p>
+            <p>Sábados · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="lextronica.png" alt="LEXTRONICA">
+          <div style="padding: 15px;">
+            <h3>LEXTRONICA</h3>
+            <p>Un viaje por el Eurodance, house y electrónica de los 90s y 2000s.</p>
+            <p>Sábados · 10:00 a.m. - 12:00 p.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="startpop.png" alt="POPSTART">
+          <div style="padding: 15px;">
+            <h3>POPSTART</h3>
+            <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
+            <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="concierto.png" alt="Concierto para Enamorados">
+          <div style="padding: 15px;">
+            <h3>Concierto para Enamorados</h3>
+            <p>Las baladas más hermosas para dedicar y recordar.</p>
+            <p>Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="retrovibe.png" alt="RETROVIBES">
+          <div style="padding: 15px;">
+            <h3>RETROVIBES</h3>
+            <p>Éxitos de los 80s, 90s y 2000s para una tarde llena de nostalgia.</p>
+            <p>Sábados · 1:00 p.m. - 2:00 p.m.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
