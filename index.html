@@ -203,7 +203,6 @@
         fetch(`https://api.zeno.fm/mounts/metadata/subscribe/${mount}`)
           .then(response => response.json())
           .then(data => {
-            console.log('Datos recibidos:', data);  // Verifica la respuesta
             const songInfo = data.current_song;
             // Actualiza el texto con el nombre de la canción y el artista
             document.getElementById('now-playing').textContent = `🎵 Ahora suena: ${songInfo.song} - ${songInfo.artist}`;
