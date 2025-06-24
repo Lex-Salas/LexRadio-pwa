@@ -1,19 +1,19 @@
 {
   "name": "LEX Radio",
-  "short_name": "LEXRadio",
-  "start_url": "./index.html",
+  "short_name": "LEX",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#000428",
-  "theme_color": "#00f0ff",
+  "background_color": "#000000",
+  "theme_color": "#000428",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "logo-lexradio.png",
+      "src": "lexradio_logo_192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "logo-lexradio.png",
+      "src": "lexradio_logo_512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
