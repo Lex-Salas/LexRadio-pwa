@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<este es el código actual <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" href="logo-lexradio.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-lexradio.png"/>
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -15,165 +15,273 @@
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
+        autoResubscribe: true,
+        notifyButton: { enable: false }
       });
     });
   </script>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
   <style>
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: white;
+      color: #fff;
       text-align: center;
+      padding: 20px;
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
     }
 
-    header {
-      padding: 2rem;
-      animation: neon-glow 2s infinite alternate;
+    @keyframes neonBackground {
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
     }
 
-    h1 {
-      font-size: 2.5rem;
-      text-shadow: 0 0 10px #00e6e6, 0 0 20px #00e6e6;
+    header img {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px #00f0ff;
     }
 
-    @keyframes neon-glow {
-      from {
-        text-shadow: 0 0 10px #00e6e6;
-      }
-      to {
-        text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
-      }
+    .neon-text {
+      font-size: 3em;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12;
     }
 
-    #player {
-      margin: 2rem auto;
+    .barra-info {
+      background-color: #00f0ff;
+      color: #000;
+      padding: 8px 12px;
+      font-weight: bold;
+      border-radius: 30px;
+      margin: 20px auto;
+      display: inline-block;
     }
 
     audio {
-      width: 90%;
-      max-width: 500px;
+      margin: 20px auto;
+      display: block;
     }
 
-    #songTitle {
-      font-size: 1.2rem;
-      margin-top: 1rem;
+    #meta-info {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #fff;
+      text-shadow: 0 0 3px #00f0ff;
     }
 
-    .programas {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      padding: 2rem;
+    .volumen {
+      margin-top: 12px;
     }
 
+    input[type=range] {
+      width: 200px;
+    }
+
+    .boton {
+      background-color: #00f0ff;
+      border: none;
+      color: black;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #00c3d4;
+    }
+
+    nav {
+      margin: 30px 0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+    }
+
+    /* Program Cards */
     .programa {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 1rem;
-      padding: 1rem;
-      width: 220px;
-      box-shadow: 0 0 10px #0ff;
-      transition: transform 0.3s ease;
-    }
-
-    .programa:hover {
-      transform: scale(1.05);
+      background-color: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      width: 300px;
+      box-shadow: 0 0 20px #00f0ff;
+      margin: 20px;
     }
 
     .programa img {
       width: 100%;
-      border-radius: 1rem;
+      display: block;
     }
 
     .programa h3 {
-      margin-top: 0.5rem;
-      font-size: 1.1rem;
+      margin: 0 0 10px;
+      color: #00f0ff;
     }
 
-    footer {
-      margin-top: 2rem;
-      padding: 1rem;
-      font-size: 0.9rem;
+    .programa p {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .contenedor-programas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 </head>
-<body>
 
+<body onload="AOS.init()">
   <header>
-    <h1>LEX Radio</h1>
-    <p>Tus recuerdos en el presente</p>
+    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
+    <h1 class="neon-text">LEX Radio</h1>
+    <div class="barra-info">🎶 Escuchá: LEX RADIO Dale Play Abajo</div>
   </header>
 
-  <div id="player">
-    <audio id="lexPlayer" controls>
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg" />
-      Tu navegador no soporta el reproductor de audio.
+  <main>
+    <audio id="radio" controls>
+      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+      Tu navegador no soporta audio en línea.
     </audio>
-    <div id="songTitle">Cargando canción actual...</div>
-  </div>
 
-  <section class="programas">
-    <div class="programa">
-      <img src="startpop.png" alt="StartPop">
-      <h3>StartPop</h3>
-      <p>Lunes a viernes de 9 a.m. a 11 a.m.</p>
+    <div id="meta-info">🔊 Cargando canción actual...</div>
+
+    <script>
+      function fetchMetadata() {
+        fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json")
+          .then(res => res.json())
+          .then(data => {
+            const title = data?.title || "Sin datos disponibles";
+            document.getElementById("meta-info").textContent = "🎵 Ahora suena: " + title;
+          })
+          .catch(() => {
+            document.getElementById("meta-info").textContent = "🎵 Ahora suena: Información no disponible";
+          });
+      }
+
+      fetchMetadata();
+      setInterval(fetchMetadata, 15000);
+    </script>
+
+    <div class="volumen">
+      <label for="volumen">🔊 Volumen:</label>
+      <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
-    <div class="programa">
-      <img src="retrovibe.png" alt="RetroVibes">
-      <h3>RetroVibes</h3>
-      <p>Sábados de 1 p.m. a 2 p.m.</p>
-    </div>
-    <div class="programa">
-      <img src="lextronica.png" alt="Lextrónica">
-      <h3>Lextrónica</h3>
-      <p>Sábados de 10 a.m. a 12 p.m.</p>
-    </div>
-    <div class="programa">
-      <img src="concierto.png" alt="Concierto para Enamorados">
-      <h3>Concierto para Enamorados</h3>
-      <p>Lunes a viernes de 5 p.m. a 6 p.m.</p>
-    </div>
-    <div class="programa">
-      <img src="artista.png" alt="Artista de la Semana">
-      <h3>Artista de la Semana</h3>
-      <p>Sábados de 9 a.m. a 11 a.m.</p>
-    </div>
-  </section>
+
+    <script>
+      const radio = document.getElementById('radio');
+      const volumenSlider = document.getElementById('volumen');
+      volumenSlider.addEventListener('input', () => {
+        radio.volume = volumenSlider.value;
+      });
+    </script>
+
+    <button class="boton" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
+
+    <nav>
+      <a href="#programas">Programas</a>
+      <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
+      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+    </nav>
+
+    <section id="programas">
+      <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
+      <div class="contenedor-programas">
+        <div class="programa" data-aos="fade-up">
+          <img src="artista.png" alt="Artista de la Semana">
+          <div style="padding: 15px;">
+            <h3>Artista de la Semana</h3>
+            <p>Cada sábado celebramos un artista legendario con sus éxitos y curiosidades.</p>
+            <p>Sábados · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="lextronica.png" alt="LEXTRONICA">
+          <div style="padding: 15px;">
+            <h3>LEXTRONICA</h3>
+            <p>Un viaje por el Eurodance, house y electrónica de los 90s y 2000s.</p>
+            <p>Sábados · 10:00 a.m. - 12:00 p.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="startpop.png" alt="POPSTART">
+          <div style="padding: 15px;">
+            <h3>POPSTART</h3>
+            <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
+            <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="concierto.png" alt="Concierto para Enamorados">
+          <div style="padding: 15px;">
+            <h3>Concierto para Enamorados</h3>
+            <p>Las baladas más hermosas para dedicar y recordar.</p>
+            <p>Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+          </div>
+        </div>
+        <div class="programa" data-aos="fade-up">
+          <img src="retrovibe.png" alt="RETROVIBES">
+          <div style="padding: 15px;">
+            <h3>RETROVIBES</h3>
+            <p>Éxitos de los 80s, 90s y 2000s para una tarde llena de nostalgia.</p>
+            <p>Sábados · 1:00 p.m. - 2:00 p.m.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 LEX Radio. Todos los derechos reservados.
+    <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- Script para actualizar canción -->
   <script>
-    async function updateSongTitle() {
-      try {
-        const response = await fetch('https://corsproxy.io/?https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json');
-        const data = await response.json();
-        const title = data && data["title"] ? data["title"] : "Escuchando LEX Radio";
-        document.getElementById('songTitle').textContent = title;
-      } catch (error) {
-        document.getElementById('songTitle').textContent = "Escuchando LEX Radio";
-      }
-    }
-    updateSongTitle();
-    setInterval(updateSongTitle, 15000);
+    AOS.init({ duration: 1000 });
   </script>
 
-  <!-- Tawk.to Chat -->
+  <!-- START Chat Tawk.to -->
   <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/685afe19e9a67e1918b13764/1iuhn159o';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/685afe19e9a67e1918b13764/1iuhn159o';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
     })();
   </script>
-
+  <!-- END Chat Tawk.to -->
 </body>
 </html>
