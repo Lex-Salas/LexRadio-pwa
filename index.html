@@ -14,18 +14,13 @@
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
-        appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
+        appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38", // Tu App ID de OneSignal
         autoResubscribe: true,
-        notifyButton: { enable: false }
+        notifyButton: {
+          enable: false
+        }
       });
     });
-  </script>
-
-  <!-- Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
   </script>
 
   <!-- AOS CSS -->
@@ -36,18 +31,14 @@
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to bottom, #000428, #004e92);
       color: #fff;
       text-align: center;
       padding: 20px;
-      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
-      background-size: 300% 300%;
-      animation: neonBackground 6s ease infinite;
     }
 
-    @keyframes neonBackground {
-      0% { background-position: 0 0; }
-      50% { background-position: 100% 100%; }
-      100% { background-position: 0 0; }
+    header {
+      animation: fadeIn 1.5s ease-in;
     }
 
     header img {
@@ -57,9 +48,10 @@
       box-shadow: 0 0 15px #00f0ff;
     }
 
-    .neon-text {
-      font-size: 3em;
-      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12;
+    h1 {
+      font-size: 28px;
+      margin: 10px 0;
+      text-shadow: 0 0 8px #00f0ff;
     }
 
     .barra-info {
@@ -70,26 +62,12 @@
       border-radius: 30px;
       margin: 20px auto;
       display: inline-block;
+      animation: slideIn 1s ease-in-out;
     }
 
     audio {
       margin: 20px auto;
       display: block;
-    }
-
-    #meta-info {
-      font-size: 16px;
-      margin-top: 10px;
-      color: #fff;
-      text-shadow: 0 0 3px #00f0ff;
-    }
-
-    .volumen {
-      margin-top: 12px;
-    }
-
-    input[type=range] {
-      width: 200px;
     }
 
     .boton {
@@ -124,44 +102,75 @@
       color: #ffffff;
     }
 
+    .volumen {
+      margin-top: 12px;
+    }
+
+    input[type=range] {
+      width: 200px;
+    }
+
     footer {
       margin-top: 40px;
       font-size: 13px;
     }
 
-    /* Program Cards */
-    .programa {
-      background-color: #111;
-      border-radius: 20px;
-      overflow: hidden;
-      width: 300px;
-      box-shadow: 0 0 20px #00f0ff;
-      margin: 20px;
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    .programa img {
-      width: 100%;
-      display: block;
+    @keyframes slideIn {
+      from { transform: translateY(-15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
-    .programa h3 {
-      margin: 0 0 10px;
-      color: #00f0ff;
+    /* Neon text effect */
+    .neon-text {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12, 0 0 20px #f39c12;
     }
 
-    .programa p {
-      font-size: 14px;
-      color: #ccc;
+    /* Neon button effect */
+    .neon-button {
+      padding: 10px 20px;
+      border: 2px solid #f39c12;
+      background-color: transparent;
+      color: #f39c12;
+      font-size: 1.5em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
     }
 
-    .contenedor-programas {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    .neon-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #f39c12, 0 0 30px #f39c12;
+    }
+
+    /* Animated neon background */
+    @keyframes neonBackground {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+
+    body {
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
     }
   </style>
 </head>
-
 <body onload="AOS.init()">
   <header>
     <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
@@ -170,36 +179,38 @@
   </header>
 
   <main>
+    <!-- Reproductor de audio -->
     <audio id="radio" controls>
       <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
       Tu navegador no soporta audio en línea.
     </audio>
-
-    <div id="meta-info">🔊 Cargando canción actual...</div>
-
-    <script>
-      function fetchMetadata() {
-        fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json")
-          .then(res => res.json())
-          .then(data => {
-            const title = data?.title || "Sin datos disponibles";
-            document.getElementById("meta-info").textContent = "🎵 Ahora suena: " + title;
-          })
-          .catch(() => {
-            document.getElementById("meta-info").textContent = "🎵 Ahora suena: Información no disponible";
-          });
-      }
-
-      fetchMetadata(); // primera vez
-      setInterval(fetchMetadata, 15000); // cada 15 seg
-    </script>
 
     <div class="volumen">
       <label for="volumen">🔊 Volumen:</label>
       <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
 
+    <div id="now-playing">
+      🎵 Ahora suena: Información no disponible
+    </div>
+
     <script>
+      // Función para actualizar la canción que suena
+      setInterval(() => {
+        fetch('https://stream.zeno.fm/api/v1/nowplaying/{YOUR_STREAM_ID}')  // Reemplaza con tu ID de stream
+          .then(response => response.json())
+          .then(data => {
+            const songInfo = data.current_song;
+            // Actualiza el contenido en la página
+            document.getElementById('now-playing').textContent = `🎵 Ahora suena: ${songInfo.song} - ${songInfo.artist}`;
+          })
+          .catch(error => {
+            console.error('Error al obtener los metadatos:', error);
+            document.getElementById('now-playing').textContent = '🎵 Ahora suena: Información no disponible';
+          });
+      }, 15000); // Actualiza cada 15 segundos
+
+      // Control de volumen
       const radio = document.getElementById('radio');
       const volumenSlider = document.getElementById('volumen');
       volumenSlider.addEventListener('input', () => {
@@ -207,55 +218,62 @@
       });
     </script>
 
-    <button class="boton" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
+    <button class="boton neon-button" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
 
     <nav>
       <a href="#programas">Programas</a>
+      <a href="#equipo">Equipo</a>
       <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
       <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
     </nav>
 
-    <section id="programas">
+    <!-- Programas -->
+    <section id="programas" style="padding: 40px 20px;">
       <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
-      <div class="contenedor-programas">
-        <div class="programa" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
+        
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #7c4dff;" data-aos="fade-up">
+          <img src="artista.png" alt="Artista de la Semana" style="width: 100%; display: block;">
           <div style="padding: 15px;">
-            <h3>Artista de la Semana</h3>
-            <p>Cada sábado celebramos un artista legendario con sus éxitos y curiosidades.</p>
-            <p>Sábados · 9:00 a.m. - 11:00 a.m.</p>
+            <h3 style="margin: 0 0 10px; color: #7c4dff;">Artista de la Semana</h3>
+            <p style="font-size: 14px;">Cada sábado celebramos la trayectoria de un artista legendario con sus éxitos, curiosidades y momentos inolvidables.</p>
+            <p style="color: #ccc; font-size: 13px;">Sábados · 9:00 a.m. - 11:00 a.m.</p>
           </div>
         </div>
-        <div class="programa" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA">
+
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00f0ff;" data-aos="fade-up">
+          <img src="lextronica.png" alt="LEXTRONICA" style="width: 100%; display: block;">
           <div style="padding: 15px;">
-            <h3>LEXTRONICA</h3>
-            <p>Un viaje por el Eurodance, house y electrónica de los 90s y 2000s.</p>
-            <p>Sábados · 10:00 a.m. - 12:00 p.m.</p>
+            <h3 style="margin: 0 0 10px; color: #00f0ff;">LEXTRONICA</h3>
+            <p style="font-size: 14px;">Un viaje vibrante por lo mejor del Eurodance, house y electrónica de los 90s, 2000s y más allá. ¡Sintonizá la energía de la pista!</p>
+            <p style="color: #ccc; font-size: 13px;">Sábados · 10:00 a.m. - 12:00 p.m.</p>
           </div>
         </div>
-        <div class="programa" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART">
+
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #ffc107;" data-aos="fade-up">
+          <img src="startpop.png" alt="POPSTART" style="width: 100%; display: block;">
           <div style="padding: 15px;">
-            <h3>POPSTART</h3>
-            <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
-            <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
+            <h3 style="margin: 0 0 10px; color: #ffc107;">POPSTART</h3>
+            <p style="font-size: 14px;">Tus mañanas arrancan con lo mejor del pop en inglés y español de los 80s, 90s y 2000s. ¡Despertá con puro ritmo!</p>
+            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
           </div>
         </div>
-        <div class="programa" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados">
+
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #f06292;" data-aos="fade-up">
+          <img src="concierto.png" alt="Concierto para Enamorados" style="width: 100%; display: block;">
           <div style="padding: 15px;">
-            <h3>Concierto para Enamorados</h3>
-            <p>Las baladas más hermosas para dedicar y recordar.</p>
-            <p>Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+            <h3 style="margin: 0 0 10px; color: #f06292;">Concierto para Enamorados</h3>
+            <p style="font-size: 14px;">Una hora para suspirar con las baladas más hermosas del pop y el rock romántico. Dedicá, recordá y enamorate.</p>
+            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
           </div>
         </div>
-        <div class="programa" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES">
+
+        <div style="background-color: #111; border-radius: 20px; overflow: hidden; width: 300px; box-shadow: 0 0 20px #00e676;" data-aos="fade-up">
+          <img src="retrovibe.png" alt="RETROVIBES" style="width: 100%; display: block;">
           <div style="padding: 15px;">
-            <h3>RETROVIBES</h3>
-            <p>Éxitos de los 80s, 90s y 2000s para una tarde llena de nostalgia.</p>
-            <p>Sábados · 1:00 p.m. - 2:00 p.m.</p>
+            <h3 style="margin: 0 0 10px; color: #00e676;">RETROVIBES</h3>
+            <p style="font-size: 14px;">La mejor vibra retro con grandes éxitos de los 80s, 90s y 2000s. ¡Una hora para viajar al pasado sin perder el ritmo!</p>
+            <p style="color: #ccc; font-size: 13px;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
           </div>
         </div>
       </div>
@@ -267,7 +285,9 @@
   </footer>
 
   <script>
-    AOS.init({ duration: 1000 });
+    AOS.init({
+      duration: 1000,  // Duración de la animación
+    });
   </script>
 </body>
 </html>
