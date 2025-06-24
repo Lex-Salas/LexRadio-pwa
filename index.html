@@ -6,7 +6,7 @@
   <title>LEX Radio - Tus recuerdos en el presente</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="logo-lexradio.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -23,23 +23,31 @@
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f0f0f, #1a0033);
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       color: white;
-      overflow-x: hidden;
+      text-align: center;
     }
 
     header {
-      text-align: center;
       padding: 2rem;
-      color: #fff;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+      animation: neon-glow 2s infinite alternate;
     }
 
-    .player-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px #00e6e6, 0 0 20px #00e6e6;
+    }
+
+    @keyframes neon-glow {
+      from {
+        text-shadow: 0 0 10px #00e6e6;
+      }
+      to {
+        text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+      }
+    }
+
+    #player {
       margin: 2rem auto;
     }
 
@@ -48,104 +56,116 @@
       max-width: 500px;
     }
 
-    .volume-control {
-      width: 200px;
-    }
-
-    .metadata {
-      font-size: 1.1rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
+    #songTitle {
+      font-size: 1.2rem;
       margin-top: 1rem;
-      text-align: center;
     }
 
-    .program-section {
+    .programas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
       padding: 2rem;
-      text-align: center;
     }
 
-    .program-section img {
+    .programa {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      padding: 1rem;
+      width: 220px;
+      box-shadow: 0 0 10px #0ff;
+      transition: transform 0.3s ease;
+    }
+
+    .programa:hover {
+      transform: scale(1.05);
+    }
+
+    .programa img {
       width: 100%;
-      max-width: 300px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #0ff;
-      margin: 1rem;
+      border-radius: 1rem;
+    }
+
+    .programa h3 {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
     }
 
     footer {
-      text-align: center;
+      margin-top: 2rem;
       padding: 1rem;
-      background: #00000088;
-      color: #fff;
       font-size: 0.9rem;
-    }
-
-    .neon-title {
-      font-size: 2rem;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #00f, 0 0 20px #00f;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1 class="neon-title">LEX Radio</h1>
-    <p>En LEX Radio, tus recuerdos en el presente</p>
+    <h1>LEX Radio</h1>
+    <p>Tus recuerdos en el presente</p>
   </header>
 
-  <section class="player-container">
-    <audio id="radioPlayer" controls autoplay>
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
-      Tu navegador no soporta el audio HTML5.
+  <div id="player">
+    <audio id="lexPlayer" controls>
+      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg" />
+      Tu navegador no soporta el reproductor de audio.
     </audio>
-    <input type="range" id="volumeControl" class="volume-control" min="0" max="1" step="0.01" value="1">
-    <div id="metadata" class="metadata">Cargando canción...</div>
-  </section>
+    <div id="songTitle">Cargando canción actual...</div>
+  </div>
 
-  <section class="program-section">
-    <h2 class="neon-title">Programas</h2>
-    <div>
+  <section class="programas">
+    <div class="programa">
       <img src="startpop.png" alt="StartPop">
+      <h3>StartPop</h3>
+      <p>Lunes a viernes de 9 a.m. a 11 a.m.</p>
+    </div>
+    <div class="programa">
       <img src="retrovibe.png" alt="RetroVibes">
+      <h3>RetroVibes</h3>
+      <p>Sábados de 1 p.m. a 2 p.m.</p>
+    </div>
+    <div class="programa">
       <img src="lextronica.png" alt="Lextrónica">
+      <h3>Lextrónica</h3>
+      <p>Sábados de 10 a.m. a 12 p.m.</p>
+    </div>
+    <div class="programa">
       <img src="concierto.png" alt="Concierto para Enamorados">
+      <h3>Concierto para Enamorados</h3>
+      <p>Lunes a viernes de 5 p.m. a 6 p.m.</p>
+    </div>
+    <div class="programa">
       <img src="artista.png" alt="Artista de la Semana">
+      <h3>Artista de la Semana</h3>
+      <p>Sábados de 9 a.m. a 11 a.m.</p>
     </div>
   </section>
 
   <footer>
-    © 2025 LEX Radio - Todos los derechos reservados
+    &copy; 2025 LEX Radio. Todos los derechos reservados.
   </footer>
 
-  <!-- Volumen -->
+  <!-- Script para actualizar canción -->
   <script>
-    const player = document.getElementById('radioPlayer');
-    const volumeControl = document.getElementById('volumeControl');
-    volumeControl.addEventListener('input', () => {
-      player.volume = volumeControl.value;
-    });
-  </script>
-
-  <!-- Metadata desde Zeno -->
-  <script>
-    async function actualizarMetadata() {
+    async function updateSongTitle() {
       try {
-        const response = await fetch('https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json');
+        const response = await fetch('https://corsproxy.io/?https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json');
         const data = await response.json();
-        document.getElementById('metadata').textContent = data.nowplaying?.title || 'Sin información';
-      } catch {
-        document.getElementById('metadata').textContent = 'Sin conexión con Zeno.';
+        const title = data && data["title"] ? data["title"] : "Escuchando LEX Radio";
+        document.getElementById('songTitle').textContent = title;
+      } catch (error) {
+        document.getElementById('songTitle').textContent = "Escuchando LEX Radio";
       }
     }
-
-    actualizarMetadata();
-    setInterval(actualizarMetadata, 15000);
+    updateSongTitle();
+    setInterval(updateSongTitle, 15000);
   </script>
 
-  <!-- Chat Tawk.to -->
+  <!-- Tawk.to Chat -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function(){
+    (function () {
       var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
       s1.src = 'https://embed.tawk.to/685afe19e9a67e1918b13764/1iuhn159o';
@@ -154,5 +174,6 @@
       s0.parentNode.insertBefore(s1, s0);
     })();
   </script>
+
 </body>
 </html>
