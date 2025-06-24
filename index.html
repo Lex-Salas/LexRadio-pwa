@@ -28,7 +28,7 @@
     }
   </script>
 
-  <!-- AOS CSS -->
+  <!-- AOS Animations -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -129,7 +129,6 @@
       font-size: 13px;
     }
 
-    /* Program Cards */
     .programa {
       background-color: #111;
       border-radius: 20px;
@@ -166,7 +165,7 @@
   <header>
     <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
-    <div class="barra-info">🎶 Escuchá: LEX RADIO Dale Play Abajo</div>
+    <div class="barra-info">🎶 Escuchá: LEX RADIO - Dale Play Abajo</div>
   </header>
 
   <main>
@@ -175,7 +174,7 @@
       Tu navegador no soporta audio en línea.
     </audio>
 
-    <div id="meta-info">🔊 Cargando canción actual...</div>
+    <div id="meta-info">🎵 Cargando canción actual...</div>
 
     <script>
       function fetchMetadata() {
@@ -190,8 +189,8 @@
           });
       }
 
-      fetchMetadata(); // primera vez
-      setInterval(fetchMetadata, 15000); // cada 15 seg
+      fetchMetadata();
+      setInterval(fetchMetadata, 15000);
     </script>
 
     <div class="volumen">
@@ -269,5 +268,19 @@
   <script>
     AOS.init({ duration: 1000 });
   </script>
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/685afe19e9a67e1918b13764/1iuhn159o';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
 </body>
 </html>
