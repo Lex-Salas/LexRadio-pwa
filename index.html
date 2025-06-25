@@ -7,7 +7,6 @@
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -169,29 +168,20 @@
   </header>
 
   <main>
-    <audio id="radio" controls>
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
-      Tu navegador no soporta audio en línea.
-    </audio>
+    
+<section style="margin-top: 30px;">
+  <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">🔊 Reproductor en vivo</h2>
+  <p style="color: white;">Dale play y mirá la canción que está sonando ahora mismo en LEX Radio</p>
+  <iframe 
+    src="https://zeno.fm/player/iqom6dgpir8vv" 
+    width="100%" 
+    height="150" 
+    frameborder="0" 
+    scrolling="no"
+    style="box-shadow: 0 0 15px #00f0ff; border-radius: 15px;">
+  </iframe>
+</section>
 
-    <div id="meta-info">🔊 Cargando canción actual...</div>
-
-    <script>
-      function fetchMetadata() {
-        fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json")
-          .then(res => res.json())
-          .then(data => {
-            const title = data?.title || "Sin datos disponibles";
-            document.getElementById("meta-info").textContent = "🎵 Ahora suena: " + title;
-          })
-          .catch(() => {
-            document.getElementById("meta-info").textContent = "🎵 Ahora suena: Información no disponible";
-          });
-      }
-
-      fetchMetadata();
-      setInterval(fetchMetadata, 15000);
-    </script>
 
     <div class="volumen">
       <label for="volumen">🔊 Volumen:</label>
