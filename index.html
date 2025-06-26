@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
   <link rel="manifest" href="manifest.json" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -169,8 +169,8 @@
   </header>
 
   <main>
-    <audio id="radio" controls>
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+    <audio id="radio" controls autoplay>
+      <source src="https://sapircast.caster.fm:16553/i9VFu" type="audio/mpeg">
       Tu navegador no soporta audio en línea.
     </audio>
 
@@ -178,10 +178,10 @@
 
     <script>
       function fetchMetadata() {
-        fetch("https://stream.zeno.fm/metadata/lo1dx1b1e52tv.json")
+        fetch("https://sapircast.caster.fm:16553/status-json.xsl")
           .then(res => res.json())
           .then(data => {
-            const title = data?.title || "Sin datos disponibles";
+            const title = data?.icestats?.source?.title || "Sin datos disponibles";
             document.getElementById("meta-info").textContent = "🎵 Ahora suena: " + title;
           })
           .catch(() => {
