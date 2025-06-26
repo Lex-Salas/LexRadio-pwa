@@ -139,6 +139,12 @@
       text-shadow: 0 0 3px #0ff;
     }
 
+    #programas {
+      display: block;
+      min-height: 300px;
+      margin-top: 50px;
+    }
+
     .programa {
       background-color: #111;
       border-radius: 20px;
@@ -277,6 +283,8 @@
 
     fetchMetadata();
     setInterval(fetchMetadata, 15000);
+
+    AOS.init({ duration: 1000 });
   </script>
 
   <!-- Chat Tawk.to -->
