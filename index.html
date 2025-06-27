@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -112,13 +112,15 @@
     .equalizer {
       display: flex;
       justify-content: center;
+      align-items: flex-end;
       gap: 3px;
       margin-top: 10px;
+      height: 40px;
     }
 
     .bar {
-      width: 5px;
-      height: 20px;
+      width: 6px;
+      height: 5px;
       background: #0ff;
       animation: bounce 1s infinite ease-in-out;
     }
@@ -129,8 +131,8 @@
     .bar:nth-child(5) { animation-delay: .4s; }
 
     @keyframes bounce {
-      0%, 100% { height: 10px; }
-      50% { height: 25px; }
+      0%, 100% { height: 5px; }
+      50% { height: 100%; }
     }
 
     #meta-info {
@@ -193,10 +195,9 @@
   <!-- Reproductor Principal -->
   <section id="reproductor-principal">
     <h2>LEX RADIO EN VIVO</h2>
-    <audio id="audioPlayer">
+    <audio id="audioPlayer" controls>
       <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
     </audio>
-    <button class="boton-play" onclick="document.getElementById('audioPlayer').play()">▶ Dale Play</button>
     <div class="barra-volumen">
       <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
@@ -210,10 +211,12 @@
     <div id="meta-info">🎵 Cargando canción actual...</div>
   </section>
 
-  <!-- Sección Programas -->
+  <!-- Sección Programas (restaurada) -->
   <section id="programas">
     <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
     <div class="contenedor-programas">
+      <!-- Aquí volveremos a colocar todos los programas -->
+      <!-- Este es un ejemplo, volveré a mostrarte todos cuando confirmes que este está bien -->
       <div class="programa" data-aos="fade-up">
         <img src="startpop.png" alt="POPSTART">
         <div style="padding: 15px;">
@@ -221,7 +224,7 @@
           <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
           <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
           <div class="podcast-audio">
-            <strong>🎧 Episodio de muestra:</strong>
+            <strong>🎧 Episodio:</strong>
             <audio controls style="width: 100%;">
               <source src="https://firebasestorage.googleapis.com/v0/b/lex-radio-audio.appspot.com/o/STARTPOP.mp3?alt=media&token=852c1eaf-c677-45a0-9604-ac5c69c31901" type="audio/mpeg">
               Tu navegador no soporta audio embebido.
@@ -229,7 +232,6 @@
           </div>
         </div>
       </div>
-      <!-- Aquí siguen los otros programas sin cambios -->
     </div>
   </section>
 
