@@ -118,10 +118,9 @@
 
     .bar {
       width: 5px;
-      height: 10px;
+      height: 20px;
       background: #0ff;
       animation: bounce 1s infinite ease-in-out;
-      align-self: flex-end;
     }
 
     .bar:nth-child(2) { animation-delay: .1s; }
@@ -140,9 +139,40 @@
       text-shadow: 0 0 3px #0ff;
     }
 
-    .programa audio {
-      margin-top: 10px;
+    #programas {
+      display: block;
+      min-height: 300px;
+      margin-top: 50px;
+    }
+
+    .programa {
+      background-color: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      width: 300px;
+      box-shadow: 0 0 20px #00f0ff;
+      margin: 20px;
+    }
+
+    .programa img {
       width: 100%;
+      display: block;
+    }
+
+    .programa h3 {
+      margin: 0 0 10px;
+      color: #00f0ff;
+    }
+
+    .programa p {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .contenedor-programas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 </head>
@@ -153,11 +183,13 @@
     <div class="barra-info">🎶 Escuchá: LEX RADIO - ¡Dale Play abajo!</div>
   </header>
 
+  <!-- Reproductor Principal -->
   <section id="reproductor-principal">
     <h2>LEX RADIO EN VIVO</h2>
-    <audio id="audioPlayer" controls>
+    <audio id="audioPlayer">
       <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
     </audio>
+    <button class="boton-play" onclick="document.getElementById('audioPlayer').play()">▶ Dale Play</button>
     <div class="barra-volumen">
       <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
@@ -171,23 +203,58 @@
     <div id="meta-info">🎵 Cargando canción actual...</div>
   </section>
 
+  <!-- Sección Programas -->
   <section id="programas">
     <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
     <div class="contenedor-programas">
-      <!-- Ejemplo de programa con podcast -->
+      <div class="programa" data-aos="fade-up">
+        <img src="artista.png" alt="Artista de la Semana">
+        <div style="padding: 15px;">
+          <h3>Artista de la Semana</h3>
+          <p>Cada sábado celebramos un artista legendario con sus éxitos y curiosidades.</p>
+          <p>Sábados · 9:00 a.m. - 11:00 a.m.</p>
+        </div>
+      </div>
+      <div class="programa" data-aos="fade-up">
+        <img src="lextronica.png" alt="LEXTRONICA">
+        <div style="padding: 15px;">
+          <h3>LEXTRONICA</h3>
+          <p>Un viaje por el Eurodance, house y electrónica de los 90s y 2000s.</p>
+          <p>Sábados · 10:00 a.m. - 12:00 p.m.</p>
+        </div>
+      </div>
       <div class="programa" data-aos="fade-up">
         <img src="startpop.png" alt="POPSTART">
         <div style="padding: 15px;">
           <h3>POPSTART</h3>
           <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
           <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
-          <audio controls>
-            <source src="https://firebasestorage.googleapis.com/v0/b/lex-radio-audio.appspot.com/o/STARTPOP.mp3?alt=media&token=852c1eaf-c677-45a0-9604-ac5c69c31901" type="audio/mpeg">
-            Tu navegador no soporta audio embebido.
-          </audio>
         </div>
       </div>
-      <!-- Repetir el bloque anterior con otros programas cuando se tengan los enlaces -->
+      <div class="programa" data-aos="fade-up">
+        <img src="concierto.png" alt="Concierto para Enamorados">
+        <div style="padding: 15px;">
+          <h3>Concierto para Enamorados</h3>
+          <p>Las baladas más hermosas para dedicar y recordar.</p>
+          <p>Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+        </div>
+      </div>
+      <div class="programa" data-aos="fade-up">
+        <img src="retrovibe.png" alt="RETROVIBES">
+        <div style="padding: 15px;">
+          <h3>RETROVIBES</h3>
+          <p>Éxitos de los 80s, 90s y 2000s para una tarde llena de nostalgia.</p>
+          <p>Sábados · 1:00 p.m. - 2:00 p.m.</p>
+        </div>
+      </div>
+      <div class="programa" data-aos="fade-up">
+        <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+        <div style="padding: 15px;">
+          <h3>RAMix Total</h3>
+          <p>Dos horas de mezcla sin límites con DJ RAM. Desde clásicos hasta los éxitos más actuales, en todos los géneros.</p>
+          <p>Sábados · 9:00 a.m. - 11:00 a.m. y 7:00 p.m. - 9:00 p.m.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -216,9 +283,11 @@
 
     fetchMetadata();
     setInterval(fetchMetadata, 15000);
+
     AOS.init({ duration: 1000 });
   </script>
 
+  <!-- Chat Tawk.to -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     (function () {
