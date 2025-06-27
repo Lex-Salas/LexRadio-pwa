@@ -1,22 +1,83 @@
 {
-  "name": "LEX Radio",
+  "name": "LEX Radio - Tus recuerdos en el presente",
   "short_name": "LEX Radio",
-  "description": "Tus recuerdos en el presente. Escuchá éxitos de los 80s, 90s y 2000s en vivo.",
-  "start_url": ".",
+  "description": "Escucha música retro, pop y electrónica las 24 horas. Tus recuerdos en el presente con la mejor programación musical.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#000428",
+  "background_color": "#0f0c29",
   "theme_color": "#00f0ff",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["music", "entertainment", "radio"],
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "logo-lexradio.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "logo-lexradio-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Reproducir Radio",
+      "short_name": "Play",
+      "description": "Reproducir LEX Radio en vivo",
+      "url": "/?action=play",
+      "icons": [
+        {
+          "src": "icons/play-shortcut.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Ver Programas",
+      "short_name": "Programas",
+      "description": "Ver la programación de LEX Radio",
+      "url": "/?section=programas",
+      "icons": [
+        {
+          "src": "icons/programs-shortcut.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share-handler/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+lexradio",
+      "url": "/?track=%s"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }
