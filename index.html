@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -112,17 +112,16 @@ DOCTYPE html>
     .equalizer {
       display: flex;
       justify-content: center;
-      align-items: flex-end;
       gap: 3px;
       margin-top: 10px;
-      height: 40px;
     }
 
     .bar {
-      width: 6px;
-      height: 5px;
+      width: 5px;
+      height: 10px;
       background: #0ff;
       animation: bounce 1s infinite ease-in-out;
+      align-self: flex-end;
     }
 
     .bar:nth-child(2) { animation-delay: .1s; }
@@ -131,8 +130,8 @@ DOCTYPE html>
     .bar:nth-child(5) { animation-delay: .4s; }
 
     @keyframes bounce {
-      0%, 100% { height: 5px; }
-      50% { height: 100%; }
+      0%, 100% { height: 10px; }
+      50% { height: 25px; }
     }
 
     #meta-info {
@@ -141,47 +140,9 @@ DOCTYPE html>
       text-shadow: 0 0 3px #0ff;
     }
 
-    #programas {
-      display: block;
-      min-height: 300px;
-      margin-top: 50px;
-    }
-
-    .programa {
-      background-color: #111;
-      border-radius: 20px;
-      overflow: hidden;
-      width: 300px;
-      box-shadow: 0 0 20px #00f0ff;
-      margin: 20px;
-    }
-
-    .programa img {
-      width: 100%;
-      display: block;
-    }
-
-    .programa h3 {
-      margin: 0 0 10px;
-      color: #00f0ff;
-    }
-
-    .programa p {
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .contenedor-programas {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .podcast-audio {
+    .programa audio {
       margin-top: 10px;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
+      width: 100%;
     }
   </style>
 </head>
@@ -192,7 +153,6 @@ DOCTYPE html>
     <div class="barra-info">🎶 Escuchá: LEX RADIO - ¡Dale Play abajo!</div>
   </header>
 
-  <!-- Reproductor Principal -->
   <section id="reproductor-principal">
     <h2>LEX RADIO EN VIVO</h2>
     <audio id="audioPlayer" controls>
@@ -211,27 +171,23 @@ DOCTYPE html>
     <div id="meta-info">🎵 Cargando canción actual...</div>
   </section>
 
-  <!-- Sección Programas (restaurada) -->
   <section id="programas">
     <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
     <div class="contenedor-programas">
-      <!-- Aquí volveremos a colocar todos los programas -->
-      <!-- Este es un ejemplo, volveré a mostrarte todos cuando confirmes que este está bien -->
+      <!-- Ejemplo de programa con podcast -->
       <div class="programa" data-aos="fade-up">
         <img src="startpop.png" alt="POPSTART">
         <div style="padding: 15px;">
           <h3>POPSTART</h3>
           <p>Pop en inglés y español para arrancar tus mañanas con ritmo.</p>
           <p>Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
-          <div class="podcast-audio">
-            <strong>🎧 Episodio:</strong>
-            <audio controls style="width: 100%;">
-              <source src="https://firebasestorage.googleapis.com/v0/b/lex-radio-audio.appspot.com/o/STARTPOP.mp3?alt=media&token=852c1eaf-c677-45a0-9604-ac5c69c31901" type="audio/mpeg">
-              Tu navegador no soporta audio embebido.
-            </audio>
-          </div>
+          <audio controls>
+            <source src="https://firebasestorage.googleapis.com/v0/b/lex-radio-audio.appspot.com/o/STARTPOP.mp3?alt=media&token=852c1eaf-c677-45a0-9604-ac5c69c31901" type="audio/mpeg">
+            Tu navegador no soporta audio embebido.
+          </audio>
         </div>
       </div>
+      <!-- Repetir el bloque anterior con otros programas cuando se tengan los enlaces -->
     </div>
   </section>
 
@@ -260,11 +216,9 @@ DOCTYPE html>
 
     fetchMetadata();
     setInterval(fetchMetadata, 15000);
-
     AOS.init({ duration: 1000 });
   </script>
 
-  <!-- Chat Tawk.to -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     (function () {
