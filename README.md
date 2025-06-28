@@ -15,4 +15,4 @@
 
 [www.lexxradio.com](https://www.lexxradio.com)
 
-> **LEX Radio – Tus recuerdos en el presente**
+> **LEX Radio – Tus Recuerdos En El Presente**
