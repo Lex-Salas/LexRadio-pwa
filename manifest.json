@@ -1,16 +1,22 @@
-self.addEventListener('install', function(event) {
-  console.log('Service Worker instalando...');
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', function(event) {
-  console.log('Service Worker activado.');
-});
-
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    fetch(event.request).catch(function() {
-      return new Response("Estás offline. Verificá tu conexión.");
-    })
-  );
-});
+s{
+  "name": "LEX Radio",
+  "short_name": "LEX Radio",
+  "description": "Tus recuerdos en el presente. Escuchá éxitos de los 80s, 90s y 2000s en vivo.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000428",
+  "theme_color": "#00f0ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
