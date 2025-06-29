@@ -7,6 +7,7 @@
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
+  <meta name="theme-color" content="#000428"/>
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -21,10 +22,17 @@
     });
   </script>
 
+  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }
+
+    window.addEventListener('load', () => {
+      if (!navigator.onLine) {
+        alert('Estás desconectado. Algunas funciones pueden no estar disponibles.');
+      }
+    });
   </script>
 
   <!-- AOS CSS -->
@@ -42,25 +50,69 @@
       text-align: center;
       padding: 20px;
     }
-    header img { width: 120px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00f0ff; }
-    .barra-info { background-color: #00f0ff; color: #000; padding: 8px 12px; border-radius: 30px; margin: 20px auto; display: inline-block; }
-    .neon-text { font-size: 3em; text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12; }
-    .boton, .neon-button { background-color: #00f0ff; border: none; color: black; padding: 12px 25px; font-size: 16px; border-radius: 30px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-    .boton:hover, .neon-button:hover { background-color: #00c3d4; transform: scale(1.1); }
-    nav a { margin: 0 10px; color: #00f0ff; text-decoration: none; font-weight: bold; }
+
+    header img {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px #00f0ff;
+    }
+
+    .neon-text {
+      font-size: 3em;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
+    }
+
+    .barra-info {
+      background-color: #00f0ff;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 30px;
+      margin: 20px auto;
+      display: inline-block;
+    }
+
+    .boton, .neon-button {
+      background-color: #00f0ff;
+      border: none;
+      color: black;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .boton:hover, .neon-button:hover {
+      background-color: #00c3d4;
+      transform: scale(1.1);
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
     nav a:hover { color: #ffffff; }
+
     .volumen { margin-top: 12px; }
+
     input[type=range] { width: 200px; }
+
     footer { margin-top: 40px; font-size: 13px; }
-    .programas-wrapper {
+
+    .scroll-wrapper {
       display: flex;
-      flex-wrap: nowrap;
       overflow-x: auto;
       gap: 20px;
       padding: 20px 0;
       justify-content: center;
     }
-    .programa-card {
+
+    .card {
       background-color: #111;
       border-radius: 20px;
       overflow: hidden;
@@ -68,35 +120,27 @@
       flex: 0 0 auto;
       box-shadow: 0 0 20px #00f0ff;
     }
-    .programa-card img { width: 100%; display: block; height: auto; }
-    .programa-card h3 { margin: 10px 0; }
+
+    .card img { width: 100%; display: block; height: auto; }
+
+    .card h3 { margin: 10px 0; }
+
     @keyframes neonBackground {
       0% { background-position: 0 0; }
       50% { background-position: 100% 100%; }
       100% { background-position: 0 0; }
     }
-    .offline-banner {
-      background-color: #ff4444;
-      padding: 10px;
-      color: white;
-      display: none;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 9999;
-    }
   </style>
 </head>
 <body onload="AOS.init()">
-  <div class="offline-banner" id="offlineBanner">Estás desconectado. Revisa tu conexión.</div>
   <header>
     <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
-    <div class="barra-info" id="estadoReproduccion">🎶 Escuchá: LEX RADIO - Dale Play</div>
+    <div class="barra-info">🎶 Escuchá: LEX RADIO Dale Play Abajo</div>
   </header>
 
   <main>
-    <audio id="radio" controls autoplay>
+    <audio id="radio" controls>
       <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
       Tu navegador no soporta audio en línea.
     </audio>
@@ -109,49 +153,9 @@
     <script>
       const radio = document.getElementById('radio');
       const volumenSlider = document.getElementById('volumen');
-      const estado = document.getElementById('estadoReproduccion');
-
       volumenSlider.addEventListener('input', () => {
         radio.volume = volumenSlider.value;
       });
-
-      radio.addEventListener('play', () => {
-        estado.innerText = '🎶 Reproduciendo: LEX RADIO';
-      });
-
-      radio.addEventListener('pause', () => {
-        estado.innerText = '⏸️ Pausado';
-      });
-
-      window.addEventListener('offline', () => {
-        document.getElementById('offlineBanner').style.display = 'block';
-      });
-      window.addEventListener('online', () => {
-        document.getElementById('offlineBanner').style.display = 'none';
-      });
-
-      if ('BeforeInstallPromptEvent' in window) {
-        let deferredPrompt;
-        const installButton = document.createElement('button');
-        installButton.textContent = '📲 Instalar App';
-        installButton.className = 'boton neon-button';
-        installButton.style.display = 'block';
-        installButton.style.marginTop = '20px';
-        document.body.insertBefore(installButton, document.querySelector('nav'));
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-          deferredPrompt = e;
-          installButton.style.display = 'block';
-
-          installButton.addEventListener('click', () => {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(() => {
-              deferredPrompt = null;
-            });
-          });
-        });
-      }
     </script>
 
     <button class="boton neon-button" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
@@ -165,58 +169,80 @@
 
     <section id="programas">
       <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
-      <div class="programas-wrapper">
-        <div class="programa-card" data-aos="fade-up">
+      <div class="scroll-wrapper">
+        <div class="card" data-aos="fade-up">
           <img src="artista.png" alt="Artista de la Semana">
           <div style="padding: 15px;">
             <h3 style="color: #7c4dff;">Artista de la Semana</h3>
-            <p>Cada sábado celebramos la trayectoria de un artista legendario con sus éxitos, curiosidades y momentos inolvidables.</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 9:00 a.m. - 11:00 a.m.</p>
+            <p>Celebramos la trayectoria de un artista legendario con sus éxitos.</p>
+            <p style="color: #ccc;">Sábados · 9:00 a.m. - 11:00 a.m.</p>
           </div>
         </div>
-
-        <div class="programa-card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA">
           <div style="padding: 15px;">
             <h3 style="color: #00f0ff;">LEXTRONICA</h3>
-            <p>Un viaje vibrante por lo mejor del Eurodance, house y electrónica de los 90s, 2000s y más allá. ¡Sintonizá la energía de la pista!</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 10:00 a.m. - 12:00 p.m.</p>
+            <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y más.</p>
+            <p style="color: #ccc;">Sábados · 10:00 a.m. - 12:00 p.m.</p>
           </div>
         </div>
-
-        <div class="programa-card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up">
           <img src="startpop.png" alt="POPSTART">
           <div style="padding: 15px;">
             <h3 style="color: #ffc107;">POPSTART</h3>
-            <p>Tus mañanas arrancan con lo mejor del pop en inglés y español de los 80s, 90s y 2000s. ¡Despertá con puro ritmo!</p>
-            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
+            <p>Pop en inglés y español de los 80s, 90s y 2000s.</p>
+            <p style="color: #ccc;">Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
           </div>
         </div>
-
-        <div class="programa-card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up">
           <img src="concierto.png" alt="Concierto para Enamorados">
           <div style="padding: 15px;">
             <h3 style="color: #f06292;">Concierto para Enamorados</h3>
-            <p>Una hora para suspirar con las baladas más hermosas del pop y el rock romántico. Dedicá, recordá y enamorate.</p>
-            <p style="color: #ccc; font-size: 13px;">Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+            <p>Baladas del pop y el rock romántico para suspirar.</p>
+            <p style="color: #ccc;">Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
           </div>
         </div>
-
-        <div class="programa-card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up">
           <img src="retrovibe.png" alt="RETROVIBES">
           <div style="padding: 15px;">
             <h3 style="color: #00e676;">RETROVIBES</h3>
-            <p>La mejor vibra retro con grandes éxitos de los 80s, 90s y 2000s. ¡Una hora para viajar al pasado sin perder el ritmo!</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
+            <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado.</p>
+            <p style="color: #ccc;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
           </div>
         </div>
-
-        <div class="programa-card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+        <div class="card" data-aos="fade-up">
+          <img src="ramix.png" alt="RAMix Total">
           <div style="padding: 15px;">
             <h3 style="color: #ff4081;">RAMix Total</h3>
-            <p>Dos horas con mezclas explosivas de DJ RAM: pop, electrónica, reguetón, rock, ¡y mucho más!</p>
-            <p style="color: #ccc; font-size: 13px;">Sábados · 7:00 p.m. - 9:00 p.m.</p>
+            <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía.</p>
+            <p style="color: #ccc;">Sábados · 7:00 p.m. - 9:00 p.m.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="equipo">
+      <h2 class="neon-text" style="font-size: 26px; color: #f39c12;">🎤 Nuestro Equipo</h2>
+      <div class="scroll-wrapper">
+        <div class="card" data-aos="fade-up">
+          <img src="https://i.imgur.com/Voyg4IF.png" alt="Alexito">
+          <div style="padding: 15px;">
+            <h3 style="color: #f39c12;">Alexito</h3>
+            <p>Fundador de LEX Radio. Apasionado del diseño y la música retro.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="https://i.imgur.com/IRzVPWu.png" alt="Jessica">
+          <div style="padding: 15px;">
+            <h3 style="color: #00f0ff;">Jessica</h3>
+            <p>La voz elegante y energética en LEXTRONICA y POPSTART.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="https://i.imgur.com/xRI3U5B.png" alt="DJ RAM">
+          <div style="padding: 15px;">
+            <h3 style="color: #e91e63;">DJ RAM</h3>
+            <p>El maestro de las mezclas explosivas en RAMix Total.</p>
           </div>
         </div>
       </div>
@@ -227,6 +253,8 @@
     <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
   </footer>
 
-  <script>AOS.init({ duration: 1000 });</script>
+  <script>
+    AOS.init({ duration: 1000 });
+  </script>
 </body>
 </html>
