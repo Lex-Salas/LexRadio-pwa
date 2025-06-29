@@ -9,27 +9,46 @@
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
 
   <!-- OneSignal Push Notifications -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38", // Tu nuevo App ID
-      autoResubscribe: true,
-      notifyButton: {
-        enable: false
-      }
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
+        autoResubscribe: true,
+        notifyButton: { enable: false }
+      });
     });
-  });
-</script>
+  </script>
 
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }
+
+    window.addEventListener('load', () => {
+      if (!navigator.onLine) {
+        alert("Estás desconectado. Algunas funciones pueden no estar disponibles.");
+      }
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      let deferredPrompt = e;
+      const btn = document.createElement("button");
+      btn.innerText = "📲 Instalar App";
+      btn.className = "neon-button";
+      btn.style.margin = "20px";
+      btn.onclick = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+        });
+      };
+      document.body.insertBefore(btn, document.querySelector("footer"));
+    });
   </script>
 
-  <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -37,143 +56,45 @@
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(to bottom, #000428, #004e92);
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
+      background-size: 300% 300%;
+      animation: neonBackground 6s ease infinite;
       color: #fff;
       text-align: center;
       padding: 20px;
     }
-
-    header {
-      animation: fadeIn 1.5s ease-in;
+    header img { width: 120px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00f0ff; }
+    .barra-info { background-color: #00f0ff; color: #000; padding: 8px 12px; border-radius: 30px; margin: 20px auto; display: inline-block; }
+    .neon-text { font-size: 3em; text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12; }
+    .boton, .neon-button { background-color: #00f0ff; border: none; color: black; padding: 12px 25px; font-size: 16px; border-radius: 30px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+    .boton:hover, .neon-button:hover { background-color: #00c3d4; transform: scale(1.1); }
+    nav a { margin: 0 10px; color: #00f0ff; text-decoration: none; font-weight: bold; }
+    nav a:hover { color: #ffffff; }
+    .volumen { margin-top: 12px; }
+    input[type=range] { width: 200px; }
+    footer { margin-top: 40px; font-size: 13px; }
+    .programas-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px 0;
+      justify-content: flex-start;
     }
-
-    header img {
-      width: 120px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-      box-shadow: 0 0 15px #00f0ff;
+    .programa-card {
+      background-color: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      width: 250px;
+      flex: 0 0 auto;
+      box-shadow: 0 0 20px #00f0ff;
     }
-
-    h1 {
-      font-size: 28px;
-      margin: 10px 0;
-      text-shadow: 0 0 8px #00f0ff;
-    }
-
-    .barra-info {
-      background-color: #00f0ff;
-      color: #000;
-      padding: 8px 12px;
-      font-weight: bold;
-      border-radius: 30px;
-      margin: 20px auto;
-      display: inline-block;
-      animation: slideIn 1s ease-in-out;
-    }
-
-    audio {
-      margin: 20px auto;
-      display: block;
-    }
-
-    .boton {
-      background-color: #00f0ff;
-      border: none;
-      color: black;
-      padding: 12px 25px;
-      font-size: 16px;
-      border-radius: 30px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: background-color 0.3s;
-    }
-
-    .boton:hover {
-      background-color: #00c3d4;
-    }
-
-    nav {
-      margin: 30px 0;
-    }
-
-    nav a {
-      margin: 0 10px;
-      color: #00f0ff;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #ffffff;
-    }
-
-    .volumen {
-      margin-top: 12px;
-    }
-
-    input[type=range] {
-      width: 200px;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 13px;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(-15px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Neon text effect */
-    .neon-text {
-      font-size: 3em;
-      color: #fff;
-      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12, 0 0 15px #f39c12, 0 0 20px #f39c12;
-    }
-
-    /* Neon button effect */
-    .neon-button {
-      padding: 10px 20px;
-      border: 2px solid #f39c12;
-      background-color: transparent;
-      color: #f39c12;
-      font-size: 1.5em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
-    }
-
-    .neon-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #f39c12, 0 0 30px #f39c12;
-    }
-
-    /* Animated neon background */
+    .programa-card img { width: 100%; display: block; height: auto; }
+    .programa-card h3 { margin: 10px 0; }
     @keyframes neonBackground {
-      0% {
-        background-position: 0 0;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    body {
-      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
-      background-size: 300% 300%;
-      animation: neonBackground 6s ease infinite;
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
     }
   </style>
 </head>
@@ -216,60 +137,26 @@
     <section id="programas">
       <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
       <div class="programas-wrapper">
+        <!-- Programas existentes -->
+        <!-- Ejemplo final RAMix -->
         <div class="programa-card" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana">
+          <img src="ramix.png" alt="RAMix Total">
           <div style="padding: 10px">
-            <h3 style="color: #7c4dff;">Artista de la Semana</h3>
-            <p style="font-size: 13px;">Cada sábado celebramos la trayectoria de un artista legendario.</p>
-            <p style="color: #ccc; font-size: 12px;">Sábados · 9 a.m. - 11 a.m.</p>
-          </div>
-        </div>
-        <div class="programa-card" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA">
-          <div style="padding: 10px">
-            <h3 style="color: #00f0ff;">LEXTRONICA</h3>
-            <p style="font-size: 13px;">Un viaje vibrante por lo mejor del Eurodance y electrónica.</p>
-            <p style="color: #ccc; font-size: 12px;">Sábados · 10 a.m. - 12 p.m.</p>
-          </div>
-        </div>
-        <div class="programa-card" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART">
-          <div style="padding: 10px">
-            <h3 style="color: #ffc107;">POPSTART</h3>
-            <p style="font-size: 13px;">Tus mañanas con lo mejor del pop. ¡Despertá con ritmo!</p>
-            <p style="color: #ccc; font-size: 12px;">Lunes a viernes · 9 a.m. - 11 a.m.</p>
-          </div>
-        </div>
-        <div class="programa-card" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados">
-          <div style="padding: 10px">
-            <h3 style="color: #f06292;">Concierto para Enamorados</h3>
-            <p style="font-size: 13px;">Una hora para suspirar con baladas pop y rock romántico.</p>
-            <p style="color: #ccc; font-size: 12px;">Lunes a viernes · 5 p.m. - 6 p.m.</p>
-          </div>
-        </div>
-        <div class="programa-card" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES">
-          <div style="padding: 10px">
-            <h3 style="color: #00e676;">RETROVIBES</h3>
-            <p style="font-size: 13px;">Vibras retro con grandes éxitos. ¡Viajá al pasado!</p>
-            <p style="color: #ccc; font-size: 12px;">Sábados · 1 p.m. - 2 p.m.</p>
-          </div>
-        </div>
-        <div class="programa-card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
-          <div style="padding: 10px">
-            <h3 style="color: #00ffc3;">RAMix Total</h3>
-            <p style="font-size: 13px;">Dos horas con DJ RAM mezclando todos los géneros.</p>
+            <h3 style="color: #ff4081;">RAMix Total</h3>
+            <p>Dos horas con DJ RAM mezclando pop, electrónica y más.</p>
             <p style="color: #ccc; font-size: 12px;">Sábados · 7 p.m. - 9 p.m.</p>
           </div>
         </div>
       </div>
     </section>
   </main>
+
   <footer>
     <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
   </footer>
-  <script>AOS.init({ duration: 1000 });</script>
+
+  <script>
+    AOS.init({ duration: 1000 });
+  </script>
 </body>
 </html>
