@@ -1,7 +1,7 @@
 {
   "name": "LEX Radio - Tus recuerdos en el presente",
   "short_name": "LEX Radio",
-  "description": "Escuchá los mejores éxitos de los 80s, 90s y 2000s en vivo. Tus recuerdos musicales siempre contigo.",
+  "description": "Escuch\u00e1 los mejores \u00e9xitos de los 80s, 90s y 2000s en vivo. Tus recuerdos musicales siempre contigo.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -9,7 +9,11 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "es",
-  "categories": ["music", "entertainment", "audio"],
+  "categories": [
+    "music",
+    "entertainment",
+    "audio"
+  ],
   "icons": [
     {
       "src": "icon-72.png",
@@ -92,7 +96,7 @@
     {
       "name": "Programas",
       "short_name": "Shows",
-      "description": "Ver programación de LEX Radio",
+      "description": "Ver programaci\u00f3n de LEX Radio",
       "url": "/#programas",
       "icons": [
         {
@@ -105,7 +109,7 @@
       "name": "Contacto",
       "short_name": "Contact",
       "description": "Contactar con LEX Radio",
-      "url": "https://wa.me/50684794991",
+      "url": "/",
       "icons": [
         {
           "src": "icon-192.png",
@@ -117,7 +121,7 @@
   "related_applications": [
     {
       "platform": "webapp",
-      "url": "https://www.lexxradio.com/manifest.json"
+      "url": "/manifest.json"
     }
   ],
   "prefer_related_applications": false,
