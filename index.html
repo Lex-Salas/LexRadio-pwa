@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   LEX Radio - Tus recuerdos en el presente
-  </title>
-  <link href="manifest.json" rel="manifest"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-  <link href="logo-lexradio.png" rel="icon" type="image/png"/>
-  <meta content="#000428" name="theme-color"/>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEX Radio - Tus recuerdos en el presente</title>
+  <link rel="manifest" href="manifest.json" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo-lexradio.png"/>
+  <meta name="theme-color" content="#000428"/>
+
   <!-- OneSignal Push Notifications -->
-  <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js">
-  </script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
-   window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
@@ -23,969 +21,240 @@
       });
     });
   </script>
-  <!-- Enhanced PWA functionality -->
+
+  <!-- Service Worker -->
   <script>
-   // Service Worker Registration with PWA features
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(registration => {
-          console.log('SW registered successfully');
-          
-          // Check for updates
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                showUpdateAvailable();
-              }
-            });
-          });
-        })
-        .catch(err => console.log('SW registration failed'));
+      navigator.serviceWorker.register('service-worker.js');
     }
 
-    // PWA Install Banner
-    let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      showInstallButton();
-    });
-
-    function showInstallButton() {
-      const installBtn = document.createElement('button');
-      installBtn.className = 'neon-button install-btn';
-      installBtn.innerHTML = '📱 Instalar App';
-      installBtn.style.position = 'fixed';
-      installBtn.style.bottom = '20px';
-      installBtn.style.right = '20px';
-      installBtn.style.zIndex = '1000';
-      installBtn.style.animation = 'bounce 2s infinite';
-      
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            console.log('PWA installed');
-          }
-          deferredPrompt = null;
-          installBtn.remove();
-        }
-      });
-      
-      document.body.appendChild(installBtn);
-      
-      // Auto-hide after 10 seconds
-      setTimeout(() => {
-        if (installBtn.parentNode) {
-          installBtn.style.animation = 'fadeOut 0.5s ease-out';
-          setTimeout(() => installBtn.remove(), 500);
-        }
-      }, 10000);
-    }
-
-    function showUpdateAvailable() {
-      const updateBanner = document.createElement('div');
-      updateBanner.className = 'update-banner';
-      updateBanner.innerHTML = `
-        <div style="background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--neon-blue); border-radius: 10px; padding: 1rem; margin: 1rem; text-align: center;">
-          <p>🔄 Nueva versión disponible</p>
-          <button onclick="location.reload()" class="neon-button" style="margin-top: 0.5rem;">Actualizar</button>
-        </div>
-      `;
-      document.body.insertBefore(updateBanner, document.body.firstChild);
-    }
-
-    // Handle PWA display mode
-    window.addEventListener('DOMContentLoaded', () => {
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-        document.body.classList.add('pwa-mode');
-        console.log('Running as PWA');
+    window.addEventListener('load', () => {
+      if (!navigator.onLine) {
+        alert('Estás desconectado. Algunas funciones pueden no estar disponibles.');
       }
     });
   </script>
+
   <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-   <style>
-    :root {
-      --neon-blue: #00f0ff;
-      --neon-pink: #ff0099;
-      --neon-yellow: #ffcc00;
-      --neon-purple: #7c4dff;
-      --dark-bg: #0a0a0a;
-      --card-bg: #111111;
-      --glass-bg: rgba(255, 255, 255, 0.1);
-      --text-primary: #ffffff;
-      --text-secondary: #cccccc;
-      --gradient-primary: linear-gradient(135deg, #ff0099, #66ccff, #ffcc00);
-      --shadow-neon: 0 0 20px rgba(0, 240, 255, 0.5);
-    }
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+  <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--dark-bg);
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 0, 153, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(124, 77, 255, 0.2) 0%, transparent 50%);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Header mejorado */
-    .header {
-      text-align: center;
-      padding: 3rem 1rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin: 0 auto 1.5rem;
-      box-shadow: var(--shadow-neon);
-      animation: logoFloat 3s ease-in-out infinite;
-      display: block;
-    }
-
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .main-title {
+      margin: 0;
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      font-weight: 900;
-      background: var(--gradient-primary);
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00);
       background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientMove 3s ease infinite;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
-    }
-
-    @keyframes gradientMove {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .tagline {
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-    }
-
-    .status-bar {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      border-radius: 50px;
-      padding: 0.8rem 1.5rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .live-indicator {
-      width: 8px;
-      height: 8px;
-      background: #ff4444;
-      border-radius: 50%;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0.3; }
-    }
-
-    /* Player mejorado */
-    .player-container {
-      max-width: 600px;
-      margin: 0 auto 3rem;
-      padding: 0 1rem;
-    }
-
-    .audio-player {
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: var(--shadow-neon);
-    }
-
-    .player-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .play-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .play-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
-    }
-
-    .volume-control {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      width: 100%;
-    }
-
-    .volume-slider {
-      flex: 1;
-      height: 6px;
-      -webkit-appearance: none;
-      appearance: none;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
-      outline: none;
-    }
-
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      background: var(--neon-blue);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
-    }
-
-    .current-song {
+      animation: neonBackground 6s ease infinite;
+      color: #fff;
       text-align: center;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      border-left: 3px solid var(--neon-blue);
+      padding: 20px;
     }
 
-    /* Botones mejorados */
-    .cta-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
+    header img {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px #00f0ff;
     }
 
-    .neon-button {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border: 2px solid var(--neon-blue);
-      color: var(--text-primary);
-      padding: 0.8rem 1.5rem;
+    .neon-text {
+      font-size: 3em;
+      text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12;
+    }
+
+    .barra-info {
+      background-color: #00f0ff;
+      color: #000;
+      padding: 8px 12px;
       border-radius: 30px;
+      margin: 20px auto;
+      display: inline-block;
+    }
+
+    .boton, .neon-button {
+      background-color: #00f0ff;
+      border: none;
+      color: black;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .boton:hover, .neon-button:hover {
+      background-color: #00c3d4;
+      transform: scale(1.1);
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #00f0ff;
       text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-weight: bold;
     }
 
-    .neon-button:hover {
-      background: var(--neon-blue);
-      color: var(--dark-bg);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.4);
-    }
+    nav a:hover { color: #ffffff; }
 
-    /* Navegación mejorada */
-    .navigation {
+    .volumen { margin-top: 12px; }
+
+    input[type=range] { width: 200px; }
+
+    footer { margin-top: 40px; font-size: 13px; }
+
+    .scroll-wrapper {
       display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px 0;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin: 3rem 0;
-      padding: 1rem;
-    }
-
-    .nav-link {
-      color: var(--neon-blue);
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .nav-link:hover {
-      color: var(--text-primary);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Secciones mejoradas */
-    .section {
-      margin: 4rem 0;
-      padding: 0 1rem;
-    }
-
-    .section-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--neon-blue);
-      text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-    }
-
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
 
     .card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #111;
       border-radius: 20px;
       overflow: hidden;
-      transition: all 0.3s ease;
-      position: relative;
+      width: 250px;
+      flex: 0 0 auto;
+      box-shadow: 0 0 20px #00f0ff;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.3);
-      border-color: var(--neon-blue);
-    }
+    .card img { width: 100%; display: block; height: auto; }
 
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
+    .card h3 { margin: 10px 0; }
 
-    .card:hover .card-image {
-      transform: scale(1.1);
+    @keyframes neonBackground {
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
     }
-
-    .card-content {
-      padding: 1.5rem;
-    }
-
-    .card-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--neon-blue);
-    }
-
-    .card-description {
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-      line-height: 1.5;
-    }
-
-    .card-schedule {
-      font-size: 0.9rem;
-      color: var(--neon-yellow);
-      font-weight: 500;
-    }
-
-    /* Footer mejorado */
-    .footer {
-      text-align: center;
-      padding: 3rem 1rem;
-      margin-top: 4rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .player-controls {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-      
-      .volume-control {
-        width: 100%;
-      }
-      
-      .navigation {
-        gap: 1rem;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    /* PWA Specific Styles */
-    .pwa-mode {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .install-btn {
-      animation: bounce 2s infinite !important;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-10px); }
-      60% { transform: translateY(-5px); }
-    }
-
-    @keyframes fadeOut {
-      from { opacity: 1; transform: scale(1); }
-      to { opacity: 0; transform: scale(0.8); }
-    }
-
-    .update-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1001;
-      animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
-
-    /* PWA Safe Areas */
-    @supports (padding: max(0px)) {
-      .header {
-        padding-top: max(3rem, env(safe-area-inset-top));
-      }
-      
-      .footer {
-        padding-bottom: max(3rem, env(safe-area-inset-bottom));
-      }
-    }
-
-    /* Enhanced offline state */
-    .offline-indicator {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ff4444;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      z-index: 1000;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateX(-50%) translateY(100%); opacity: 0; }
-      to { transform: translateX(-50%) translateY(0); opacity: 1; }
-    }
-   </style>
-  </link>
- </head>
- <body>
-  <header class="header">
-   <img alt="LEX Radio Logo" class="logo" src="https://i.imgur.com/BhXCsFa.png"/>
-   <h1 class="main-title">
-    LEX Radio
-   </h1>
-   <p class="tagline">
-    Tus recuerdos en el presente
-   </p>
-   <div class="status-bar">
-    <div class="live-indicator">
-    </div>
-    <span>
-     🎶 EN VIVO - Éxitos de los 80s, 90s y 2000s
-    </span>
-   </div>
+  </style>
+</head>
+<body onload="AOS.init()">
+  <header>
+    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
+    <h1 class="neon-text">LEX Radio</h1>
+    <div class="barra-info">🎶 Escuchá: LEX RADIO Dale Play Abajo</div>
   </header>
+
   <main>
-   <div class="player-container">
-    <div class="audio-player">
-     <div class="player-controls">
-      <button class="play-btn" id="playBtn">
-       ▶
-      </button>
-     </div>
-     <div class="volume-control">
-      <span>
-       🔊
-      </span>
-      <input class="volume-slider" id="volumeSlider" max="1" min="0" step="0.01" type="range" value="0.7"/>
-      <span id="volumeValue">
-       70%
-      </span>
-     </div>
-     <div class="current-song" id="currentSong">
-      <strong>
-       🎵 Ahora suena:
-      </strong>
-      <span id="songTitle">
-       Conectando...
-      </span>
-     </div>
-     <audio id="radioStream" preload="none">
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg"/>
-     </audio>
+    <audio id="radio" controls>
+      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+      Tu navegador no soporta audio en línea.
+    </audio>
+
+    <div class="volumen">
+      <label for="volumen">🔊 Volumen:</label>
+      <input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
     </div>
-   </div>
-   <div class="cta-buttons">
-    <a class="neon-button" href="https://wa.me/50684794991" target="_blank">
-     💬 Mandá tu saludo
-    </a>
-    <a class="neon-button" href="#" id="requestBtn">
-     🎵 Pedí tu canción
-    </a>
-   </div>
-   <nav class="navigation">
-    <a class="nav-link" href="#programas">
-     Programas
-    </a>
-    <a class="nav-link" href="#equipo">
-     Equipo
-    </a>
-    <a class="nav-link" href="https://facebook.com/lexxradio" target="_blank">
-     Facebook
-    </a>
-    <a class="nav-link" href="https://www.lexxradio.com" target="_blank">
-     Sitio Web
-    </a>
-   </nav>
-   <section id="programas">
-    <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">
-     📺 Nuestros Programas
-    </h2>
-    <div class="scroll-wrapper">
-     <div class="card" data-aos="fade-up">
-      <img alt="Artista de la Semana" src="artista.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #7c4dff;">
-        Artista de la Semana
-       </h3>
-       <p>
-        Celebramos la trayectoria de un artista legendario con sus éxitos.
-       </p>
-       <p style="color: #ccc;">
-        Sábados · 9:00 a.m. - 11:00 a.m.
-       </p>
+
+    <script>
+      const radio = document.getElementById('radio');
+      const volumenSlider = document.getElementById('volumen');
+      volumenSlider.addEventListener('input', () => {
+        radio.volume = volumenSlider.value;
+      });
+    </script>
+
+    <button class="boton neon-button" onclick="window.open('https://wa.me/50684794991')">💬 Mandá tu saludo</button>
+
+    <nav>
+      <a href="#programas">Programas</a>
+      <a href="#equipo">Equipo</a>
+      <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
+      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+    </nav>
+
+    <section id="programas">
+      <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">📺 Nuestros Programas</h2>
+      <div class="scroll-wrapper">
+        <div class="card" data-aos="fade-up">
+          <img src="artista.png" alt="Artista de la Semana">
+          <div style="padding: 15px;">
+            <h3 style="color: #7c4dff;">Artista de la Semana</h3>
+            <p>Celebramos la trayectoria de un artista legendario con sus éxitos.</p>
+            <p style="color: #ccc;">Sábados · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="lextronica.png" alt="LEXTRONICA">
+          <div style="padding: 15px;">
+            <h3 style="color: #00f0ff;">LEXTRONICA</h3>
+            <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y más.</p>
+            <p style="color: #ccc;">Sábados · 10:00 a.m. - 12:00 p.m.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="startpop.png" alt="POPSTART">
+          <div style="padding: 15px;">
+            <h3 style="color: #ffc107;">POPSTART</h3>
+            <p>Pop en inglés y español de los 80s, 90s y 2000s.</p>
+            <p style="color: #ccc;">Lunes a viernes · 9:00 a.m. - 11:00 a.m.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="concierto.png" alt="Concierto para Enamorados">
+          <div style="padding: 15px;">
+            <h3 style="color: #f06292;">Concierto para Enamorados</h3>
+            <p>Baladas del pop y el rock romántico para suspirar.</p>
+            <p style="color: #ccc;">Lunes a viernes · 5:00 p.m. - 6:00 p.m.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="retrovibe.png" alt="RETROVIBES">
+          <div style="padding: 15px;">
+            <h3 style="color: #00e676;">RETROVIBES</h3>
+            <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado.</p>
+            <p style="color: #ccc;">Sábados · 1:00 p.m. - 2:00 p.m.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+          <div style="padding: 15px;">
+            <h3 style="color: #ff4081;">RAMix Total</h3>
+            <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía.</p>
+            <p style="color: #ccc;">Sábados · 7:00 p.m. - 9:00 p.m.</p>
+          </div>
+        </div>
       </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="LEXTRONICA" src="lextronica.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #00f0ff;">
-        LEXTRONICA
-       </h3>
-       <p>
-        Lo mejor del Eurodance y electrónica de los 90s, 2000s y más.
-       </p>
-       <p style="color: #ccc;">
-        Sábados · 10:00 a.m. - 12:00 p.m.
-       </p>
+    </section>
+
+    <section id="equipo">
+      <h2 class="neon-text" style="font-size: 26px; color: #f39c12;">🎤 Nuestro Equipo</h2>
+      <div class="scroll-wrapper">
+        <div class="card" data-aos="fade-up">
+          <img src="LEX.png" alt="Alex">
+          <div style="padding: 15px;">
+            <h3 style="color: #f39c12;">Alex Salas</h3>
+            <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="Jessica.png" alt="Jessica">
+          <div style="padding: 15px;">
+            <h3 style="color: #00f0ff;">Jessica</h3>
+            <p>La voz sexy elegante y energética de LEX RADIO.</p>
+          </div>
+        </div>
+        <div class="card" data-aos="fade-up">
+          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
+          <div style="padding: 15px;">
+            <h3 style="color: #e91e63;">DJ RAM</h3>
+            <p>El maestro de las mezclas explosivas en RAMix Total.</p>
+          </div>
+        </div>
       </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="POPSTART" src="startpop.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #ffc107;">
-        POPSTART
-       </h3>
-       <p>
-        Pop en inglés y español de los 80s, 90s y 2000s.
-       </p>
-       <p style="color: #ccc;">
-        Lunes a viernes · 9:00 a.m. - 11:00 a.m.
-       </p>
-      </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="Concierto para Enamorados" src="concierto.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #f06292;">
-        Concierto para Enamorados
-       </h3>
-       <p>
-        Baladas del pop y el rock romántico para suspirar.
-       </p>
-       <p style="color: #ccc;">
-        Lunes a viernes · 5:00 p.m. - 6:00 p.m.
-       </p>
-      </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="RETROVIBES" src="retrovibe.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #00e676;">
-        RETROVIBES
-       </h3>
-       <p>
-        Éxitos de los 80s, 90s y 2000s para viajar al pasado.
-       </p>
-       <p style="color: #ccc;">
-        Sábados · 1:00 p.m. - 2:00 p.m.
-       </p>
-      </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="RAMix Total" src="RAMix_Total_Poster_Web.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #ff4081;">
-        RAMix Total
-       </h3>
-       <p>
-        Mix explosivo con DJ RAM. Todos los géneros y pura energía.
-       </p>
-       <p style="color: #ccc;">
-        Sábados · 7:00 p.m. - 9:00 p.m.
-       </p>
-      </div>
-     </div>
-    </div>
-   </section>
-   <section id="equipo">
-    <h2 class="neon-text" style="font-size: 26px; color: #f39c12;">
-     🎤 Nuestro Equipo
-    </h2>
-    <div class="scroll-wrapper">
-     <div class="card" data-aos="fade-up">
-      <img alt="Alex" src="LEX.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #f39c12;">
-        Alex Salas
-       </h3>
-       <p>
-        Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro.
-       </p>
-      </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="Jessica" src="Jessica.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #00f0ff;">
-        Jessica
-       </h3>
-       <p>
-        La voz sexy elegante y energética de LEX RADIO.
-       </p>
-      </div>
-     </div>
-     <div class="card" data-aos="fade-up">
-      <img alt="DJ RAM" src="RAMix_Total_Poster_Web.png"/>
-      <div style="padding: 15px;">
-       <h3 style="color: #e91e63;">
-        DJ RAM
-       </h3>
-       <p>
-        El maestro de las mezclas explosivas en RAMix Total.
-       </p>
-      </div>
-     </div>
-    </div>
-   </section>
+    </section>
   </main>
-  <footer class="footer">
-   <p>
-    © 2025 LexProductions. Todos los derechos reservados.
-   </p>
-   <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-    Diseñado con 💜 para los amantes de la música retro
-   </p>
+
+  <footer>
+    <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
   </footer>
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js">
-  </script>
+
   <script>
-   // Inicializar AOS
-    AOS.init({ 
-      duration: 800,
-      easing: 'ease-out-cubic',
-      once: true 
-    });
-
-    // Enhanced PWA Audio Management
-    let wakeLock = null;
-    
-    // Keep screen awake while playing
-    async function requestWakeLock() {
-      try {
-        if ('wakeLock' in navigator) {
-          wakeLock = await navigator.wakeLock.request('screen');
-          console.log('Wake lock activated');
-        }
-      } catch (err) {
-        console.error('Wake lock failed:', err);
-      }
-    }
-
-    function releaseWakeLock() {
-      if (wakeLock) {
-        wakeLock.release();
-        wakeLock = null;
-        console.log('Wake lock released');
-      }
-    }
-
-    // Enhanced PWA controls
-    const mediaSession = 'mediaSession' in navigator ? navigator.mediaSession : null;
-    
-    function updateMediaSession() {
-      if (mediaSession) {
-        mediaSession.metadata = new MediaMetadata({
-          title: songTitle.textContent,
-          artist: 'LEX Radio',
-          album: 'En Vivo',
-          artwork: [
-            { src: 'https://i.imgur.com/BhXCsFa.png', sizes: '96x96', type: 'image/png' },
-            { src: 'https://i.imgur.com/BhXCsFa.png', sizes: '128x128', type: 'image/png' },
-            { src: 'https://i.imgur.com/BhXCsFa.png', sizes: '192x192', type: 'image/png' },
-            { src: 'https://i.imgur.com/BhXCsFa.png', sizes: '256x256', type: 'image/png' }
-          ]
-        });
-
-        mediaSession.setActionHandler('play', () => {
-          if (!isPlaying) playBtn.click();
-        });
-        
-        mediaSession.setActionHandler('pause', () => {
-          if (isPlaying) playBtn.click();
-        });
-      }
-    }
-
-    // Network status management
-    function updateNetworkStatus() {
-      const isOnline = navigator.onLine;
-      const indicator = document.querySelector('.offline-indicator');
-      
-      if (!isOnline && !indicator) {
-        const offlineDiv = document.createElement('div');
-        offlineDiv.className = 'offline-indicator';
-        offlineDiv.textContent = '📶 Sin conexión';
-        document.body.appendChild(offlineDiv);
-      } else if (isOnline && indicator) {
-        indicator.remove();
-      }
-    }
-
-    // Control de reproducción mejorado para PWA
-    playBtn.addEventListener('click', function() {
-      if (isPlaying) {
-        radioStream.pause();
-        playBtn.innerHTML = '▶';
-        isPlaying = false;
-        songTitle.textContent = 'Pausado';
-        releaseWakeLock();
-        if (mediaSession) {
-          mediaSession.playbackState = 'paused';
-        }
-      } else {
-        radioStream.play().then(() => {
-          playBtn.innerHTML = '⏸';
-          isPlaying = true;
-          songTitle.textContent = 'Reproduciendo LEX Radio...';
-          requestWakeLock();
-          if (mediaSession) {
-            mediaSession.playbackState = 'playing';
-            updateMediaSession();
-          }
-        }).catch(error => {
-          console.error('Error al reproducir:', error);
-          songTitle.textContent = 'Error de conexión. Intenta de nuevo.';
-        });
-      }
-    });
-
-    // Control de volumen
-    volumeSlider.addEventListener('input', function() {
-      const volume = this.value;
-      radioStream.volume = volume;
-      volumeValue.textContent = Math.round(volume * 100) + '%';
-    });
-
-    // Establecer volumen inicial
-    radioStream.volume = volumeSlider.value;
-    volumeValue.textContent = Math.round(volumeSlider.value * 100) + '%';
-
-    // Eventos del audio
-    radioStream.addEventListener('loadstart', () => {
-      console.log('Cargando stream...');
-    });
-
-    radioStream.addEventListener('canplay', () => {
-      console.log('Stream listo para reproducir');
-    });
-
-    radioStream.addEventListener('error', (e) => {
-      console.error('Error en el stream:', e);
-      songTitle.textContent = 'Error de conexión. Verifica tu internet.';
-      playBtn.innerHTML = '▶';
-      isPlaying = false;
-    });
-
-    // Animaciones de fade-in al hacer scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Manejo de errores de conexión mejorado para PWA
-    window.addEventListener('load', () => {
-      updateNetworkStatus();
-    });
-
-    window.addEventListener('online', () => {
-      updateNetworkStatus();
-      songTitle.textContent = 'Conexión restaurada';
-      setTimeout(() => {
-        if (!isPlaying) songTitle.textContent = 'Listo para reproducir';
-      }, 2000);
-    });
-
-    window.addEventListener('offline', () => {
-      updateNetworkStatus();
-      songTitle.textContent = 'Sin conexión a internet';
-      if (isPlaying) {
-        radioStream.pause();
-        playBtn.innerHTML = '▶';
-        isPlaying = false;
-        releaseWakeLock();
-      }
-    });
-
-    // PWA visibility change handling
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden && isPlaying) {
-        // Keep playing in background
-        console.log('App in background, continuing playback');
-      } else if (!document.hidden && isPlaying) {
-        console.log('App visible, playback active');
-        updateMediaSession();
-      }
-    });
-
-    // Smooth scroll para navegación
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // Simulación de información de canción actual (opcional)
-    const songTitles = [
-      'Madonna - Like a Prayer',
-      'Depeche Mode - Enjoy the Silence',
-      'Michael Jackson - Billie Jean',
-      'Whitney Houston - I Wanna Dance',
-      'Duran Duran - Hungry Like the Wolf',
-      'Cyndi Lauper - Time After Time'
-    ];
-
-    function updateCurrentSong() {
-      if (isPlaying) {
-        const randomSong = songTitles[Math.floor(Math.random() * songTitles.length)];
-        songTitle.textContent = randomSong;
-        // Update media session with new song info
-        updateMediaSession();
-      }
-    }
-
-    // Actualizar canción cada 3 minutos si está reproduciendo
-    setInterval(updateCurrentSong, 180000);
-
-    // Initialize PWA features
-    updateNetworkStatus();
-    
-    // Efectos de carga
-    const fadeElements = document.querySelectorAll('.fade-in');
-    fadeElements.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'all 0.6s ease';
-    });
-
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    fadeElements.forEach(el => {
-      observer.observe(el);
-    });
+    AOS.init({ duration: 1000 });
   </script>
- </body>
+</body>
 </html>
