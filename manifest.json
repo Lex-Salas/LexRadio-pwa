@@ -1,131 +1,22 @@
 {
-  "name": "LEX Radio - Tus recuerdos en el presente",
+  "name": "LEX Radio",
   "short_name": "LEX Radio",
-  "description": "Escuchá los mejores éxitos de los 80s, 90s y 2000s en vivo. Tus recuerdos musicales siempre contigo.",
-  "start_url": "/",
+  "description": "Tus recuerdos en el presente. Escuchá éxitos de los 80s, 90s y 2000s en vivo.",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#0a0a0a",
+  "background_color": "#000428",
   "theme_color": "#00f0ff",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "es",
-  "categories": ["music", "entertainment", "audio"],
+  "orientation": "portrait",
   "icons": [
-    {
-      "src": "icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "density": "1.5"
-    },
-    {
-      "src": "icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "density": "2.0"
-    },
-    {
-      "src": "icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "density": "2.5"
-    },
-    {
-      "src": "icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "density": "3.0"
-    },
-    {
-      "src": "icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "density": "3.0"
-    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "density": "4.0",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "density": "4.0"
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "density": "4.0",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "screenshot-desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Reproducir Radio",
-      "short_name": "Play",
-      "description": "Reproducir LEX Radio directamente",
-      "url": "/?action=play",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Programas",
-      "short_name": "Shows",
-      "description": "Ver programación de LEX Radio",
-      "url": "/#programas",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Contacto",
-      "short_name": "Contact",
-      "description": "Contactar con LEX Radio",
-      "url": "https://wa.me/50684794991",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://www.lexxradio.com/manifest.json"
-    }
-  ],
-  "prefer_related_applications": false,
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "handle_links": "preferred",
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  }
+  ]
 }
