@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LEX Radio - Tus recuerdos en el presente</title>
-  <link rel="manifest" href="manifest.json" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="logo-lexradio.png"/>
-  <meta name="theme-color" content="#000428"/>
-
-  <!-- OneSignal Push Notifications -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   LEX Radio - Tus recuerdos en el presente
+  </title>
+  <link href="manifest.json" rel="manifest"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+  <link href="logo-lexradio.png" rel="icon" type="image/png">
+   <meta content="#000428" name="theme-color">
+    <!-- OneSignal Push Notifications -->
+    <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js">
+    </script>
+    <script>
+     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "fe22a797-a48d-4d38-83a1-0c4d34e88a38",
@@ -20,11 +22,10 @@
         notifyButton: { enable: false }
       });
     });
-  </script>
-
-  <!-- Enhanced PWA functionality -->
-  <script>
-    // Service Worker Registration with PWA features
+    </script>
+    <!-- Enhanced PWA functionality -->
+    <script>
+     // Service Worker Registration with PWA features
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(registration => {
@@ -104,13 +105,11 @@
         console.log('Running as PWA');
       }
     });
-  </script>
-
-  <!-- AOS CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-  <style>
-    :root {
+    </script>
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+    <style>
+     :root {
       --neon-blue: #00f0ff;
       --neon-pink: #ff0099;
       --neon-yellow: #ffcc00;
@@ -528,158 +527,224 @@
       from { transform: translateX(-50%) translateY(100%); opacity: 0; }
       to { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
-  </style>
-</head>
-<body>
+    </style>
+   </meta>
+  </link>
+ </head>
+ <body>
   <header class="header">
-    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" class="logo" />
-    <h1 class="main-title">LEX Radio</h1>
-    <p class="tagline">Tus recuerdos en el presente</p>
-    <div class="status-bar">
-      <div class="live-indicator"></div>
-      <span>🎶 EN VIVO - Éxitos de los 80s, 90s y 2000s</span>
+   <img alt="LEX Radio Logo" class="logo" src="https://i.imgur.com/BhXCsFa.png"/>
+   <h1 class="main-title">
+    LEX Radio
+   </h1>
+   <p class="tagline">
+    Tus recuerdos en el presente
+   </p>
+   <div class="status-bar">
+    <div class="live-indicator">
     </div>
+    <span>
+     🎶 EN VIVO - Éxitos de los 80s, 90s y 2000s
+    </span>
+   </div>
   </header>
-
   <main>
-    <div class="player-container">
-      <div class="audio-player">
-        <div class="player-controls">
-          <button class="play-btn" id="playBtn">▶</button>
-        </div>
-        
-        <div class="volume-control">
-          <span>🔊</span>
-          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
-          <span id="volumeValue">70%</span>
-        </div>
-        
-        <div class="current-song" id="currentSong">
-          <strong>🎵 Ahora suena:</strong> <span id="songTitle">Conectando...</span>
-        </div>
-        
-        <audio id="radioStream" preload="none">
-          <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
-        </audio>
-      </div>
+   <div class="player-container">
+    <div class="audio-player">
+     <div class="player-controls">
+      <button class="play-btn" id="playBtn">
+       ▶
+      </button>
+     </div>
+     <div class="volume-control">
+      <span>
+       🔊
+      </span>
+      <input class="volume-slider" id="volumeSlider" max="1" min="0" step="0.01" type="range" value="0.7"/>
+      <span id="volumeValue">
+       70%
+      </span>
+     </div>
+     <div class="current-song" id="currentSong">
+      <strong>
+       🎵 Ahora suena:
+      </strong>
+      <span id="songTitle">
+       Conectando...
+      </span>
+     </div>
+     <audio id="radioStream" preload="none">
+      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg"/>
+     </audio>
     </div>
-
-    <div class="cta-buttons">
-      <a href="https://wa.me/50684794991" class="neon-button" target="_blank">
-        💬 Mandá tu saludo
-      </a>
-      <a href="#" class="neon-button" id="requestBtn">
-        🎵 Pedí tu canción
-      </a>
+   </div>
+   <div class="cta-buttons">
+    <a class="neon-button" href="https://wa.me/50684794991" target="_blank">
+     💬 Mandá tu saludo
+    </a>
+    <a class="neon-button" href="#" id="requestBtn">
+     🎵 Pedí tu canción
+    </a>
+   </div>
+   <nav class="navigation">
+    <a class="nav-link" href="#programas">
+     Programas
+    </a>
+    <a class="nav-link" href="#equipo">
+     Equipo
+    </a>
+    <a class="nav-link" href="https://facebook.com/lexxradio" target="_blank">
+     Facebook
+    </a>
+    <a class="nav-link" href="https://www.lexxradio.com" target="_blank">
+     Sitio Web
+    </a>
+   </nav>
+   <section id="programas">
+    <h2 class="neon-text" style="font-size: 26px; color: #00f0ff;">
+     📺 Nuestros Programas
+    </h2>
+    <div class="scroll-wrapper">
+     <div class="card" data-aos="fade-up">
+      <img alt="Artista de la Semana" src="artista.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #7c4dff;">
+        Artista de la Semana
+       </h3>
+       <p>
+        Celebramos la trayectoria de un artista legendario con sus éxitos.
+       </p>
+       <p style="color: #ccc;">
+        Sábados · 9:00 a.m. - 11:00 a.m.
+       </p>
+      </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="LEXTRONICA" src="lextronica.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #00f0ff;">
+        LEXTRONICA
+       </h3>
+       <p>
+        Lo mejor del Eurodance y electrónica de los 90s, 2000s y más.
+       </p>
+       <p style="color: #ccc;">
+        Sábados · 10:00 a.m. - 12:00 p.m.
+       </p>
+      </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="POPSTART" src="startpop.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #ffc107;">
+        POPSTART
+       </h3>
+       <p>
+        Pop en inglés y español de los 80s, 90s y 2000s.
+       </p>
+       <p style="color: #ccc;">
+        Lunes a viernes · 9:00 a.m. - 11:00 a.m.
+       </p>
+      </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="Concierto para Enamorados" src="concierto.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #f06292;">
+        Concierto para Enamorados
+       </h3>
+       <p>
+        Baladas del pop y el rock romántico para suspirar.
+       </p>
+       <p style="color: #ccc;">
+        Lunes a viernes · 5:00 p.m. - 6:00 p.m.
+       </p>
+      </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="RETROVIBES" src="retrovibe.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #00e676;">
+        RETROVIBES
+       </h3>
+       <p>
+        Éxitos de los 80s, 90s y 2000s para viajar al pasado.
+       </p>
+       <p style="color: #ccc;">
+        Sábados · 1:00 p.m. - 2:00 p.m.
+       </p>
+      </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="RAMix Total" src="RAMix_Total_Poster_Web.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #ff4081;">
+        RAMix Total
+       </h3>
+       <p>
+        Mix explosivo con DJ RAM. Todos los géneros y pura energía.
+       </p>
+       <p style="color: #ccc;">
+        Sábados · 7:00 p.m. - 9:00 p.m.
+       </p>
+      </div>
+     </div>
     </div>
-
-    <nav class="navigation">
-      <a href="#programas" class="nav-link">Programas</a>
-      <a href="#equipo" class="nav-link">Equipo</a>
-      <a href="https://facebook.com/lexxradio" class="nav-link" target="_blank">Facebook</a>
-      <a href="https://www.lexxradio.com" class="nav-link" target="_blank">Sitio Web</a>
-    </nav>
-
-    <section id="programas" class="section">
-      <h2 class="section-title">📺 Nuestros Programas</h2>
-      <div class="cards-container">
-        <div class="card fade-in" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Artista de la Semana</h3>
-            <p class="card-description">Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
-            <p class="card-schedule">📅 Sábados · 9:00 - 11:00 AM</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="100">
-          <img src="lextronica.png" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">LEXTRONICA</h3>
-            <p class="card-description">Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
-            <p class="card-schedule">📅 Sábados · 10:00 AM - 12:00 PM</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="200">
-          <img src="startpop.png" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">STARTPOP</h3>
-            <p class="card-description">Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
-            <p class="card-schedule">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="300">
-          <img src="Concierto para Enamorados" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Concierto para Enamorados</h3>
-            <p class="card-description">Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
-            <p class="card-schedule">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="400">
-          <img src="retrovibe.png" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">RETROVIBES</h3>
-            <p class="card-description">Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
-            <p class="card-schedule">📅 Sábados · 1:00 - 2:00 PM</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="500">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">RAMix Total</h3>
-            <p class="card-description">Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
-            <p class="card-schedule">📅 Sábados · 7:00 - 9:00 PM</p>
-          </div>
-        </div>
+   </section>
+   <section id="equipo">
+    <h2 class="neon-text" style="font-size: 26px; color: #f39c12;">
+     🎤 Nuestro Equipo
+    </h2>
+    <div class="scroll-wrapper">
+     <div class="card" data-aos="fade-up">
+      <img alt="Alex" src="LEX.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #f39c12;">
+        Alex Salas
+       </h3>
+       <p>
+        Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro.
+       </p>
       </div>
-    </section>
-
-    <section id="equipo" class="section">
-      <h2 class="section-title">🎤 Nuestro Equipo</h2>
-      <div class="cards-container">
-        <div class="card fade-in" data-aos="fade-up">
-          <img src="LEX.png" alt="Alex" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Alex Salas</h3>
-            <p class="card-description">Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="100">
-          <img src="Jessica.png" alt="Jessica" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">Jessica</h3>
-            <p class="card-description">La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
-          </div>
-        </div>
-        
-        <div class="card fade-in" data-aos="fade-up" data-aos-delay="200">
-          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM" class="card-image">
-          <div class="card-content">
-            <h3 class="card-title">DJ RAM</h3>
-            <p class="card-description">El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
-          </div>
-        </div>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="Jessica" src="Jessica.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #00f0ff;">
+        Jessica
+       </h3>
+       <p>
+        La voz sexy elegante y energética de LEX RADIO.
+       </p>
       </div>
-    </section>
+     </div>
+     <div class="card" data-aos="fade-up">
+      <img alt="DJ RAM" src="RAMix_Total_Poster_Web.png"/>
+      <div style="padding: 15px;">
+       <h3 style="color: #e91e63;">
+        DJ RAM
+       </h3>
+       <p>
+        El maestro de las mezclas explosivas en RAMix Total.
+       </p>
+      </div>
+     </div>
+    </div>
+   </section>
   </main>
-
   <footer class="footer">
-    <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
-    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-      Diseñado con 💜 para los amantes de la música retro
-    </p>
+   <p>
+    © 2025 LexProductions. Todos los derechos reservados.
+   </p>
+   <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+    Diseñado con 💜 para los amantes de la música retro
+   </p>
   </footer>
-
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js">
+  </script>
   <script>
-    // Inicializar AOS
+   // Inicializar AOS
     AOS.init({ 
       duration: 800,
       easing: 'ease-out-cubic',
@@ -924,5 +989,5 @@
       observer.observe(el);
     });
   </script>
-</body>
+ </body>
 </html>
