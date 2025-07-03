@@ -1,6 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+<style>
+  body {
+    background: #0d0d0d;
+    color: #e0e0e0;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  header h1 {
+    text-align: center;
+    color: #00f0ff;
+    text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+  }
+
+  audio {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    background-color: #111;
+    box-shadow: 0 0 15px #0ff;
+  }
+
+  .scroll-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+    margin: 2em auto;
+    max-width: 1200px;
+  }
+
+  .scroll-wrapper img {
+    border: 2px solid #f0f;
+    border-radius: 15px;
+    box-shadow: 0 0 15px #f0f;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .scroll-wrapper img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #ff00ff;
+  }
+
+  section h2 {
+    text-align: center;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+
+  footer {
+    text-align: center;
+    color: #ccc;
+    padding: 1em;
+  }
+</style>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
@@ -687,9 +745,14 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 LexProductions. Todos los derechos reservados.</p>
+    <p>
+     © 2025 LexProductions. Todos los derechos reservados.
+    </p> 
+    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+    Diseñado con 💜 para los amantes de la música retro
+   </p>
   </footer>
-
+  
   <script>
     // Initialize AOS
     AOS.init({ 
