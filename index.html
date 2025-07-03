@@ -1,64 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<style>
-  body {
-    background: #0d0d0d;
-    color: #e0e0e0;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  header h1 {
-    text-align: center;
-    color: #00f0ff;
-    text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-  }
-
-  audio {
-    display: block;
-    margin: 0 auto;
-    margin-top: 1em;
-    border: 2px solid #0ff;
-    border-radius: 10px;
-    background-color: #111;
-    box-shadow: 0 0 15px #0ff;
-  }
-
-  .scroll-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5em;
-    margin: 2em auto;
-    max-width: 1200px;
-  }
-
-  .scroll-wrapper img {
-    border: 2px solid #f0f;
-    border-radius: 15px;
-    box-shadow: 0 0 15px #f0f;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .scroll-wrapper img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #ff00ff;
-  }
-
-  section h2 {
-    text-align: center;
-    color: #ff00ff;
-    text-shadow: 0 0 10px #ff00ff;
-  }
-
-  footer {
-    text-align: center;
-    color: #ccc;
-    padding: 1em;
-  }
-</style>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
@@ -95,7 +37,7 @@
 
   <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
 
   <style>
     * {
@@ -640,8 +582,8 @@
       </div>
       
       <div class="volume-control">
-        <span class="volume-icon">🔊</span>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+        <span class="volume-icon" aria-hidden="true">🔊</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7" aria-label="Control de volumen">
       </div>
     </div>
 
@@ -663,83 +605,83 @@
     </nav>
 
     <section id="programas">
-      <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
+      <h2 class="section-title">📺 Nuestros Programas</h2>
       <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana">
+        <article class="card" data-aos="fade-up">
+          <img src="artista.png" alt="Artista de la Semana" loading="lazy">
           <div class="card-content">
             <h3 style="color: #7c4dff;">Artista de la Semana</h3>
             <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
             <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="lextronica.png" alt="LEXTRONICA" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00f0ff;">LEXTRONICA</h3>
             <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
             <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="startpop.png" alt="POPSTART" loading="lazy">
           <div class="card-content">
             <h3 style="color: #ffc107;">POPSTART</h3>
             <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
             <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="concierto.png" alt="Concierto para Enamorados" loading="lazy">
           <div class="card-content">
             <h3 style="color: #f06292;">Concierto para Enamorados</h3>
             <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
             <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="retrovibe.png" alt="RETROVIBES" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00e676;">RETROVIBES</h3>
             <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
             <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total" loading="lazy">
           <div class="card-content">
             <h3 style="color: #ff4081;">RAMix Total</h3>
             <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
     <section id="equipo">
-      <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
+      <h2 class="section-title">🎤 Nuestro Equipo</h2>
       <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="LEX.png" alt="Alex">
+        <article class="card" data-aos="fade-up">
+          <img src="LEX.png" alt="Alex" loading="lazy">
           <div class="card-content">
             <h3 style="color: #f39c12;">Alex Salas</h3>
             <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="Jessica.png" alt="Jessica">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="Jessica.png" alt="Jessica" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00f0ff;">Jessica</h3>
             <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
           </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
+        </article>
+        <article class="card" data-aos="fade-up">
+          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM" loading="lazy">
           <div class="card-content">
             <h3 style="color: #e91e63;">DJ RAM</h3>
             <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   </main>
@@ -748,7 +690,7 @@
     <p>
      © 2025 LexProductions. Todos los derechos reservados.
     </p> 
-    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+    <p>
     Diseñado con 💜 para los amantes de la música retro
    </p>
   </footer>
