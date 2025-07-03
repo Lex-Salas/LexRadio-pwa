@@ -1,64 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<style>
-  body {
-    background: #0d0d0d;
-    color: #e0e0e0;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  header h1 {
-    text-align: center;
-    color: #00f0ff;
-    text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-  }
-
-  audio {
-    display: block;
-    margin: 0 auto;
-    margin-top: 1em;
-    border: 2px solid #0ff;
-    border-radius: 10px;
-    background-color: #111;
-    box-shadow: 0 0 15px #0ff;
-  }
-
-  .scroll-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5em;
-    margin: 2em auto;
-    max-width: 1200px;
-  }
-
-  .scroll-wrapper img {
-    border: 2px solid #f0f;
-    border-radius: 15px;
-    box-shadow: 0 0 15px #f0f;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .scroll-wrapper img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #ff00ff;
-  }
-
-  section h2 {
-    text-align: center;
-    color: #ff00ff;
-    text-shadow: 0 0 10px #ff00ff;
-  }
-
-  footer {
-    text-align: center;
-    color: #ccc;
-    padding: 1em;
-  }
-</style>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
@@ -114,6 +56,9 @@
       padding: 20px;
       min-height: 100vh;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     @keyframes neonBackground {
@@ -152,16 +97,30 @@
       100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
+    /* Container principal para centrar todo */
+    .main-container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
     header {
       position: relative;
-      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
     }
 
     header img {
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      margin-bottom: 20px;
       box-shadow: 0 0 30px #00f0ff, 0 0 60px rgba(0, 240, 255, 0.3);
       animation: pulse 2s ease-in-out infinite alternate;
       object-fit: cover;
@@ -176,8 +135,8 @@
       font-size: 3.5em;
       font-weight: 900;
       text-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12, 0 0 30px #f39c12;
-      margin-bottom: 10px;
       animation: neonGlow 2s ease-in-out infinite alternate;
+      text-align: center;
     }
 
     @keyframes neonGlow {
@@ -192,10 +151,9 @@
       color: #fff;
       padding: 15px 25px;
       border-radius: 25px;
-      margin: 20px auto;
-      display: inline-block;
       font-weight: 500;
       animation: statusPulse 3s ease-in-out infinite;
+      text-align: center;
     }
 
     @keyframes statusPulse {
@@ -203,18 +161,24 @@
       50% { transform: scale(1.02); }
     }
 
-    /* Modern Audio Player */
+    /* Modern Audio Player - Mejorado centrado */
     .audio-player {
       background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
       backdrop-filter: blur(20px);
       border: 2px solid rgba(0, 240, 255, 0.3);
       border-radius: 30px;
-      padding: 30px;
-      margin: 30px auto;
+      padding: 40px;
       max-width: 600px;
+      width: 100%;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px auto;
     }
 
     .audio-player::before {
@@ -238,36 +202,36 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 25px;
       position: relative;
       z-index: 1;
+      width: 100%;
     }
 
     .now-playing {
-      font-size: 1.2em;
+      font-size: 1.3em;
       font-weight: 700;
       color: #00f0ff;
       text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      text-align: center;
     }
 
     .audio-controls {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: 25px;
       position: relative;
       z-index: 1;
+      width: 100%;
     }
 
     .play-btn {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background: linear-gradient(135deg, #00f0ff, #0099cc);
       border: none;
       color: #000;
-      font-size: 30px;
+      font-size: 35px;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
@@ -290,20 +254,22 @@
     .volume-control {
       display: flex;
       align-items: center;
-      gap: 15px;
+      justify-content: center;
+      gap: 20px;
       position: relative;
       z-index: 1;
+      width: 100%;
     }
 
     .volume-icon {
-      font-size: 24px;
+      font-size: 26px;
       color: #00f0ff;
     }
 
     .volume-slider {
       -webkit-appearance: none;
       appearance: none;
-      width: 200px;
+      width: 250px;
       height: 8px;
       border-radius: 4px;
       background: linear-gradient(to right, #00f0ff 0%, #00f0ff var(--volume-percent, 100%), rgba(255,255,255,0.3) var(--volume-percent, 100%), rgba(255,255,255,0.3) 100%);
@@ -345,7 +311,6 @@
       justify-content: center;
       height: 60px;
       gap: 4px;
-      margin: 20px 0;
       position: relative;
       z-index: 1;
     }
@@ -382,13 +347,13 @@
       font-weight: 700;
       border-radius: 25px;
       cursor: pointer;
-      margin: 10px;
       transition: all 0.3s ease;
       box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
       text-decoration: none;
       display: inline-block;
       position: relative;
       overflow: hidden;
+      margin: 10px;
     }
 
     .neon-button:hover {
@@ -412,17 +377,22 @@
     }
 
     nav {
-      margin: 30px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      width: 100%;
     }
 
     nav a {
-      margin: 0 15px;
       color: #00f0ff;
       text-decoration: none;
       font-weight: 500;
       font-size: 16px;
       transition: all 0.3s ease;
       position: relative;
+      text-align: center;
     }
 
     nav a::after {
@@ -446,12 +416,39 @@
       width: 100%;
     }
 
+    .section-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .section-title {
+      font-size: 2.5em;
+      font-weight: 700;
+      position: relative;
+      text-align: center;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+      transform: translateX(-50%);
+    }
+
     .scroll-wrapper {
       display: flex;
-      overflow-x: auto;
       gap: 25px;
-      padding: 30px 0;
+      padding: 20px;
       justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
     }
 
     .scroll-wrapper::-webkit-scrollbar {
@@ -479,6 +476,8 @@
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     .card:hover {
@@ -496,42 +495,31 @@
 
     .card-content {
       padding: 20px;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
     }
 
     .card h3 {
-      margin: 0 0 10px 0;
       font-size: 1.3em;
       font-weight: 700;
+      margin: 0;
     }
 
     .card p {
-      margin: 0 0 8px 0;
+      margin: 0;
       line-height: 1.4;
     }
 
-    .section-title {
-      font-size: 2.5em;
-      font-weight: 700;
-      margin: 50px 0 30px 0;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #00f0ff, transparent);
-      transform: translateX(-50%);
-    }
-
     footer {
-      margin-top: 60px;
-      padding: 20px;
+      padding: 40px 20px;
       font-size: 14px;
       opacity: 0.8;
+      text-align: center;
+      width: 100%;
     }
 
     /* Install PWA Button */
@@ -574,26 +562,73 @@
         transform: scale(1.02);
       }
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 10px;
+        gap: 30px;
+      }
+      
       .neon-text {
         font-size: 2.5em;
       }
       
       .audio-player {
-        padding: 20px;
-        margin: 20px 10px;
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      .volume-slider {
+        width: 180px;
+      }
+      
+      .scroll-wrapper {
+        justify-content: center;
+        padding: 10px;
+      }
+      
+      .card {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      nav {
+        gap: 20px;
+      }
+
+      .section-title {
+        font-size: 2em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .neon-text {
+        font-size: 2em;
+      }
+      
+      .audio-player {
+        padding: 20px 15px;
+        gap: 20px;
       }
       
       .volume-slider {
         width: 150px;
       }
       
-      .scroll-wrapper {
-        justify-content: flex-start;
-        padding-left: 20px;
+      .play-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
       }
       
-      .card {
-        width: 250px;
+      nav {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .section-title {
+        font-size: 1.8em;
       }
     }
   </style>
@@ -607,151 +642,153 @@
     📱 Instalar App
   </button>
 
-  <header>
-    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
-    <h1 class="neon-text">LEX Radio</h1>
-    <div class="status-bar">
-      <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
-    </div>
-  </header>
-
-  <main>
-    <!-- Modern Audio Player -->
-    <div class="audio-player" data-aos="fade-up">
-      <div class="player-header">
-        <div class="now-playing">🎵 LEX RADIO - EN VIVO</div>
+  <div class="main-container">
+    <header>
+      <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
+      <h1 class="neon-text">LEX Radio</h1>
+      <div class="status-bar">
+        <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
       </div>
-      
-      <div class="audio-controls">
-        <button class="play-btn" id="playBtn">▶️</button>
-      </div>
-      
-      <div class="visualizer" id="visualizer">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-      
-      <div class="volume-control">
-        <span class="volume-icon">🔊</span>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
-      </div>
-    </div>
+    </header>
 
-    <!-- Hidden audio element -->
-    <audio id="radio" preload="none">
-      <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
-      Tu navegador no soporta audio en línea.
-    </audio>
-
-    <button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
-      💬 Mandá tu saludo
-    </button>
-
-    <nav>
-      <a href="#programas">Programas</a>
-      <a href="#equipo">Equipo</a>
-      <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
-      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
-    </nav>
-
-    <section id="programas">
-      <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
-      <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana">
-          <div class="card-content">
-            <h3 style="color: #7c4dff;">Artista de la Semana</h3>
-            <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
-            <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
-          </div>
+    <main>
+      <!-- Modern Audio Player -->
+      <div class="audio-player" data-aos="fade-up">
+        <div class="player-header">
+          <div class="now-playing">🎵 LEX RADIO - EN VIVO</div>
         </div>
-        <div class="card" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA">
-          <div class="card-content">
-            <h3 style="color: #00f0ff;">LEXTRONICA</h3>
-            <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
-            <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
-          </div>
+        
+        <div class="audio-controls">
+          <button class="play-btn" id="playBtn">▶️</button>
         </div>
-        <div class="card" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART">
-          <div class="card-content">
-            <h3 style="color: #ffc107;">POPSTART</h3>
-            <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
-            <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
-          </div>
+        
+        <div class="visualizer" id="visualizer">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
         </div>
-        <div class="card" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados">
-          <div class="card-content">
-            <h3 style="color: #f06292;">Concierto para Enamorados</h3>
-            <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
-            <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES">
-          <div class="card-content">
-            <h3 style="color: #00e676;">RETROVIBES</h3>
-            <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
-            <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
-          <div class="card-content">
-            <h3 style="color: #ff4081;">RAMix Total</h3>
-            <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
-            <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
-          </div>
+        
+        <div class="volume-control">
+          <span class="volume-icon">🔊</span>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
         </div>
       </div>
-    </section>
 
-    <section id="equipo">
-      <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
-      <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="LEX.png" alt="Alex">
-          <div class="card-content">
-            <h3 style="color: #f39c12;">Alex Salas</h3>
-            <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="Jessica.png" alt="Jessica">
-          <div class="card-content">
-            <h3 style="color: #00f0ff;">Jessica</h3>
-            <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
-          <div class="card-content">
-            <h3 style="color: #e91e63;">DJ RAM</h3>
-            <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+      <!-- Hidden audio element -->
+      <audio id="radio" preload="none">
+        <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+        Tu navegador no soporta audio en línea.
+      </audio>
 
-  <footer>
-    <p>
-     © 2025 LexProductions. Todos los derechos reservados.
-    </p> 
-    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-    Diseñado con 💜 para los amantes de la música retro
-   </p>
-  </footer>
+      <button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
+        💬 Mandá tu saludo
+      </button>
+
+      <nav>
+        <a href="#programas">Programas</a>
+        <a href="#equipo">Equipo</a>
+        <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
+        <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+      </nav>
+
+      <section id="programas" class="section-container">
+        <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
+        <div class="scroll-wrapper">
+          <div class="card" data-aos="fade-up">
+            <img src="artista.png" alt="Artista de la Semana">
+            <div class="card-content">
+              <h3 style="color: #7c4dff;">Artista de la Semana</h3>
+              <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
+              <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="lextronica.png" alt="LEXTRONICA">
+            <div class="card-content">
+              <h3 style="color: #00f0ff;">LEXTRONICA</h3>
+              <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
+              <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="startpop.png" alt="POPSTART">
+            <div class="card-content">
+              <h3 style="color: #ffc107;">POPSTART</h3>
+              <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
+              <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="concierto.png" alt="Concierto para Enamorados">
+            <div class="card-content">
+              <h3 style="color: #f06292;">Concierto para Enamorados</h3>
+              <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
+              <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="retrovibe.png" alt="RETROVIBES">
+            <div class="card-content">
+              <h3 style="color: #00e676;">RETROVIBES</h3>
+              <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
+              <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+            <div class="card-content">
+              <h3 style="color: #ff4081;">RAMix Total</h3>
+              <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
+              <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="equipo" class="section-container">
+        <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
+        <div class="scroll-wrapper">
+          <div class="card" data-aos="fade-up">
+            <img src="LEX.png" alt="Alex">
+            <div class="card-content">
+              <h3 style="color: #f39c12;">Alex Salas</h3>
+              <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="Jessica.png" alt="Jessica">
+            <div class="card-content">
+              <h3 style="color: #00f0ff;">Jessica</h3>
+              <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
+            </div>
+          </div>
+          <div class="card" data-aos="fade-up">
+            <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
+            <div class="card-content">
+              <h3 style="color: #e91e63;">DJ RAM</h3>
+              <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+       © 2025 LexProductions. Todos los derechos reservados.
+      </p> 
+      <p style="margin-top: 0.5rem; color: #ccc; font-size: 0.9rem;">
+      Diseñado con 💜 para los amantes de la música retro
+     </p>
+    </footer>
+  </div>
   
   <script>
     // Initialize AOS
@@ -778,159 +815,3 @@
     // Audio player functionality
     const radio = document.getElementById('radio');
     const playBtn = document.getElementById('playBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const visualizer = document.getElementById('visualizer');
-    const statusText = document.getElementById('status-text');
-    
-    let isPlaying = false;
-    let isLoading = false;
-
-    // Set initial volume
-    radio.volume = volumeSlider.value;
-    updateVolumeSlider();
-
-    // Play/Pause functionality
-    playBtn.addEventListener('click', togglePlay);
-
-    function togglePlay() {
-      if (isLoading) return;
-      
-      if (isPlaying) {
-        radio.pause();
-        playBtn.innerHTML = '▶️';
-        isPlaying = false;
-        statusText.textContent = '🎶 LEX RADIO - Pausado';
-        stopVisualizer();
-      } else {
-        isLoading = true;
-        playBtn.innerHTML = '⏳';
-        statusText.textContent = '🔄 Conectando...';
-        
-        radio.load();
-        radio.play().then(() => {
-          playBtn.innerHTML = '⏸️';
-          isPlaying = true;
-          isLoading = false;
-          statusText.textContent = '🎶 EN VIVO - Tus Recuerdos En El Presente';
-          startVisualizer();
-        }).catch(error => {
-          console.error('Error playing audio:', error);
-          playBtn.innerHTML = '▶️';
-          isLoading = false;
-          statusText.textContent = '❌ Error de conexión';
-        });
-      }
-    }
-
-    // Volume control
-    volumeSlider.addEventListener('input', () => {
-      radio.volume = volumeSlider.value;
-      updateVolumeSlider();
-    });
-
-    function updateVolumeSlider() {
-      const percentage = (volumeSlider.value * 100) + '%';
-      volumeSlider.style.setProperty('--volume-percent', percentage);
-    }
-
-    // Visualizer animation
-    function startVisualizer() {
-      const bars = visualizer.querySelectorAll('.bar');
-      bars.forEach(bar => {
-        bar.style.animationPlayState = 'running';
-      });
-    }
-
-    function stopVisualizer() {
-      const bars = visualizer.querySelectorAll('.bar');
-      bars.forEach(bar => {
-        bar.style.animationPlayState = 'paused';
-        bar.style.height = '10px';
-      });
-    }
-
-    // Error handling
-    radio.addEventListener('error', () => {
-      playBtn.innerHTML = '▶️';
-      isPlaying = false;
-      isLoading = false;
-      statusText.textContent = '❌ Error de transmisión';
-      stopVisualizer();
-    });
-
-    // PWA Install functionality
-    let deferredPrompt;
-    const installButton = document.getElementById('installButton');
-
-    // Check if PWA is already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      installButton.style.display = 'none';
-    }
-
-    // Listen for the beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later
-      deferredPrompt = e;
-      // Show the install button
-      installButton.classList.add('show');
-    });
-
-    // Handle install button click
-    installButton.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-          console.log('PWA installed');
-          installButton.style.display = 'none';
-        }
-        // Clear the deferredPrompt variable
-        deferredPrompt = null;
-      } else {
-        // Fallback for browsers that don't support PWA installation
-        // or when the app is already installed
-        if (navigator.share) {
-          navigator.share({
-            title: 'LEX Radio',
-            text: 'Tus recuerdos en el presente',
-            url: window.location.href
-          });
-        } else {
-          // Copy URL to clipboard as fallback
-          navigator.clipboard.writeText(window.location.href).then(() => {
-            alert('¡URL copiada! Puedes agregarla a tu pantalla de inicio desde el menú de tu navegador.');
-          });
-        }
-      }
-    });
-
-    // Hide install button when PWA is installed
-    window.addEventListener('appinstalled', () => {
-      installButton.style.display = 'none';
-      console.log('PWA was installed');
-    });
-
-    // Initialize particles
-    createParticles();
-
-    // Smooth scrolling for navigation
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  </script>
-</body>
-</html>
