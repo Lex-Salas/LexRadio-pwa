@@ -965,45 +965,6 @@
         }
       });
     });
-  
-// 👇 NUEVA FUNCIÓN: METADATOS + COVER ART
-const titleElement = document.querySelector('.now-playing');
-const coverContainer = document.createElement('div');
-const audioPlayer = document.querySelector('.audio-player');
-
-coverContainer.id = 'cover-art';
-coverContainer.style.marginTop = '15px';
-coverContainer.innerHTML = '<img src="" alt="Cover Art" style="max-width: 200px; border-radius: 15px; box-shadow: 0 0 20px #00f0ff;">';
-audioPlayer.appendChild(coverContainer);
-
-async function updateMetadata() {
-  try {
-    const response = await fetch('http://34.60.146.233:8000/status-json.xsl');
-    const data = await response.json();
-    const currentTitle = data.icestats.source.title;
-
-    if (titleElement) {
-      titleElement.textContent = `🎵 ${currentTitle}`;
-    }
-
-    const artwork = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(currentTitle)}&entity=song&limit=1`);
-    const artworkData = await artwork.json();
-    if (artworkData.results && artworkData.results.length > 0) {
-      const coverURL = artworkData.results[0].artworkUrl100.replace('100x100', '300x300');
-      document.querySelector('#cover-art img').src = coverURL;
-    } else {
-      document.querySelector('#cover-art img').src = 'https://i.imgur.com/8zBqVhy.png';
-    }
-
-  } catch (error) {
-    console.error('Error obteniendo metadatos:', error);
-    titleElement.textContent = '🎵 LEX RADIO - EN VIVO';
-  }
-}
-
-setInterval(updateMetadata, 15000);
-updateMetadata();
-
-</script>
+  </script>
 </body>
 </html>
