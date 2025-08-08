@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 
@@ -89,7 +90,9 @@
   <meta name="theme-color" content="#000428"/>
 
   <!-- OneSignal Push Notifications -->
+
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
@@ -102,6 +105,7 @@
   </script>
 
   <!-- Service Worker -->
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
@@ -115,6 +119,7 @@
   </script>
 
   <!-- AOS CSS -->
+
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
@@ -268,11 +273,39 @@
       z-index: 1;
     }
 
+    /* Cover Art Styles */
+    .cover-art-container {
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+
+    .cover-art {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      border: 2px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .cover-art.show {
+      display: block;
+    }
+
+    .cover-art:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(0, 240, 255, 0.4);
+    }
+
     .now-playing {
       font-size: 1.2em;
       font-weight: 700;
       color: #00f0ff;
       text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      flex: 1;
+      transition: opacity 0.3s ease-in-out;
     }
 
     .audio-controls {
@@ -631,12 +664,14 @@
       }
     }
   </style>
+
 </head>
 <body onload="AOS.init()">
   <!-- Animated particles background -->
   <div class="particles" id="particles"></div>
 
   <!-- Install PWA Button -->
+
   <button class="install-button" id="installButton">
     📱 Instalar App
   </button>
@@ -653,129 +688,135 @@
     <!-- Modern Audio Player -->
     <div class="audio-player" data-aos="fade-up">
       <div class="player-header">
-        <div class="now-playing">🎵 LEX RADIO - EN VIVO</div>
+        <div class="cover-art-container">
+          <img class="cover-art" id="coverArt" src="" alt="Album Cover">
+        </div>
+        <div class="now-playing" id="nowPlaying">🎵 LEX RADIO - EN VIVO</div>
       </div>
-      
-      <div class="audio-controls">
-        <button class="play-btn" id="playBtn">▶️</button>
-      </div>
-      
-      <div class="visualizer" id="visualizer">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-      
-      <div class="volume-control">
-        <span class="volume-icon">🔊</span>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+
+```
+  <div class="audio-controls">
+    <button class="play-btn" id="playBtn">▶️</button>
+  </div>
+  
+  <div class="visualizer" id="visualizer">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  
+  <div class="volume-control">
+    <span class="volume-icon">🔊</span>
+    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+  </div>
+</div>
+
+<!-- Hidden audio element -->
+<audio id="radio" preload="none">
+  <source src="http://34.60.146.233:8000/lexradio" type="audio/mpeg">
+  Tu navegador no soporta audio en línea.
+</audio>
+
+<button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
+  💬 Mandá tu saludo
+</button>
+
+<nav>
+  <a href="#programas">Programas</a>
+  <a href="#equipo">Equipo</a>
+  <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
+  <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+</nav>
+
+<section id="programas">
+  <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
+  <div class="scroll-wrapper">
+    <div class="card" data-aos="fade-up">
+      <img src="artista.png" alt="Artista de la Semana">
+      <div class="card-content">
+        <h3 style="color: #7c4dff;">Artista de la Semana</h3>
+        <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
+        <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
       </div>
     </div>
-
-    <!-- Hidden audio element -->
-    <audio id="radio" preload="none">
-      <source src="https://stream.lexxradio.com/lexradio" type="audio/mpeg">
-      Tu navegador no soporta audio en línea.
-    </audio>
-
-    <button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
-      💬 Mandá tu saludo
-    </button>
-
-    <nav>
-      <a href="#programas">Programas</a>
-      <a href="#equipo">Equipo</a>
-      <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
-      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
-    </nav>
-
-    <section id="programas">
-      <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
-      <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="artista.png" alt="Artista de la Semana">
-          <div class="card-content">
-            <h3 style="color: #7c4dff;">Artista de la Semana</h3>
-            <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
-            <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="lextronica.png" alt="LEXTRONICA">
-          <div class="card-content">
-            <h3 style="color: #00f0ff;">LEXTRONICA</h3>
-            <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
-            <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="startpop.png" alt="POPSTART">
-          <div class="card-content">
-            <h3 style="color: #ffc107;">POPSTART</h3>
-            <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
-            <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="concierto.png" alt="Concierto para Enamorados">
-          <div class="card-content">
-            <h3 style="color: #f06292;">Concierto para Enamorados</h3>
-            <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
-            <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="retrovibe.png" alt="RETROVIBES">
-          <div class="card-content">
-            <h3 style="color: #00e676;">RETROVIBES</h3>
-            <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
-            <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
-          <div class="card-content">
-            <h3 style="color: #ff4081;">RAMix Total</h3>
-            <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
-            <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
-          </div>
-        </div>
+    <div class="card" data-aos="fade-up">
+      <img src="lextronica.png" alt="LEXTRONICA">
+      <div class="card-content">
+        <h3 style="color: #00f0ff;">LEXTRONICA</h3>
+        <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
+        <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
       </div>
-    </section>
-
-    <section id="equipo">
-      <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
-      <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
-          <img src="LEX.png" alt="Alex">
-          <div class="card-content">
-            <h3 style="color: #f39c12;">Alex Salas</h3>
-            <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="Jessica.png" alt="Jessica">
-          <div class="card-content">
-            <h3 style="color: #00f0ff;">Jessica</h3>
-            <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
-          </div>
-        </div>
-        <div class="card" data-aos="fade-up">
-          <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
-          <div class="card-content">
-            <h3 style="color: #e91e63;">DJ RAM</h3>
-            <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
-          </div>
-        </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="startpop.png" alt="POPSTART">
+      <div class="card-content">
+        <h3 style="color: #ffc107;">POPSTART</h3>
+        <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
+        <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
       </div>
-    </section>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="concierto.png" alt="Concierto para Enamorados">
+      <div class="card-content">
+        <h3 style="color: #f06292;">Concierto para Enamorados</h3>
+        <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
+        <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="retrovibe.png" alt="RETROVIBES">
+      <div class="card-content">
+        <h3 style="color: #00e676;">RETROVIBES</h3>
+        <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
+        <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+      <div class="card-content">
+        <h3 style="color: #ff4081;">RAMix Total</h3>
+        <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
+        <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="equipo">
+  <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
+  <div class="scroll-wrapper">
+    <div class="card" data-aos="fade-up">
+      <img src="LEX.png" alt="Alex">
+      <div class="card-content">
+        <h3 style="color: #f39c12;">Alex Salas</h3>
+        <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="Jessica.png" alt="Jessica">
+      <div class="card-content">
+        <h3 style="color: #00f0ff;">Jessica</h3>
+        <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
+      <div class="card-content">
+        <h3 style="color: #e91e63;">DJ RAM</h3>
+        <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
   </main>
 
   <footer>
@@ -786,8 +827,20 @@
     Diseñado con 💜 para los amantes de la música retro
    </p>
   </footer>
-  
+
   <script>
+    // === LEX RADIO METADATA & COVER ART SYSTEM ===
+    
+    // Configuración del servidor Icecast
+    const ICECAST_SERVER = 'http://34.60.146.233:8000';
+    const METADATA_URL = `${ICECAST_SERVER}/status-json.xsl`;
+    const STREAM_MOUNT = '/lexradio';
+
+    // Cache para cover arts y estado actual
+    let coverArtCache = new Map();
+    let currentTrackInfo = null;
+    let metadataInterval = null;
+
     // Initialize AOS
     AOS.init({ 
       duration: 1000,
@@ -809,7 +862,248 @@
       }
     }
 
-    // Audio player functionality
+    // === METADATA FUNCTIONS ===
+
+    // Función para obtener metadatos de Lex Radio
+    async function getLexRadioMetadata() {
+      try {
+        const response = await fetch(METADATA_URL);
+        const data = await response.json();
+        
+        let lexMount = null;
+        
+        if (data.icestats && data.icestats.source) {
+          if (Array.isArray(data.icestats.source)) {
+            lexMount = data.icestats.source.find(source => 
+              source.listenurl && source.listenurl.includes(STREAM_MOUNT)
+            );
+          } else {
+            lexMount = data.icestats.source;
+          }
+        }
+        
+        if (lexMount) {
+          const titleParts = parseTrackTitle(lexMount.title || 'LEX RADIO - EN VIVO');
+          
+          return {
+            title: titleParts.title,
+            artist: titleParts.artist,
+            rawTitle: lexMount.title,
+            listeners: lexMount.listeners || 0,
+            bitrate: lexMount.bitrate || 128,
+            server_name: lexMount.server_name || 'LEX RADIO',
+            genre: lexMount.genre || 'Variado'
+          };
+        } else {
+          return {
+            title: 'LEX RADIO - EN VIVO',
+            artist: '',
+            rawTitle: 'LEX RADIO - EN VIVO',
+            listeners: 0,
+            bitrate: 128,
+            server_name: 'LEX RADIO',
+            genre: 'Variado'
+          };
+        }
+        
+      } catch (error) {
+        console.warn('Error obteniendo metadatos de Lex Radio:', error);
+        return {
+          title: 'LEX RADIO - EN VIVO',
+          artist: '',
+          rawTitle: 'LEX RADIO - EN VIVO',
+          listeners: 0,
+          bitrate: 128,
+          server_name: 'LEX RADIO',
+          genre: 'Variado'
+        };
+      }
+    }
+
+    // Función para parsear título y extraer artista/canción
+    function parseTrackTitle(title) {
+      const separators = [' - ', ' – ', ' — ', ' | ', ': '];
+      
+      for (const separator of separators) {
+        if (title.includes(separator)) {
+          const parts = title.split(separator);
+          if (parts.length >= 2) {
+            return {
+              artist: parts[0].trim(),
+              title: parts.slice(1).join(separator).trim()
+            };
+          }
+        }
+      }
+      
+      return {
+        artist: '',
+        title: title.trim()
+      };
+    }
+
+    // === COVER ART FUNCTIONS ===
+
+    // Función para obtener cover art desde múltiples APIs
+    async function getCoverArt(artist, title) {
+      const cacheKey = `${artist}-${title}`.toLowerCase();
+      
+      if (coverArtCache.has(cacheKey)) {
+        return coverArtCache.get(cacheKey);
+      }
+      
+      let coverUrl = null;
+      
+      try {
+        coverUrl = await getCoverFromDeezer(artist, title);
+        
+        if (!coverUrl) {
+          coverUrl = await getCoverFromItunes(artist, title);
+        }
+        
+        if (!coverUrl) {
+          coverUrl = 'https://i.imgur.com/BhXCsFa.png'; // Logo de Lex Radio
+        }
+        
+      } catch (error) {
+        console.warn('Error obteniendo cover art:', error);
+        coverUrl = 'https://i.imgur.com/BhXCsFa.png';
+      }
+      
+      coverArtCache.set(cacheKey, coverUrl);
+      return coverUrl;
+    }
+
+    // Obtener cover desde Deezer
+    async function getCoverFromDeezer(artist, title) {
+      try {
+        const query = encodeURIComponent(`${artist} ${title}`);
+        const response = await fetch(`https://api.deezer.com/search?q=${query}&limit=1`);
+        const data = await response.json();
+        
+        if (data.data && data.data.length > 0) {
+          const track = data.data[0];
+          if (track.album && track.album.cover_medium) {
+            return track.album.cover_medium;
+          }
+        }
+      } catch (error) {
+        console.warn('Error con Deezer API:', error);
+      }
+      return null;
+    }
+
+    // Obtener cover desde iTunes
+    async function getCoverFromItunes(artist, title) {
+      try {
+        const query = encodeURIComponent(`${artist} ${title}`);
+        const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+        const data = await response.json();
+        
+        if (data.results && data.results.length > 0) {
+          const track = data.results[0];
+          if (track.artworkUrl100) {
+            return track.artworkUrl100.replace('100x100', '300x300');
+          }
+        }
+      } catch (error) {
+        console.warn('Error con iTunes API:', error);
+      }
+      return null;
+    }
+
+    // Función para actualizar cover art
+    async function updateCoverArt(artist, title) {
+      const coverImg = document.getElementById('coverArt');
+      
+      if (!artist || !title || title === 'LEX RADIO - EN VIVO') {
+        coverImg.classList.remove('show');
+        return;
+      }
+      
+      try {
+        coverImg.style.opacity = '0.5';
+        
+        const coverUrl = await getCoverArt(artist, title);
+        
+        if (coverUrl) {
+          coverImg.src = coverUrl;
+          coverImg.alt = `${artist} - ${title}`;
+          coverImg.classList.add('show');
+          coverImg.style.opacity = '1';
+          
+          coverImg.style.transform = 'scale(0.8)';
+          setTimeout(() => {
+            coverImg.style.transform = 'scale(1)';
+          }, 100);
+        }
+        
+      } catch (error) {
+        console.warn('Error actualizando cover art:', error);
+        coverImg.style.opacity = '1';
+      }
+    }
+
+    // Función para actualizar la interfaz completa
+    async function updateNowPlaying(metadata) {
+      const nowPlayingElement = document.getElementById('nowPlaying');
+      
+      if (nowPlayingElement) {
+        let displayText = '';
+        
+        if (metadata.artist && metadata.title && metadata.title !== 'LEX RADIO - EN VIVO') {
+          displayText = `🎵 ${metadata.artist} - ${metadata.title}`;
+          await updateCoverArt(metadata.artist, metadata.title);
+        } else if (metadata.title && metadata.title !== 'LEX RADIO - EN VIVO') {
+          displayText = `🎵 ${metadata.title}`;
+          await updateCoverArt('', metadata.title);
+        } else {
+          displayText = '🎵 LEX RADIO - EN VIVO';
+          const coverImg = document.getElementById('coverArt');
+          coverImg.classList.remove('show');
+        }
+        
+        if (metadata.listeners > 0) {
+          displayText += ` • ${metadata.listeners} oyentes`;
+        }
+        
+        nowPlayingElement.textContent = displayText;
+        
+        nowPlayingElement.style.opacity = '0.7';
+        setTimeout(() => {
+          nowPlayingElement.style.opacity = '1';
+        }, 300);
+      }
+    }
+
+    // Función para inicializar metadatos
+    async function initializeMetadata() {
+      console.log('🎙️ Inicializando metadatos y cover art de Lex Radio...');
+      const metadata = await getLexRadioMetadata();
+      currentTrackInfo = metadata;
+      await updateNowPlaying(metadata);
+    }
+
+    // Función para actualizar metadatos periódicamente
+    function startMetadataUpdates() {
+      initializeMetadata();
+      
+      metadataInterval = setInterval(async () => {
+        const metadata = await getLexRadioMetadata();
+        
+        if (!currentTrackInfo || 
+            currentTrackInfo.rawTitle !== metadata.rawTitle) {
+          console.log('🔄 Nueva canción detectada:', metadata.title);
+          currentTrackInfo = metadata;
+          await updateNowPlaying(metadata);
+        }
+      }, 30000);
+      
+      console.log('🔄 Actualizaciones iniciadas (cada 30s con cover art)');
+    }
+
+    // === AUDIO PLAYER FUNCTIONALITY ===
+    
     const radio = document.getElementById('radio');
     const playBtn = document.getElementById('playBtn');
     const volumeSlider = document.getElementById('volumeSlider');
@@ -835,6 +1129,10 @@
         isPlaying = false;
         statusText.textContent = '🎶 LEX RADIO - Pausado';
         stopVisualizer();
+        if (metadataInterval) {
+          clearInterval(metadataInterval);
+          metadataInterval = null;
+        }
       } else {
         isLoading = true;
         playBtn.innerHTML = '⏳';
@@ -847,6 +1145,7 @@
           isLoading = false;
           statusText.textContent = '🎶 EN VIVO - Tus Recuerdos En El Presente';
           startVisualizer();
+          startMetadataUpdates();
         }).catch(error => {
           console.error('Error playing audio:', error);
           playBtn.innerHTML = '▶️';
@@ -890,44 +1189,37 @@
       isLoading = false;
       statusText.textContent = '❌ Error de transmisión';
       stopVisualizer();
+      if (metadataInterval) {
+        clearInterval(metadataInterval);
+        metadataInterval = null;
+      }
     });
 
     // PWA Install functionality
     let deferredPrompt;
     const installButton = document.getElementById('installButton');
 
-    // Check if PWA is already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
       installButton.style.display = 'none';
     }
 
-    // Listen for the beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      // Stash the event so it can be triggered later
       deferredPrompt = e;
-      // Show the install button
       installButton.classList.add('show');
     });
 
-    // Handle install button click
     installButton.addEventListener('click', async () => {
       if (deferredPrompt) {
-        // Show the install prompt
         deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
         const { outcome } = await deferredPrompt.userChoice;
         
         if (outcome === 'accepted') {
           console.log('PWA installed');
           installButton.style.display = 'none';
         }
-        // Clear the deferredPrompt variable
         deferredPrompt = null;
       } else {
-        // Fallback for browsers that don't support PWA installation
-        // or when the app is already installed
         if (navigator.share) {
           navigator.share({
             title: 'LEX Radio',
@@ -935,7 +1227,6 @@
             url: window.location.href
           });
         } else {
-          // Copy URL to clipboard as fallback
           navigator.clipboard.writeText(window.location.href).then(() => {
             alert('¡URL copiada! Puedes agregarla a tu pantalla de inicio desde el menú de tu navegador.');
           });
@@ -943,7 +1234,6 @@
       }
     });
 
-    // Hide install button when PWA is installed
     window.addEventListener('appinstalled', () => {
       installButton.style.display = 'none';
       console.log('PWA was installed');
@@ -965,6 +1255,21 @@
         }
       });
     });
+
+    // Función para debugging
+    window.showCurrentTrack = function() {
+      if (currentTrackInfo) {
+        console.log('📻 Track actual:', currentTrackInfo);
+      }
+    };
+
+    // Precargar metadatos cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('✅ DOM cargado, precargando metadatos de Lex Radio');
+      // Solo precargar sin iniciar actualizaciones automáticas
+      initializeMetadata();
+    });
   </script>
+
 </body>
 </html>
