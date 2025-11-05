@@ -1,43 +1,85 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <!-- Google Tag Manager -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MG754S9D');
-  </script>
-  <!-- End Google Tag Manager -->
 
-  <style>
-    body {
-      background: #0d0d0d;
-      color: #e0e0e0;
-      font-family: 'Orbitron', sans-serif;
-    }
-    header h1 { text-align: center; color: #00f0ff; text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
-    audio {
-      display: block; margin: 0 auto; margin-top: 1em; border: 2px solid #0ff;
-      border-radius: 10px; background-color: #111; box-shadow: 0 0 15px #0ff;
-    }
-    .scroll-wrapper {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5em;
-      margin: 2em auto; max-width: 1200px;
-    }
-    .scroll-wrapper img {
-      border: 2px solid #f0f; border-radius: 15px;
-      box-shadow: 0 0 15px #f0f; transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .scroll-wrapper img:hover { transform: scale(1.05); box-shadow: 0 0 25px #ff00ff; }
-    section h2 { text-align: center; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
-    footer { text-align: center; color: #ccc; padding: 1em; }
-    .card img { margin-left: auto!important; margin-right: auto!important; display: block!important; }
-    .scroll-wrapper { display: flex; flex-wrap: wrap; justify-content: center!important;
-      align-items: center!important; gap: 20px; padding: 30px 10px; }
-    .card { margin-left: auto!important; margin-right: auto!important; text-align: center; }
-  </style>
+<style>
+  body {
+    background: #0d0d0d;
+    color: #e0e0e0;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  header h1 {
+    text-align: center;
+    color: #00f0ff;
+    text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+  }
+
+  audio {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    background-color: #111;
+    box-shadow: 0 0 15px #0ff;
+  }
+
+  .scroll-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+    margin: 2em auto;
+    max-width: 1200px;
+  }
+
+  .scroll-wrapper img {
+    border: 2px solid #f0f;
+    border-radius: 15px;
+    box-shadow: 0 0 15px #f0f;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .scroll-wrapper img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #ff00ff;
+  }
+
+  section h2 {
+    text-align: center;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+
+  footer {
+    text-align: center;
+    color: #ccc;
+    padding: 1em;
+  }
+
+.card img {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+.scroll-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 20px;
+  padding: 30px 10px;
+}
+
+.card {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+</style>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +90,9 @@
   <meta name="theme-color" content="#000428"/>
 
   <!-- OneSignal Push Notifications -->
+
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
@@ -61,39 +105,1171 @@
   </script>
 
   <!-- Service Worker -->
+
   <script>
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+
     window.addEventListener('load', () => {
-      if (!navigator.onLine) alert('Estás desconectado. Algunas funciones pueden no estar disponibles.');
+      if (!navigator.onLine) {
+        alert('Estás desconectado. Algunas funciones pueden no estar disponibles.');
+      }
     });
   </script>
 
   <!-- AOS CSS -->
+
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <!-- ... resto de tu CSS y estilos existentes ... -->
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(45deg, #ff0099, #66ccff, #ffcc00, #00ff66, #ff6600, #9966ff);
+      background-size: 400% 400%;
+      animation: neonBackground 8s ease infinite;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    @keyframes neonBackground {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 100% 50%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 50% 100%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Animated particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #00f0ff;
+      border-radius: 50%;
+      animation: float 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    header img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px #00f0ff, 0 0 60px rgba(0, 240, 255, 0.3);
+      animation: pulse 2s ease-in-out infinite alternate;
+      object-fit: cover;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 30px #00f0ff, 0 0 60px rgba(0, 240, 255, 0.3); }
+      100% { transform: scale(1.05); box-shadow: 0 0 40px #00f0ff, 0 0 80px rgba(0, 240, 255, 0.5); }
+    }
+
+    .neon-text {
+      font-size: 3.5em;
+      font-weight: 900;
+      text-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12, 0 0 30px #f39c12;
+      margin-bottom: 10px;
+      animation: neonGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes neonGlow {
+      0% { text-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12, 0 0 30px #f39c12; }
+      100% { text-shadow: 0 0 15px #f39c12, 0 0 25px #f39c12, 0 0 35px #f39c12, 0 0 45px #f39c12; }
+    }
+
+    .status-bar {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(243, 156, 18, 0.2));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 25px;
+      margin: 20px auto;
+      display: inline-block;
+      font-weight: 500;
+      animation: statusPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Modern Audio Player */
+    .audio-player {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 95vw;
+
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(0, 240, 255, 0.3);
+      border-radius: 30px;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 600px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audio-player::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+      animation: shimmer 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .player-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Cover Art Styles */
+    .cover-art-container {
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+
+    .cover-art {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      border: 2px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .cover-art.show {
+      display: block;
+    }
+
+    .cover-art:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(0, 240, 255, 0.4);
+    }
+
+    .now-playing {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #00f0ff;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      flex: 1;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .play-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00f0ff, #0099cc);
+      border: none;
+      color: #000;
+      font-size: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 35px rgba(0, 240, 255, 0.5);
+    }
+
+    .play-btn:active {
+      transform: scale(0.95);
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .volume-icon {
+      font-size: 24px;
+      color: #00f0ff;
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 200px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, #00f0ff 0%, #00f0ff var(--volume-percent, 100%), rgba(255,255,255,0.3) var(--volume-percent, 100%), rgba(255,255,255,0.3) 100%);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #00f0ff;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+      transition: all 0.3s ease;
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 1);
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #00f0ff;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+    }
+
+    /* Visualizer */
+    .visualizer {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      height: 60px;
+      gap: 4px;
+      margin: 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bar {
+      width: 6px;
+      background: linear-gradient(to top, #f39c12, #00f0ff);
+      border-radius: 3px;
+      animation: visualize 0.5s ease-in-out infinite alternate;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+    .bar:nth-child(6) { animation-delay: 0.5s; }
+    .bar:nth-child(7) { animation-delay: 0.4s; }
+    .bar:nth-child(8) { animation-delay: 0.3s; }
+    .bar:nth-child(9) { animation-delay: 0.2s; }
+    .bar:nth-child(10) { animation-delay: 0.1s; }
+
+    @keyframes visualize {
+      0% { height: 10px; }
+      100% { height: 50px; }
+    }
+
+    .neon-button {
+      background: linear-gradient(135deg, #00f0ff, #0099cc);
+      border: none;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .neon-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 240, 255, 0.5);
+    }
+
+    .neon-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .neon-button:hover::before {
+      left: 100%;
+    }
+
+    nav {
+      margin: 30px 0;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #00f0ff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .scroll-wrapper {
+      display: flex;
+      overflow-x: auto;
+      gap: 25px;
+      padding: 30px 0;
+      justify-content: center;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-thumb {
+      background: #00f0ff;
+      border-radius: 4px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 25px;
+      overflow: hidden;
+      width: 280px;
+      flex: 0 0 auto;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 240, 255, 0.2);
+      border-color: rgba(0, 240, 255, 0.6);
+    }
+
+    .card img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.3em;
+      font-weight: 700;
+    }
+
+    .card p {
+      margin: 0 0 8px 0;
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 2.5em;
+      font-weight: 700;
+      margin: 50px 0 30px 0;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+      transform: translateX(-50%);
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* Install PWA Button */
+    .install-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ff0099, #ff6600);
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 0, 153, 0.4);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: none;
+      font-family: 'Orbitron', sans-serif;
+      animation: installPulse 2s ease-in-out infinite;
+    }
+
+    .install-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(255, 0, 153, 0.6);
+    }
+
+    .install-button.show {
+      display: block;
+    }
+
+    @keyframes installPulse {
+      0%, 100% { 
+        box-shadow: 0 8px 20px rgba(255, 0, 153, 0.4);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 8px 25px rgba(255, 0, 153, 0.7);
+        transform: scale(1.02);
+      }
+    }
+      .neon-text {
+        font-size: 2.5em;
+      }
+      
+      .audio-player {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 95vw;
+
+        padding: 20px;
+        margin: 20px 10px;
+      }
+      
+      .volume-slider {
+        width: 150px;
+      }
+      
+      .scroll-wrapper {
+        justify-content: flex-start;
+        padding-left: 20px;
+      }
+      
+      .card {
+        width: 250px;
+      }
+    }
+  </style>
+
 </head>
-
 <body onload="AOS.init()">
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG754S9D"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
-  <!-- 🔽 Aquí sigue todo el contenido original de tu página -->
   <!-- Animated particles background -->
   <div class="particles" id="particles"></div>
-  <button class="install-button" id="installButton">📱 Instalar App</button>
+
+  <!-- Install PWA Button -->
+
+  <button class="install-button" id="installButton">
+    📱 Instalar App
+  </button>
+
   <header>
     <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
-    <div class="status-bar"><span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span></div>
+    <div class="status-bar">
+      <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
+    </div>
   </header>
 
-  <!-- 🎶 todo el resto de tu contenido, reproductor, secciones, scripts, etc. permanece igual -->
-  <!-- ... (sin cambios en tu estructura actual) ... -->
+  <main>
+    <!-- Modern Audio Player -->
+    <div class="audio-player" data-aos="fade-up">
+      <div class="player-header">
+        <div class="cover-art-container">
+          <img class="cover-art" id="coverArt" src="" alt="Album Cover">
+        </div>
+        <div class="now-playing" id="nowPlaying">🎵 LEX RADIO - EN VIVO</div>
+      </div>
+
+```
+  <div class="audio-controls">
+    <button class="play-btn" id="playBtn">▶️</button>
+  </div>
+  
+  <div class="visualizer" id="visualizer">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  
+  <div class="volume-control">
+    <span class="volume-icon">🔊</span>
+    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+  </div>
+</div>
+
+<!-- Hidden audio element -->
+<audio id="radio" preload="none">
+  <source src="https://stream.zeno.fm/lo1dx1b1e52tv" type="audio/mpeg">
+  Tu navegador no soporta audio en línea.
+</audio>
+
+<button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
+  💬 Mandá tu saludo
+</button>
+
+<nav>
+  <a href="#programas">Programas</a>
+  <a href="#equipo">Equipo</a>
+  <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
+  <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+</nav>
+
+<section id="programas">
+  <h2 class="section-title" style="color: #00f0ff;">📺 Nuestros Programas</h2>
+  <div class="scroll-wrapper">
+    <div class="card" data-aos="fade-up">
+      <img src="artista.png" alt="Artista de la Semana">
+      <div class="card-content">
+        <h3 style="color: #7c4dff;">Artista de la Semana</h3>
+        <p>Celebramos la trayectoria de un artista legendario con sus éxitos más memorables.</p>
+        <p style="color: #ccc;">📅 Sábados · 9:00 - 11:00 AM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="lextronica.png" alt="LEXTRONICA">
+      <div class="card-content">
+        <h3 style="color: #00f0ff;">LEXTRONICA</h3>
+        <p>Lo mejor del Eurodance y electrónica de los 90s, 2000s y mucho más.</p>
+        <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="startpop.png" alt="POPSTART">
+      <div class="card-content">
+        <h3 style="color: #ffc107;">POPSTART</h3>
+        <p>Pop en inglés y español de los 80s, 90s y 2000s para empezar bien el día.</p>
+        <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="concierto.png" alt="Concierto para Enamorados">
+      <div class="card-content">
+        <h3 style="color: #f06292;">Concierto para Enamorados</h3>
+        <p>Baladas del pop y el rock romántico para suspirar y enamorarse.</p>
+        <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="retrovibe.png" alt="RETROVIBES">
+      <div class="card-content">
+        <h3 style="color: #00e676;">RETROVIBES</h3>
+        <p>Éxitos de los 80s, 90s y 2000s para viajar al pasado con nostalgia.</p>
+        <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="RAMix_Total_Poster_Web.png" alt="RAMix Total">
+      <div class="card-content">
+        <h3 style="color: #ff4081;">RAMix Total</h3>
+        <p>Mix explosivo con DJ RAM. Todos los géneros y pura energía sin parar.</p>
+        <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="equipo">
+  <h2 class="section-title" style="color: #f39c12;">🎤 Nuestro Equipo</h2>
+  <div class="scroll-wrapper">
+    <div class="card" data-aos="fade-up">
+      <img src="LEX.png" alt="Alex">
+      <div class="card-content">
+        <h3 style="color: #f39c12;">Alex Salas</h3>
+        <p>Fundador y productor de LEX RADIO. Apasionado del diseño y la música retro que nos transporta.</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="Jessica.png" alt="Jessica">
+      <div class="card-content">
+        <h3 style="color: #00f0ff;">Jessica</h3>
+        <p>La voz sexy, elegante y energética que te acompaña en LEX RADIO.</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up">
+      <img src="RAMix_Total_Poster_Web.png" alt="DJ RAM">
+      <div class="card-content">
+        <h3 style="color: #e91e63;">DJ RAM</h3>
+        <p>El maestro de las mezclas explosivas en RAMix Total. Energía pura en cada set.</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+  </main>
+
+  <footer>
+    <p>
+     © 2025 LexProductions. Todos los derechos reservados.
+    </p> 
+    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+    Diseñado con 💜 para los amantes de la música retro
+   </p>
+  </footer>
+
+  <script>
+    // === LEX RADIO METADATA & COVER ART SYSTEM ===
+    
+    // Configuración del servidor Icecast
+    const ICECAST_SERVER = 'http://34.60.146.233:8000';
+    const METADATA_URL = `${ICECAST_SERVER}/status-json.xsl`;
+    const STREAM_MOUNT = '/lexradio';
+
+    // Cache para cover arts y estado actual
+    let coverArtCache = new Map();
+    let currentTrackInfo = null;
+    let metadataInterval = null;
+
+    // Initialize AOS
+    AOS.init({ 
+      duration: 1000,
+      once: true
+    });
+
+    // Create floating particles
+    function createParticles() {
+      const particles = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        particles.appendChild(particle);
+      }
+    }
+
+    // === METADATA FUNCTIONS ===
+
+    // Función para obtener metadatos de Lex Radio
+    async function getLexRadioMetadata() {
+      try {
+        const response = await fetch(METADATA_URL);
+        const data = await response.json();
+        
+        let lexMount = null;
+        
+        if (data.icestats && data.icestats.source) {
+          if (Array.isArray(data.icestats.source)) {
+            lexMount = data.icestats.source.find(source => 
+              source.listenurl && source.listenurl.includes(STREAM_MOUNT)
+            );
+          } else {
+            lexMount = data.icestats.source;
+          }
+        }
+        
+        if (lexMount) {
+          const titleParts = parseTrackTitle(lexMount.title || 'LEX RADIO - EN VIVO');
+          
+          return {
+            title: titleParts.title,
+            artist: titleParts.artist,
+            rawTitle: lexMount.title,
+            listeners: lexMount.listeners || 0,
+            bitrate: lexMount.bitrate || 128,
+            server_name: lexMount.server_name || 'LEX RADIO',
+            genre: lexMount.genre || 'Variado'
+          };
+        } else {
+          return {
+            title: 'LEX RADIO - EN VIVO',
+            artist: '',
+            rawTitle: 'LEX RADIO - EN VIVO',
+            listeners: 0,
+            bitrate: 128,
+            server_name: 'LEX RADIO',
+            genre: 'Variado'
+          };
+        }
+        
+      } catch (error) {
+        console.warn('Error obteniendo metadatos de Lex Radio:', error);
+        return {
+          title: 'LEX RADIO - EN VIVO',
+          artist: '',
+          rawTitle: 'LEX RADIO - EN VIVO',
+          listeners: 0,
+          bitrate: 128,
+          server_name: 'LEX RADIO',
+          genre: 'Variado'
+        };
+      }
+    }
+
+    // Función para parsear título y extraer artista/canción
+    function parseTrackTitle(title) {
+      const separators = [' - ', ' – ', ' — ', ' | ', ': '];
+      
+      for (const separator of separators) {
+        if (title.includes(separator)) {
+          const parts = title.split(separator);
+          if (parts.length >= 2) {
+            return {
+              artist: parts[0].trim(),
+              title: parts.slice(1).join(separator).trim()
+            };
+          }
+        }
+      }
+      
+      return {
+        artist: '',
+        title: title.trim()
+      };
+    }
+
+    // === COVER ART FUNCTIONS ===
+
+    // Función para obtener cover art desde múltiples APIs
+    async function getCoverArt(artist, title) {
+      const cacheKey = `${artist}-${title}`.toLowerCase();
+      
+      if (coverArtCache.has(cacheKey)) {
+        return coverArtCache.get(cacheKey);
+      }
+      
+      let coverUrl = null;
+      
+      try {
+        coverUrl = await getCoverFromDeezer(artist, title);
+        
+        if (!coverUrl) {
+          coverUrl = await getCoverFromItunes(artist, title);
+        }
+        
+        if (!coverUrl) {
+          coverUrl = 'https://i.imgur.com/BhXCsFa.png'; // Logo de Lex Radio
+        }
+        
+      } catch (error) {
+        console.warn('Error obteniendo cover art:', error);
+        coverUrl = 'https://i.imgur.com/BhXCsFa.png';
+      }
+      
+      coverArtCache.set(cacheKey, coverUrl);
+      return coverUrl;
+    }
+
+    // Obtener cover desde Deezer
+    async function getCoverFromDeezer(artist, title) {
+      try {
+        const query = encodeURIComponent(`${artist} ${title}`);
+        const response = await fetch(`https://api.deezer.com/search?q=${query}&limit=1`);
+        const data = await response.json();
+        
+        if (data.data && data.data.length > 0) {
+          const track = data.data[0];
+          if (track.album && track.album.cover_medium) {
+            return track.album.cover_medium;
+          }
+        }
+      } catch (error) {
+        console.warn('Error con Deezer API:', error);
+      }
+      return null;
+    }
+
+    // Obtener cover desde iTunes
+    async function getCoverFromItunes(artist, title) {
+      try {
+        const query = encodeURIComponent(`${artist} ${title}`);
+        const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+        const data = await response.json();
+        
+        if (data.results && data.results.length > 0) {
+          const track = data.results[0];
+          if (track.artworkUrl100) {
+            return track.artworkUrl100.replace('100x100', '300x300');
+          }
+        }
+      } catch (error) {
+        console.warn('Error con iTunes API:', error);
+      }
+      return null;
+    }
+
+    // Función para actualizar cover art
+    async function updateCoverArt(artist, title) {
+      const coverImg = document.getElementById('coverArt');
+      
+      if (!artist || !title || title === 'LEX RADIO - EN VIVO') {
+        coverImg.classList.remove('show');
+        return;
+      }
+      
+      try {
+        coverImg.style.opacity = '0.5';
+        
+        const coverUrl = await getCoverArt(artist, title);
+        
+        if (coverUrl) {
+          coverImg.src = coverUrl;
+          coverImg.alt = `${artist} - ${title}`;
+          coverImg.classList.add('show');
+          coverImg.style.opacity = '1';
+          
+          coverImg.style.transform = 'scale(0.8)';
+          setTimeout(() => {
+            coverImg.style.transform = 'scale(1)';
+          }, 100);
+        }
+        
+      } catch (error) {
+        console.warn('Error actualizando cover art:', error);
+        coverImg.style.opacity = '1';
+      }
+    }
+
+    // Función para actualizar la interfaz completa
+    async function updateNowPlaying(metadata) {
+      const nowPlayingElement = document.getElementById('nowPlaying');
+      
+      if (nowPlayingElement) {
+        let displayText = '';
+        
+        if (metadata.artist && metadata.title && metadata.title !== 'LEX RADIO - EN VIVO') {
+          displayText = `🎵 ${metadata.artist} - ${metadata.title}`;
+          await updateCoverArt(metadata.artist, metadata.title);
+        } else if (metadata.title && metadata.title !== 'LEX RADIO - EN VIVO') {
+          displayText = `🎵 ${metadata.title}`;
+          await updateCoverArt('', metadata.title);
+        } else {
+          displayText = '🎵 LEX RADIO - EN VIVO';
+          const coverImg = document.getElementById('coverArt');
+          coverImg.classList.remove('show');
+        }
+        
+        if (metadata.listeners > 0) {
+          displayText += ` • ${metadata.listeners} oyentes`;
+        }
+        
+        nowPlayingElement.textContent = displayText;
+        
+        nowPlayingElement.style.opacity = '0.7';
+        setTimeout(() => {
+          nowPlayingElement.style.opacity = '1';
+        }, 300);
+      }
+    }
+
+    // Función para inicializar metadatos
+    async function initializeMetadata() {
+      console.log('🎙️ Inicializando metadatos y cover art de Lex Radio...');
+      const metadata = await getLexRadioMetadata();
+      currentTrackInfo = metadata;
+      await updateNowPlaying(metadata);
+    }
+
+    // Función para actualizar metadatos periódicamente
+    function startMetadataUpdates() {
+      initializeMetadata();
+      
+      metadataInterval = setInterval(async () => {
+        const metadata = await getLexRadioMetadata();
+        
+        if (!currentTrackInfo || 
+            currentTrackInfo.rawTitle !== metadata.rawTitle) {
+          console.log('🔄 Nueva canción detectada:', metadata.title);
+          currentTrackInfo = metadata;
+          await updateNowPlaying(metadata);
+        }
+      }, 30000);
+      
+      console.log('🔄 Actualizaciones iniciadas (cada 30s con cover art)');
+    }
+
+    // === AUDIO PLAYER FUNCTIONALITY ===
+    
+    const radio = document.getElementById('radio');
+    const playBtn = document.getElementById('playBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const visualizer = document.getElementById('visualizer');
+    const statusText = document.getElementById('status-text');
+    
+    let isPlaying = false;
+    let isLoading = false;
+
+    // Set initial volume
+    radio.volume = volumeSlider.value;
+    updateVolumeSlider();
+
+    // Play/Pause functionality
+    playBtn.addEventListener('click', togglePlay);
+
+    function togglePlay() {
+      if (isLoading) return;
+      
+      if (isPlaying) {
+        radio.pause();
+        playBtn.innerHTML = '▶️';
+        isPlaying = false;
+        statusText.textContent = '🎶 LEX RADIO - Pausado';
+        stopVisualizer();
+        if (metadataInterval) {
+          clearInterval(metadataInterval);
+          metadataInterval = null;
+        }
+      } else {
+        isLoading = true;
+        playBtn.innerHTML = '⏳';
+        statusText.textContent = '🔄 Conectando...';
+        
+        radio.load();
+        radio.play().then(() => {
+          playBtn.innerHTML = '⏸️';
+          isPlaying = true;
+          isLoading = false;
+          statusText.textContent = '🎶 EN VIVO - Tus Recuerdos En El Presente';
+          startVisualizer();
+          startMetadataUpdates();
+        }).catch(error => {
+          console.error('Error playing audio:', error);
+          playBtn.innerHTML = '▶️';
+          isLoading = false;
+          statusText.textContent = '❌ Error de conexión';
+        });
+      }
+    }
+
+    // Volume control
+    volumeSlider.addEventListener('input', () => {
+      radio.volume = volumeSlider.value;
+      updateVolumeSlider();
+    });
+
+    function updateVolumeSlider() {
+      const percentage = (volumeSlider.value * 100) + '%';
+      volumeSlider.style.setProperty('--volume-percent', percentage);
+    }
+
+    // Visualizer animation
+    function startVisualizer() {
+      const bars = visualizer.querySelectorAll('.bar');
+      bars.forEach(bar => {
+        bar.style.animationPlayState = 'running';
+      });
+    }
+
+    function stopVisualizer() {
+      const bars = visualizer.querySelectorAll('.bar');
+      bars.forEach(bar => {
+        bar.style.animationPlayState = 'paused';
+        bar.style.height = '10px';
+      });
+    }
+
+    // Error handling
+    radio.addEventListener('error', () => {
+      playBtn.innerHTML = '▶️';
+      isPlaying = false;
+      isLoading = false;
+      statusText.textContent = '❌ Error de transmisión';
+      stopVisualizer();
+      if (metadataInterval) {
+        clearInterval(metadataInterval);
+        metadataInterval = null;
+      }
+    });
+
+    // PWA Install functionality
+    let deferredPrompt;
+    const installButton = document.getElementById('installButton');
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      installButton.style.display = 'none';
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installButton.classList.add('show');
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('PWA installed');
+          installButton.style.display = 'none';
+        }
+        deferredPrompt = null;
+      } else {
+        if (navigator.share) {
+          navigator.share({
+            title: 'LEX Radio',
+            text: 'Tus recuerdos en el presente',
+            url: window.location.href
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('¡URL copiada! Puedes agregarla a tu pantalla de inicio desde el menú de tu navegador.');
+          });
+        }
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installButton.style.display = 'none';
+      console.log('PWA was installed');
+    });
+
+    // Initialize particles
+    createParticles();
+
+    // Smooth scrolling for navigation
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Función para debugging
+    window.showCurrentTrack = function() {
+      if (currentTrackInfo) {
+        console.log('📻 Track actual:', currentTrackInfo);
+      }
+    };
+
+    // Precargar metadatos cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('✅ DOM cargado, precargando metadatos de Lex Radio');
+      // Solo precargar sin iniciar actualizaciones automáticas
+      initializeMetadata();
+    });
+  </script>
 
 </body>
 </html>
