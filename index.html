@@ -604,12 +604,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="status-bar">
       <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
     </div>
-
-<!-- 🔥 AÑADIDO: CONTADOR DE OYENTES -->
-<div class="status-bar" style="margin-top:15px;">
-  👥 Oyentes conectados: <span id="listeners-count">--</span>
-</div>
-
   </header>
 
   <main>
@@ -1011,28 +1005,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       console.log('✅ LEX RADIO cargado - Metadatos listos');
       fetchMetadata();
     });
-  
-// 🔥 AÑADIDO — LECTURA DE OYENTES
-async function updateListeners() {
-  try {
-    const res = await fetch("https://stream.lexxradio.com/status-json.xsl");
-    const data = await res.json();
-
-    const source = data.icestats.source;
-    const mount = Array.isArray(source) ? source[0] : source;
-
-    const listeners = mount.listeners ?? 0;
-    document.getElementById("listeners-count").textContent = listeners;
-  } catch (e) {
-    console.log("Error leyendo oyentes:", e);
-    document.getElementById("listeners-count").textContent = "--";
-  }
-}
-
-setInterval(updateListeners, 15000);
-updateListeners();
-
-</script>
+  </script>
 
 </body>
 </html>
