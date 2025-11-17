@@ -1,10 +1,11 @@
 {
-  "name": "LEX Radio",
+  "name": "LEX Radio - Tus Recuerdos En El Presente",
   "short_name": "LEX Radio",
-  "description": "Tus recuerdos en el presente. Escuchá éxitos de los 80s, 90s y 2000s en vivo.",
-  "start_url": ".",
+  "description": "Escuchá éxitos de los 80s, 90s y 2000s en vivo.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#000428",
+  "background_color": "#0a0e27",
   "theme_color": "#00f0ff",
   "orientation": "portrait",
   "icons": [
