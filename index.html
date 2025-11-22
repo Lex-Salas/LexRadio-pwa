@@ -1466,40 +1466,46 @@
     }
 
     // ========== METADATOS ==========
-    async function fetchMetadata() {
-      try {
-        const response = await fetch(METADATA_URL);
-        const data = await response.json();
-        
-        const source = data.icestats.source;
-        if (!source || !source.title) {
-          updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
-          return;
-        }
-        
-        const fullTitle = source.title.trim();
-        
-        if (fullTitle === currentTrack) return;
-        currentTrack = fullTitle;
-        
-        let artist = '';
-        let song = fullTitle;
-        
-        if (fullTitle.includes(' - ')) {
-          const parts = fullTitle.split(' - ');
-          artist = parts[0].trim();
-          song = parts.slice(1).join(' - ').trim();
-        }
-
-        updateDisplay(song, artist);
-        if (artist && song) {
-          fetchAlbumArt(artist, song);
-        }
-
-      } catch (e) {
-        console.error('Error obteniendo metadatos:', e);
+    
+async function fetchMetadata() {
+  try {
+    const response = await fetch(METADATA_URL, {
+      method: "GET",
+      mode: "cors",
+      cache: "no-store",
+      headers: {
+        "Accept": "application/json",
+        "Cache-Control": "no-cache"
       }
+    });
+
+    const text = await response.text();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
+      return;
     }
+
+    const data = JSON.parse(jsonMatch[0]);
+    const source = data.icestats?.source;
+
+    if (!source || !source.title) {
+      updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
+      return;
+    }
+
+    const song = source.title || 'LEX RADIO';
+    const artist = source.artist || 'EN VIVO';
+
+    updateDisplay(song, artist);
+    if (artist && song) fetchAlbumArt(artist, song);
+
+  } catch (error) {
+    console.error("Error cargando metadata:", error);
+    updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
+  }
+}
+
 
     function updateDisplay(song, artist, artwork) {
       songTitle.textContent = song;
