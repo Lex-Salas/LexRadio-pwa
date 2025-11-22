@@ -1,6 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- ========== METADATOS CRÍTICOS PARA iOS/SAFARI (AGREGADOS) ========== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- INFORMACIÓN PRINCIPAL -->
+  <title>LEX Radio - Tus recuerdos en el presente | Música 80s, 90s, 2000s en Vivo</title>
+  <meta name="description" content="Escuchá éxitos de los 80s, 90s y 2000s en vivo. La mejor música retro en LEX Radio, tus recuerdos en el presente.">
+  <meta name="keywords" content="radio online, música 80s, música 90s, música 2000s, radio retro, pop, rock, eurodance, LEX Radio">
+  <meta name="author" content="LexProductions">
+  <meta name="robots" content="index, follow">
+  
+  <!-- OPEN GRAPH para Facebook, WhatsApp, Telegram -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.lexxradio.com">
+  <meta property="og:title" content="LEX Radio - Tus recuerdos en el presente">
+  <meta property="og:description" content="Escuchá éxitos de los 80s, 90s y 2000s en vivo. La mejor música retro.">
+  <meta property="og:image" content="https://i.imgur.com/BhXCsFa.png">
+  <meta property="og:image:secure_url" content="https://i.imgur.com/BhXCsFa.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="LEX Radio Logo">
+  <meta property="og:site_name" content="LEX Radio">
+  <meta property="og:locale" content="es_CR">
+  
+  <!-- TWITTER CARD -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://www.lexxradio.com">
+  <meta name="twitter:title" content="LEX Radio - Tus recuerdos en el presente">
+  <meta name="twitter:description" content="Escuchá éxitos de los 80s, 90s y 2000s en vivo.">
+  <meta name="twitter:image" content="https://i.imgur.com/BhXCsFa.png">
+  <meta name="twitter:image:alt" content="LEX Radio Logo">
+  
+  <!-- APPLE iOS SPECIFIC (CRÍTICO PARA SAFARI/iPHONE) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LEX Radio">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/BhXCsFa.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/lexradio_180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/lexradio_192.png">
+  <link rel="apple-touch-startup-image" href="https://i.imgur.com/BhXCsFa.png">
+  
+  <!-- CANONICAL URL -->
+  <link rel="canonical" href="https://www.lexxradio.com">
+  
+  <!-- MS TILES -->
+  <meta name="msapplication-TileColor" content="#0a0e27">
+  <meta name="msapplication-TileImage" content="https://i.imgur.com/BhXCsFa.png">
+  
+  <!-- ========== FIN METADATOS AGREGADOS ========== -->
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -9,12 +59,10 @@
   })(window,document,'script','dataLayer','GTM-MG754S9D');</script>
   <!-- End Google Tag Manager -->
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LEX Radio - Tus recuerdos en el presente</title>
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="logo-lexradio.png"/>
+  <link rel="shortcut icon" href="logo-lexradio.png">
   <meta name="theme-color" content="#0a0e27"/>
 
   <!-- OneSignal Push Notifications -->
@@ -1156,18 +1204,6 @@
     createParticles();
     createEqualizer();
 
-    // ========== CREAR BARRAS DEL VISUALIZADOR ==========
-    function createVisualizerBars() {
-      visualizerContainer.innerHTML = '';
-      const BAR_COUNT = 64;
-      for (let i = 0; i < BAR_COUNT; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'vis-bar';
-        bar.style.height = '2px';
-        visualizerContainer.appendChild(bar);
-      }
-    }
-
     // ========== CREAR ECUALIZADOR ==========
     function createEqualizer() {
       eqBands.forEach((freq, index) => {
@@ -1586,7 +1622,6 @@ async function fetchMetadata() {
 
     async function triggerInstall() {
       if (deferredPrompt) {
-        // Si tenemos el prompt guardado, lo mostramos
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         
@@ -1597,8 +1632,6 @@ async function fetchMetadata() {
         }
         deferredPrompt = null;
       } else {
-        // Si no hay prompt (ya instalada o navegador no compatible)
-        // Mostramos instrucciones según el navegador
         const userAgent = navigator.userAgent.toLowerCase();
         let message = '';
         
