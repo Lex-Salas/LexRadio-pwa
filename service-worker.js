@@ -1,3 +1,4 @@
+
 const CACHE_NAME = "lexradio-v4";
 
 const APP_SHELL = [
@@ -34,19 +35,16 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = event.request.url;
 
-  // 👉 NO interceptar el STREAM de audio
   if (url.includes("/live")) {
     event.respondWith(fetch(event.request));
     return;
   }
 
-  // 👉 NO cachear metadatos del stream
   if (url.includes("status-json.xsl")) {
     event.respondWith(fetch(event.request, { cache: "no-store" }));
     return;
   }
 
-  // 👉 Manejo de recursos de la app
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
@@ -54,7 +52,6 @@ self.addEventListener("fetch", (event) => {
       return fetch(event.request)
         .then((response) => {
           if (!response || response.status !== 200) return response;
-
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) =>
             cache.put(event.request, clone)
