@@ -1,4 +1,4 @@
-const CACHE_NAME = "lexradio-v3";
+const CACHE_NAME = "lexradio-v4"; // Aumenta la versión para limpiar cache viejo
 
 const APP_SHELL = [
   "./",
@@ -24,9 +24,21 @@ const APP_SHELL = [
   "https://i.imgur.com/BhXCsFa.png"
 ];
 
+// URLs que NUNCA deben cachearse
+const NEVER_CACHE = [
+  'status-json.xsl',
+  '/live',
+  'itunes.apple.com'
+];
+
+// Función para verificar si una URL no debe cachearse
+function shouldNotCache(url) {
+  return NEVER_CACHE.some(pattern => url.includes(pattern));
+}
+
 // INSTALACIÓN
 self.addEventListener("install", (event) => {
-  console.log("[SW] Install");
+  console.log("[SW] Install v4");
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(APP_SHELL);
@@ -37,12 +49,13 @@ self.addEventListener("install", (event) => {
 
 // ACTIVACIÓN (limpiar caches viejos)
 self.addEventListener("activate", (event) => {
-  console.log("[SW] Activate");
+  console.log("[SW] Activate v4");
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log("[SW] Eliminando cache viejo:", key);
             return caches.delete(key);
           }
         })
@@ -54,8 +67,25 @@ self.addEventListener("activate", (event) => {
 
 // FETCH
 self.addEventListener("fetch", (event) => {
+  const url = event.request.url;
+
   // No interferir con peticiones de rango (audio streaming)
   if (event.request.headers.has("range")) {
+    return;
+  }
+
+  // CRÍTICO: No cachear metadatos ni stream de audio
+  if (shouldNotCache(url)) {
+    console.log("[SW] Bypass cache para:", url);
+    event.respondWith(
+      fetch(event.request, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      })
+    );
     return;
   }
 
@@ -91,7 +121,6 @@ self.addEventListener("fetch", (event) => {
           return networkResponse;
         })
         .catch(() => {
-          // Si no hay red ni cache, devolvemos algo por defecto opcional
           return new Response("Offline", { status: 503, statusText: "Offline" });
         });
     })
