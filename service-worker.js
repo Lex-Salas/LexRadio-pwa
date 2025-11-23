@@ -1,108 +1,67 @@
-
-self.addEventListener("fetch", (event) => {
-  const url = event.request.url;
-  if (url.includes("status-json.xsl")) {
-    event.respondWith(fetch(event.request,{cache:"no-store"}));
-    return;
-  }
-});
-
-const CACHE_NAME = "lexradio-v3";
+const CACHE_NAME = "lexradio-v4";
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./logo-lexradio.png",
-
   "./css/style.css",
   "./js/main.js",
-
   "./artista.png",
   "./lextronica.png",
   "./startpop.png",
   "./concierto.png",
   "./retrovibe.png",
-  "./RAMix_Total_Poster_Web.png",
-  "./LEX.png",
-  "./Jessica.png",
-
-  "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap",
-  "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css",
-  "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js",
-  "https://i.imgur.com/BhXCsFa.png"
+  "./RAMix_Total_Poster_Web.png"
 ];
 
-// INSTALACIÓN
 self.addEventListener("install", (event) => {
-  console.log("[SW] Install");
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(APP_SHELL);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
   );
   self.skipWaiting();
 });
 
-// ACTIVACIÓN (limpiar caches viejos)
 self.addEventListener("activate", (event) => {
-  console.log("[SW] Activate");
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-// FETCH
 self.addEventListener("fetch", (event) => {
-  // No interferir con peticiones de rango (audio streaming)
-  if (event.request.headers.has("range")) {
+  const url = event.request.url;
+
+  // 👉 NO interceptar el STREAM de audio
+  if (url.includes("/live")) {
+    event.respondWith(fetch(event.request));
     return;
   }
 
-  // Navegación (HTML) → estrategia: Network First con fallback a cache
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          return response;
-        })
-        .catch(() => {
-          return caches.match("./index.html");
-        })
-    );
+  // 👉 NO cachear metadatos del stream
+  if (url.includes("status-json.xsl")) {
+    event.respondWith(fetch(event.request, { cache: "no-store" }));
     return;
   }
 
-  // Otros recursos (CSS, JS, imágenes) → Cache First
+  // 👉 Manejo de recursos de la app
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
+      if (cached) return cached;
+
       return fetch(event.request)
-        .then((networkResponse) => {
-          // Cachear respuestas válidas
-          if (networkResponse && networkResponse.ok) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, clone);
-            });
-          }
-          return networkResponse;
+        .then((response) => {
+          if (!response || response.status !== 200) return response;
+
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) =>
+            cache.put(event.request, clone)
+          );
+          return response;
         })
-        .catch(() => {
-          // Si no hay red ni cache, devolvemos algo por defecto opcional
-          return new Response("Offline", { status: 503, statusText: "Offline" });
-        });
+        .catch(() => cached);
     })
   );
 });
