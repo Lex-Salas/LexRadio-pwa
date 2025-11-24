@@ -1569,6 +1569,7 @@
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
       if (installButton) installButton.style.display = 'none';
+      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -1579,28 +1580,35 @@
 
     async function triggerInstall() {
       if (deferredPrompt) {
+        // Si tenemos el prompt guardado, lo mostramos
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         
         if (outcome === 'accepted') {
           console.log('PWA instalada');
           if (installButton) installButton.style.display = 'none';
+          if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
-        if (navigator.share) {
-          navigator.share({
-            title: 'LEX Radio',
-            text: 'Tus recuerdos en el presente',
-            url: window.location.href
-          });
-        } else if (navigator.clipboard) {
-          navigator.clipboard.writeText(window.location.href).then(() => {
-            alert('¡URL copiada! Podés agregarla a tu pantalla de inicio desde el menú de tu navegador.');
-          });
+        // Si no hay prompt (ya instalada o navegador no compatible)
+        // Mostramos instrucciones según el navegador
+        const userAgent = navigator.userAgent.toLowerCase();
+        let message = '';
+        
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+          message = '¡La app ya está instalada!';
+        } else if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
+          message = 'Para instalar:\n1. Presiona el menú (⋮) arriba a la derecha\n2. Selecciona "Agregar a pantalla de inicio" o "Instalar app"';
+        } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+          message = 'Para instalar en Safari:\n1. Presiona el botón de compartir\n2. Selecciona "Agregar a pantalla de inicio"';
+        } else if (userAgent.includes('firefox')) {
+          message = 'Para instalar en Firefox:\n1. Presiona el menú (⋮)\n2. Selecciona "Instalar"';
         } else {
-          alert('Abrí el menú de tu navegador y elegí "Agregar a pantalla de inicio".');
+          message = 'Abre el menú de tu navegador y busca la opción "Agregar a pantalla de inicio" o "Instalar"';
         }
+        
+        alert(message);
       }
     }
 
@@ -1613,6 +1621,7 @@
 
     window.addEventListener('appinstalled', () => {
       if (installButton) installButton.style.display = 'none';
+      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
       console.log('PWA instalada exitosamente');
     });
 
