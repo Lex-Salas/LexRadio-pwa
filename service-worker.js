@@ -21,7 +21,7 @@ const APP_SHELL = [
   "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap",
   "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css",
   "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js",
-  "https://i.imgur.com/BhXCsFa.png"
+  "https://https://i.imgur.com/m7xt2YZ.png"
 ];
 
 // URLs que NUNCA deben cachearse
