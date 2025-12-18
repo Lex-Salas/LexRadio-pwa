@@ -1469,27 +1469,45 @@
     
 async function fetchMetadata() {
   try {
+    console.log('🔄 Consultando metadatos...');
+    
     const res = await fetch(METADATA_URL + '?t=' + Date.now(), {
-      cache: 'no-store'
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      cache: 'no-cache'
     });
 
     if (!res.ok) {
-      throw new Error('Respuesta no válida');
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     }
 
     const data = await res.json();
+    console.log('✅ Metadatos recibidos:', data);
 
     const artist = data.artist || 'LEX RADIO';
     const song = data.title || 'EN VIVO';
+    const fullTitle = data.fullTitle || `${artist} - ${song}`;
+
+    if (currentTrack === fullTitle) {
+      console.log('⏭️ Sin cambios en la canción');
+      return;
+    }
+
+    currentTrack = fullTitle;
+    console.log(`🎵 Ahora suena: ${fullTitle}`);
 
     updateDisplay(song, artist, DEFAULT_IMAGE);
 
-    if (artist && song) {
+    if (artist && song && artist !== 'LEX RADIO') {
       fetchAlbumArt(artist, song);
+    } else {
+      albumArt.src = DEFAULT_IMAGE;
     }
 
   } catch (error) {
-    console.error('Error cargando metadata:', error);
+    console.error('❌ Error cargando metadata:', error);
     updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
   }
 }
