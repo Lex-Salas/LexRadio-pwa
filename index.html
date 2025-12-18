@@ -1513,11 +1513,15 @@ async function fetchMetadata() {
 }
 
 
-    function updateDisplay(song, artist, artwork) {
-      songTitle.textContent = song;
-      artistName.textContent = artist;
-      if (artwork) albumArt.src = artwork;
-    }
+function updateDisplay(song, artist, artwork) {
+  songTitle.textContent = `🎵 ${song}`;
+  artistName.textContent = artist;
+  if (artwork) {
+    albumArt.style.opacity = '0.5';
+    albumArt.src = artwork;
+    setTimeout(() => { albumArt.style.opacity = '1'; }, 300);
+  }
+}
 
     async function fetchAlbumArt(artist, song) {
       try {
