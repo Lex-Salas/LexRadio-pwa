@@ -1050,7 +1050,6 @@
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
         </div>
-        <!-- LEXTRONICA AHORA DENTRO DE PROGRAMAS -->
         <div class="card" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA">
           <div class="card-content">
@@ -1100,7 +1099,7 @@
   <script>
     // ========== CONFIGURACIÓN ==========
     const STREAM_URL = 'https://stream.lexxradio.com/live';
-    const METADATA_URL = 'https://stream.lexxradio.com/nowplaying';
+    const METADATA_URL = 'https://stream.lexxradio.com/nowplaying';  // ✅ CORREGIDO
     const DEFAULT_IMAGE = 'https://i.imgur.com/m7xt2YZ.png';
 
     // ========== ELEMENTOS DOM ==========
@@ -1123,7 +1122,7 @@
     let isPlaying = false;
     let isLoading = false;
     let metadataInterval = null;
-    let currentTrack = '';  //
+    let currentTrack = '';  // ✅ AGREGADO
     let audioContext = null;
     let analyser = null;
     let source = null;
@@ -1155,18 +1154,6 @@
     AOS.init({ duration: 1000, once: true });
     createParticles();
     createEqualizer();
-
-    // ========== CREAR BARRAS DEL VISUALIZADOR ==========
-    function createVisualizerBars() {
-      visualizerContainer.innerHTML = '';
-      const BAR_COUNT = 64;
-      for (let i = 0; i < BAR_COUNT; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'vis-bar';
-        bar.style.height = '2px';
-        visualizerContainer.appendChild(bar);
-      }
-    }
 
     // ========== CREAR ECUALIZADOR ==========
     function createEqualizer() {
@@ -1373,7 +1360,7 @@
       
       const bufferLength = analyser.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
-      const bars = document.querySelectorAll('.vis-bar');
+      const bars = document.querySelectorAll('.bar');
       
       function draw() {
         animationId = requestAnimationFrame(draw);
@@ -1465,19 +1452,18 @@
       volumeSlider.style.setProperty('--volume-percent', percentage);
     }
 
-    // ========== METADATOS ==========
-    
-async function fetchMetadata() {
-  try {
-    console.log('🔄 Consultando metadatos...');
-    
-    const res = await fetch(METADATA_URL + '?t=' + Date.now(), {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json'
-      },
-      cache: 'no-cache'
-    });
+    // ========== METADATOS ========== ✅ CORREGIDO
+    async function fetchMetadata() {
+      try {
+        console.log('🔄 Consultando metadatos...');
+        
+        const res = await fetch(METADATA_URL + '?t=' + Date.now(), {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          },
+          cache: 'no-cache'
+        });
 
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}: ${res.statusText}`);
