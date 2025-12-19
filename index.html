@@ -1465,49 +1465,48 @@
           cache: 'no-cache'
         });
 
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        console.log('✅ Metadatos recibidos:', data);
+
+        const artist = data.artist || 'LEX RADIO';
+        const song = data.title || 'EN VIVO';
+        const fullTitle = data.fullTitle || `${artist} - ${song}`;
+
+        if (currentTrack === fullTitle) {
+          console.log('⏭️ Sin cambios en la canción');
+          return;
+        }
+
+        currentTrack = fullTitle;
+        console.log(`🎵 Ahora suena: ${fullTitle}`);
+
+        updateDisplay(song, artist, DEFAULT_IMAGE);
+
+        if (artist && song && artist !== 'LEX RADIO') {
+          fetchAlbumArt(artist, song);
+        } else {
+          albumArt.src = DEFAULT_IMAGE;
+        }
+
+      } catch (error) {
+        console.error('❌ Error cargando metadata:', error);
+        updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
+      }
     }
 
-    const data = await res.json();
-    console.log('✅ Metadatos recibidos:', data);
-
-    const artist = data.artist || 'LEX RADIO';
-    const song = data.title || 'EN VIVO';
-    const fullTitle = data.fullTitle || `${artist} - ${song}`;
-
-    if (currentTrack === fullTitle) {
-      console.log('⏭️ Sin cambios en la canción');
-      return;
+    function updateDisplay(song, artist, artwork) {
+      songTitle.textContent = `🎵 ${song}`;
+      artistName.textContent = artist;
+      if (artwork) {
+        albumArt.style.opacity = '0.5';
+        albumArt.src = artwork;
+        setTimeout(() => { albumArt.style.opacity = '1'; }, 300);
+      }
     }
-
-    currentTrack = fullTitle;
-    console.log(`🎵 Ahora suena: ${fullTitle}`);
-
-    updateDisplay(song, artist, DEFAULT_IMAGE);
-
-    if (artist && song && artist !== 'LEX RADIO') {
-      fetchAlbumArt(artist, song);
-    } else {
-      albumArt.src = DEFAULT_IMAGE;
-    }
-
-  } catch (error) {
-    console.error('❌ Error cargando metadata:', error);
-    updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
-  }
-}
-
-
-function updateDisplay(song, artist, artwork) {
-  songTitle.textContent = `🎵 ${song}`;
-  artistName.textContent = artist;
-  if (artwork) {
-    albumArt.style.opacity = '0.5';
-    albumArt.src = artwork;
-    setTimeout(() => { albumArt.style.opacity = '1'; }, 300);
-  }
-}
 
     async function fetchAlbumArt(artist, song) {
       try {
@@ -1528,177 +1527,3 @@ function updateDisplay(song, artist, artwork) {
       } catch (err) {
         console.error('Error buscando carátula:', err);
         albumArt.src = DEFAULT_IMAGE;
-      }
-    }
-
-    function startMetadataFetch() {
-      fetchMetadata();
-      if (metadataInterval) clearInterval(metadataInterval);
-      metadataInterval = setInterval(fetchMetadata, 10000);
-    }
-
-    // ========== ERROR HANDLING ==========
-    audio.addEventListener('error', () => {
-      playBtn.innerHTML = '▶️';
-      isPlaying = false;
-      isLoading = false;
-      statusText.textContent = '❌ Error de transmisión';
-      stopVisualizer();
-      if (metadataInterval) {
-        clearInterval(metadataInterval);
-        metadataInterval = null;
-      }
-      albumArt.classList.remove('playing');
-    });
-
-    // ========== PARTÍCULAS ==========
-    function createParticles() {
-      const particles = document.getElementById('particles');
-      const particleCount = 50;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 6 + 's';
-        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-        particles.appendChild(particle);
-      }
-    }
-
-    // ========== PWA INSTALL ==========
-    let deferredPrompt;
-
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      if (installButton) installButton.style.display = 'none';
-      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if (installButton) installButton.classList.add('show');
-    });
-
-    async function triggerInstall() {
-      if (deferredPrompt) {
-        // Si tenemos el prompt guardado, lo mostramos
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-          console.log('PWA instalada');
-          if (installButton) installButton.style.display = 'none';
-          if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
-        }
-        deferredPrompt = null;
-      } else {
-        // Si no hay prompt (ya instalada o navegador no compatible)
-        // Mostramos instrucciones según el navegador
-        const userAgent = navigator.userAgent.toLowerCase();
-        let message = '';
-        
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-          message = '¡La app ya está instalada!';
-        } else if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-          message = 'Para instalar:\n1. Presiona el menú (⋮) arriba a la derecha\n2. Selecciona "Agregar a pantalla de inicio" o "Instalar app"';
-        } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-          message = 'Para instalar en Safari:\n1. Presiona el botón de compartir\n2. Selecciona "Agregar a pantalla de inicio"';
-        } else if (userAgent.includes('firefox')) {
-          message = 'Para instalar en Firefox:\n1. Presiona el menú (⋮)\n2. Selecciona "Instalar"';
-        } else {
-          message = 'Abre el menú de tu navegador y busca la opción "Agregar a pantalla de inicio" o "Instalar"';
-        }
-        
-        alert(message);
-      }
-    }
-
-    if (installButton) {
-      installButton.addEventListener('click', triggerInstall);
-    }
-    if (installLexRadioBtn) {
-      installLexRadioBtn.addEventListener('click', triggerInstall);
-    }
-
-    window.addEventListener('appinstalled', () => {
-      if (installButton) installButton.style.display = 'none';
-      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
-      console.log('PWA instalada exitosamente');
-    });
-
-    // ========== SMOOTH SCROLL ==========
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // ========== AUTO-RECUPERACIÓN ==========
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && isPlaying) {
-        audio.play().catch(e => console.log('No se pudo reanudar:', e));
-      }
-    });
-
-    // ========== GUARDAR/CARGAR CONFIGURACIÓN ==========
-    function saveEqSettings() {
-      const settings = {
-        preset: currentPreset,
-        values: [...eqValues],
-        customPreset: [...eqPresets.custom],
-        volume: audio.volume
-      };
-      localStorage.setItem('lexradio_eq_settings', JSON.stringify(settings));
-    }
-
-    function loadEqSettings() {
-      try {
-        const saved = localStorage.getItem('lexradio_eq_settings');
-        if (saved) {
-          const settings = JSON.parse(saved);
-          
-          if (settings.customPreset) {
-            eqPresets.custom = settings.customPreset;
-          }
-          
-          if (settings.volume !== undefined) {
-            audio.volume = settings.volume;
-            volumeSlider.value = settings.volume;
-            updateVolumeSlider();
-          }
-          
-          if (settings.preset && eqPresets[settings.preset]) {
-            setTimeout(() => applyPreset(settings.preset), 100);
-          } else {
-            setTimeout(() => applyPreset('flat'), 100);
-          }
-        } else {
-          setTimeout(() => applyPreset('flat'), 100);
-        }
-      } catch (e) {
-        console.log('No se pudo cargar configuración guardada');
-        setTimeout(() => applyPreset('flat'), 100);
-      }
-    }
-
-    volumeSlider.addEventListener('change', saveEqSettings);
-
-    // ========== PRECARGA DE METADATOS ==========
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('✅ LEX RADIO cargado - Metadatos listos');
-      fetchMetadata();
-      loadEqSettings();
-      loadEqCollapseState();
-    });
-  </script>
-
-</body>
-</html>
