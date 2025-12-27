@@ -924,7 +924,7 @@
   </button>
 
   <header>
-    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
+    <img src="https://i.imgur.com/m7xt2YZ.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
     <div class="status-bar">
       <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
@@ -935,7 +935,7 @@
     <!-- REPRODUCTOR MEJORADO CON ECUALIZADOR -->
     <div class="audio-player" data-aos="fade-up">
       <div class="album-art-container">
-        <img class="album-art" id="albumArt" src="https://i.imgur.com/BhXCsFa.png" alt="Album Cover">
+        <img class="album-art" id="albumArt" src="https://i.imgur.com/m7xt2YZ.png" alt="Album Cover">
       </div>
 
       <div class="now-playing">
@@ -1050,7 +1050,6 @@
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
         </div>
-        <!-- LEXTRONICA AHORA DENTRO DE PROGRAMAS -->
         <div class="card" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA">
           <div class="card-content">
@@ -1100,8 +1099,8 @@
   <script>
     // ========== CONFIGURACIÓN ==========
     const STREAM_URL = 'https://stream.lexxradio.com/live';
-    const METADATA_URL = 'https://stream.lexxradio.com/status-json.xsl';
-    const DEFAULT_IMAGE = 'https://i.imgur.com/BhXCsFa.png';
+    const METADATA_URL = 'https://stream.lexxradio.com/live/status-json.xsl';  // ✅ CORREGIDO
+    const DEFAULT_IMAGE = 'https://i.imgur.com/m7xt2YZ.png';
 
     // ========== ELEMENTOS DOM ==========
     const audio = new Audio(STREAM_URL);
@@ -1123,7 +1122,7 @@
     let isPlaying = false;
     let isLoading = false;
     let metadataInterval = null;
-    let currentTrack = '';
+    let currentTrack = '';  // ✅ AGREGADO
     let audioContext = null;
     let analyser = null;
     let source = null;
@@ -1155,18 +1154,6 @@
     AOS.init({ duration: 1000, once: true });
     createParticles();
     createEqualizer();
-
-    // ========== CREAR BARRAS DEL VISUALIZADOR ==========
-    function createVisualizerBars() {
-      visualizerContainer.innerHTML = '';
-      const BAR_COUNT = 64;
-      for (let i = 0; i < BAR_COUNT; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'vis-bar';
-        bar.style.height = '2px';
-        visualizerContainer.appendChild(bar);
-      }
-    }
 
     // ========== CREAR ECUALIZADOR ==========
     function createEqualizer() {
@@ -1373,7 +1360,7 @@
       
       const bufferLength = analyser.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
-      const bars = document.querySelectorAll('.vis-bar');
+      const bars = document.querySelectorAll('.bar');
       
       function draw() {
         animationId = requestAnimationFrame(draw);
@@ -1465,7 +1452,7 @@
       volumeSlider.style.setProperty('--volume-percent', percentage);
     }
 
-    // ========== METADATOS ==========
+    // ========== METADATOS ========== ✅ CORREGIDO
     async function fetchMetadata() {
       try {
         const response = await fetch(METADATA_URL);
@@ -1569,6 +1556,7 @@
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
       if (installButton) installButton.style.display = 'none';
+      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -1579,28 +1567,35 @@
 
     async function triggerInstall() {
       if (deferredPrompt) {
+        // Si tenemos el prompt guardado, lo mostramos
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         
         if (outcome === 'accepted') {
           console.log('PWA instalada');
           if (installButton) installButton.style.display = 'none';
+          if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
-        if (navigator.share) {
-          navigator.share({
-            title: 'LEX Radio',
-            text: 'Tus recuerdos en el presente',
-            url: window.location.href
-          });
-        } else if (navigator.clipboard) {
-          navigator.clipboard.writeText(window.location.href).then(() => {
-            alert('¡URL copiada! Podés agregarla a tu pantalla de inicio desde el menú de tu navegador.');
-          });
+        // Si no hay prompt (ya instalada o navegador no compatible)
+        // Mostramos instrucciones según el navegador
+        const userAgent = navigator.userAgent.toLowerCase();
+        let message = '';
+        
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+          message = '¡La app ya está instalada!';
+        } else if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
+          message = 'Para instalar:\n1. Presiona el menú (⋮) arriba a la derecha\n2. Selecciona "Agregar a pantalla de inicio" o "Instalar app"';
+        } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+          message = 'Para instalar en Safari:\n1. Presiona el botón de compartir\n2. Selecciona "Agregar a pantalla de inicio"';
+        } else if (userAgent.includes('firefox')) {
+          message = 'Para instalar en Firefox:\n1. Presiona el menú (⋮)\n2. Selecciona "Instalar"';
         } else {
-          alert('Abrí el menú de tu navegador y elegí "Agregar a pantalla de inicio".');
+          message = 'Abre el menú de tu navegador y busca la opción "Agregar a pantalla de inicio" o "Instalar"';
         }
+        
+        alert(message);
       }
     }
 
@@ -1613,6 +1608,7 @@
 
     window.addEventListener('appinstalled', () => {
       if (installButton) installButton.style.display = 'none';
+      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
       console.log('PWA instalada exitosamente');
     });
 
