@@ -924,7 +924,7 @@
   </button>
 
   <header>
-    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
+    <img src="https://i.imgur.com/m7xt2YZ.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
     <div class="status-bar">
       <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
@@ -935,7 +935,7 @@
     <!-- REPRODUCTOR MEJORADO CON ECUALIZADOR -->
     <div class="audio-player" data-aos="fade-up">
       <div class="album-art-container">
-        <img class="album-art" id="albumArt" src="https://i.imgur.com/BhXCsFa.png" alt="Album Cover">
+        <img class="album-art" id="albumArt" src="https://i.imgur.com/m7xt2YZ.png" alt="Album Cover">
       </div>
 
       <div class="now-playing">
@@ -1050,7 +1050,6 @@
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
         </div>
-        <!-- LEXTRONICA AHORA DENTRO DE PROGRAMAS -->
         <div class="card" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA">
           <div class="card-content">
@@ -1155,18 +1154,6 @@
     AOS.init({ duration: 1000, once: true });
     createParticles();
     createEqualizer();
-
-    // ========== CREAR BARRAS DEL VISUALIZADOR ==========
-    function createVisualizerBars() {
-      visualizerContainer.innerHTML = '';
-      const BAR_COUNT = 64;
-      for (let i = 0; i < BAR_COUNT; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'vis-bar';
-        bar.style.height = '2px';
-        visualizerContainer.appendChild(bar);
-      }
-    }
 
     // ========== CREAR ECUALIZADOR ==========
     function createEqualizer() {
@@ -1624,7 +1611,7 @@
       if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
       console.log('PWA instalada exitosamente');
     });
-    
+
     // ========== SMOOTH SCROLL ==========
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
