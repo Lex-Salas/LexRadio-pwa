@@ -924,7 +924,7 @@
   </button>
 
   <header>
-    <img src="https://i.imgur.com/m7xt2YZ.png" alt="LEX Radio Logo" />
+    <img src="https://i.imgur.com/BhXCsFa.png" alt="LEX Radio Logo" />
     <h1 class="neon-text">LEX Radio</h1>
     <div class="status-bar">
       <span id="status-text">🎶 EN VIVO - Tus Recuerdos En El Presente</span>
@@ -935,7 +935,7 @@
     <!-- REPRODUCTOR MEJORADO CON ECUALIZADOR -->
     <div class="audio-player" data-aos="fade-up">
       <div class="album-art-container">
-        <img class="album-art" id="albumArt" src="https://i.imgur.com/m7xt2YZ.png" alt="Album Cover">
+        <img class="album-art" id="albumArt" src="https://i.imgur.com/BhXCsFa.png" alt="Album Cover">
       </div>
 
       <div class="now-playing">
@@ -1050,6 +1050,7 @@
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
         </div>
+        <!-- LEXTRONICA AHORA DENTRO DE PROGRAMAS -->
         <div class="card" data-aos="fade-up">
           <img src="lextronica.png" alt="LEXTRONICA">
           <div class="card-content">
@@ -1099,8 +1100,8 @@
   <script>
     // ========== CONFIGURACIÓN ==========
     const STREAM_URL = 'https://stream.lexxradio.com/live';
-    const METADATA_URL = 'https://stream.lexxradio.com/nowplaying';  // ✅ CORREGIDO
-    const DEFAULT_IMAGE = 'https://i.imgur.com/m7xt2YZ.png';
+    const METADATA_URL = 'https://stream.lexxradio.com/status-json.xsl';
+    const DEFAULT_IMAGE = 'https://i.imgur.com/BhXCsFa.png';
 
     // ========== ELEMENTOS DOM ==========
     const audio = new Audio(STREAM_URL);
@@ -1122,7 +1123,7 @@
     let isPlaying = false;
     let isLoading = false;
     let metadataInterval = null;
-    let currentTrack = '';  // ✅ AGREGADO
+    let currentTrack = '';
     let audioContext = null;
     let analyser = null;
     let source = null;
@@ -1154,6 +1155,18 @@
     AOS.init({ duration: 1000, once: true });
     createParticles();
     createEqualizer();
+
+    // ========== CREAR BARRAS DEL VISUALIZADOR ==========
+    function createVisualizerBars() {
+      visualizerContainer.innerHTML = '';
+      const BAR_COUNT = 64;
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'vis-bar';
+        bar.style.height = '2px';
+        visualizerContainer.appendChild(bar);
+      }
+    }
 
     // ========== CREAR ECUALIZADOR ==========
     function createEqualizer() {
@@ -1360,7 +1373,7 @@
       
       const bufferLength = analyser.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
-      const bars = document.querySelectorAll('.bar');
+      const bars = document.querySelectorAll('.vis-bar');
       
       function draw() {
         animationId = requestAnimationFrame(draw);
@@ -1452,62 +1465,47 @@
       volumeSlider.style.setProperty('--volume-percent', percentage);
     }
 
-    // ========== METADATOS ========== ✅ CORREGIDO
+    // ========== METADATOS ==========
     async function fetchMetadata() {
       try {
-        console.log('🔄 Consultando metadatos...');
+        const response = await fetch(METADATA_URL);
+        const data = await response.json();
         
-        const res = await fetch(METADATA_URL + '?t=' + Date.now(), {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          },
-          cache: 'no-cache'
-        });
+        const source = data.icestats.source;
+        if (!source || !source.title) {
+          updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
+          return;
+        }
+        
+        const fullTitle = source.title.trim();
+        
+        if (fullTitle === currentTrack) return;
+        currentTrack = fullTitle;
+        
+        let artist = '';
+        let song = fullTitle;
+        
+        if (fullTitle.includes(' - ')) {
+          const parts = fullTitle.split(' - ');
+          artist = parts[0].trim();
+          song = parts.slice(1).join(' - ').trim();
+        }
 
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        updateDisplay(song, artist);
+        if (artist && song) {
+          fetchAlbumArt(artist, song);
+        }
+
+      } catch (e) {
+        console.error('Error obteniendo metadatos:', e);
+      }
     }
 
-    const data = await res.json();
-    console.log('✅ Metadatos recibidos:', data);
-
-    const artist = data.artist || 'LEX RADIO';
-    const song = data.title || 'EN VIVO';
-    const fullTitle = data.fullTitle || `${artist} - ${song}`;
-
-    if (currentTrack === fullTitle) {
-      console.log('⏭️ Sin cambios en la canción');
-      return;
+    function updateDisplay(song, artist, artwork) {
+      songTitle.textContent = song;
+      artistName.textContent = artist;
+      if (artwork) albumArt.src = artwork;
     }
-
-    currentTrack = fullTitle;
-    console.log(`🎵 Ahora suena: ${fullTitle}`);
-
-    updateDisplay(song, artist, DEFAULT_IMAGE);
-
-    if (artist && song && artist !== 'LEX RADIO') {
-      fetchAlbumArt(artist, song);
-    } else {
-      albumArt.src = DEFAULT_IMAGE;
-    }
-
-  } catch (error) {
-    console.error('❌ Error cargando metadata:', error);
-    updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
-  }
-}
-
-
-function updateDisplay(song, artist, artwork) {
-  songTitle.textContent = `🎵 ${song}`;
-  artistName.textContent = artist;
-  if (artwork) {
-    albumArt.style.opacity = '0.5';
-    albumArt.src = artwork;
-    setTimeout(() => { albumArt.style.opacity = '1'; }, 300);
-  }
-}
 
     async function fetchAlbumArt(artist, song) {
       try {
@@ -1571,7 +1569,6 @@ function updateDisplay(song, artist, artwork) {
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
       if (installButton) installButton.style.display = 'none';
-      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -1582,35 +1579,28 @@ function updateDisplay(song, artist, artwork) {
 
     async function triggerInstall() {
       if (deferredPrompt) {
-        // Si tenemos el prompt guardado, lo mostramos
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         
         if (outcome === 'accepted') {
           console.log('PWA instalada');
           if (installButton) installButton.style.display = 'none';
-          if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
-        // Si no hay prompt (ya instalada o navegador no compatible)
-        // Mostramos instrucciones según el navegador
-        const userAgent = navigator.userAgent.toLowerCase();
-        let message = '';
-        
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-          message = '¡La app ya está instalada!';
-        } else if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-          message = 'Para instalar:\n1. Presiona el menú (⋮) arriba a la derecha\n2. Selecciona "Agregar a pantalla de inicio" o "Instalar app"';
-        } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-          message = 'Para instalar en Safari:\n1. Presiona el botón de compartir\n2. Selecciona "Agregar a pantalla de inicio"';
-        } else if (userAgent.includes('firefox')) {
-          message = 'Para instalar en Firefox:\n1. Presiona el menú (⋮)\n2. Selecciona "Instalar"';
+        if (navigator.share) {
+          navigator.share({
+            title: 'LEX Radio',
+            text: 'Tus recuerdos en el presente',
+            url: window.location.href
+          });
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('¡URL copiada! Podés agregarla a tu pantalla de inicio desde el menú de tu navegador.');
+          });
         } else {
-          message = 'Abre el menú de tu navegador y busca la opción "Agregar a pantalla de inicio" o "Instalar"';
+          alert('Abrí el menú de tu navegador y elegí "Agregar a pantalla de inicio".');
         }
-        
-        alert(message);
       }
     }
 
@@ -1623,7 +1613,6 @@ function updateDisplay(song, artist, artwork) {
 
     window.addEventListener('appinstalled', () => {
       if (installButton) installButton.style.display = 'none';
-      if (installLexRadioBtn) installLexRadioBtn.style.display = 'none';
       console.log('PWA instalada exitosamente');
     });
 
