@@ -1,146 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LEX RADIO - Privacy Policy</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEX RADIO | Política de Privacidad</title>
+  <meta name="description" content="Política de privacidad de LEX RADIO." />
+  <style>
+    :root{
+      --bg:#070b12;
+      --panel:#0d1420;
+      --text:#eaf2ff;
+      --muted:#9fb2d0;
+      --accent:#00b7ff;
+      --accent2:#6cf0ff;
+      --border:rgba(255,255,255,.08);
+    }
 
-<style>
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#0b0b0b;
-    color:#ffffff;
-    line-height:1.7;
-}
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:40px 20px;
-}
-h1{
-    color:#00b7ff;
-    text-align:center;
-}
-h2{
-    color:#00b7ff;
-    margin-top:35px;
-}
-a{
-    color:#00b7ff;
-}
-.footer{
-    text-align:center;
-    margin-top:50px;
-    color:#999;
-    font-size:14px;
-}
-</style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(0,183,255,.16), transparent 35%),
+        linear-gradient(180deg, #05070b 0%, #07111d 100%);
+      color:var(--text);
+      line-height:1.7;
+    }
 
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:32px 18px 56px;
+    }
+
+    .hero{
+      background:linear-gradient(180deg, rgba(13,20,32,.96), rgba(9,14,23,.96));
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:34px 24px;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+
+    .brand{
+      text-transform:uppercase;
+      letter-spacing:.22em;
+      font-size:.82rem;
+      color:var(--accent2);
+      margin:0 0 10px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(2rem, 4vw, 3.3rem);
+      line-height:1.05;
+      color:var(--text);
+    }
+
+    .subtitle{
+      margin:14px 0 0;
+      color:var(--muted);
+      max-width:70ch;
+    }
+
+    .content{
+      margin-top:22px;
+      background:rgba(13,20,32,.75);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:28px 24px;
+    }
+
+    h2{
+      margin:28px 0 10px;
+      color:var(--accent);
+      font-size:1.18rem;
+    }
+
+    p, li{
+      color:var(--text);
+      font-size:1rem;
+    }
+
+    ul{
+      margin:12px 0 0 22px;
+      padding:0;
+    }
+
+    .note{
+      color:var(--muted);
+      font-size:.96rem;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .back{
+      display:inline-block;
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid rgba(0,183,255,.35);
+      background:rgba(0,183,255,.08);
+      padding:10px 14px;
+      border-radius:999px;
+      transition:.2s ease;
+    }
+
+    .back:hover{
+      transform:translateY(-1px);
+      border-color:rgba(0,183,255,.7);
+      background:rgba(0,183,255,.14);
+    }
+
+    a{
+      color:var(--accent2);
+      word-break:break-word;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:22px;
+      color:var(--muted);
+      font-size:.92rem;
+      padding-top:8px;
+    }
+  </style>
 </head>
-
 <body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="topbar">
+        <div>
+          <p class="brand">LEX RADIO</p>
+          <h1>Política de Privacidad</h1>
+          <p class="subtitle">Esta página explica cómo funciona la aplicación y qué datos técnicos pueden procesarse para ofrecer el servicio de radio en vivo.</p>
+        </div>
+        <a class="back" href="https://www.lexxradio.com/">Volver al sitio</a>
+      </div>
+    </section>
 
-<div class="container">
+    <section class="content">
+      <p><strong>Última actualización:</strong> 26 de julio de 2026</p>
 
-<h1>LEX RADIO Privacy Policy</h1>
+      <p>
+        LEX RADIO respeta la privacidad de sus usuarios. Esta Política de Privacidad describe qué información puede recopilarse
+        cuando utiliza nuestra aplicación móvil y nuestro sitio web, y con qué fines se utiliza.
+      </p>
 
-<p><strong>Last Updated:</strong> July 26, 2026</p>
+      <h2>Información que recopilamos</h2>
+      <p>La aplicación puede procesar información técnica y de uso, como:</p>
+      <ul>
+        <li>Tipo de dispositivo.</li>
+        <li>Versión del sistema operativo.</li>
+        <li>Dirección IP.</li>
+        <li>Datos anónimos de uso y rendimiento.</li>
+      </ul>
+      <p>No recopilamos información personal sensible como nombre, dirección, contraseñas ni datos bancarios.</p>
 
-<p>
-LEX RADIO respects your privacy. This Privacy Policy explains how our mobile application
-collects, uses and protects your information.
-</p>
+      <h2>Streaming de audio</h2>
+      <p>
+        La aplicación transmite contenido de audio en vivo desde nuestros servidores o servicios de streaming.
+        Para que el servicio funcione correctamente, pueden procesarse datos técnicos necesarios para la conexión y reproducción.
+      </p>
 
-<h2>Information We Collect</h2>
+      <h2>Notificaciones push</h2>
+      <p>
+        LEX RADIO utiliza OneSignal para enviar notificaciones relacionadas con programación, novedades, promociones o anuncios importantes.
+        Puede desactivar las notificaciones en cualquier momento desde la configuración de su dispositivo.
+      </p>
 
-<p>
-The application may collect limited technical information including:
-</p>
+      <h2>Publicidad y servicios de terceros</h2>
+      <p>
+        Si se muestran anuncios o servicios de terceros, estos pueden utilizar identificadores técnicos o información anónima
+        para ofrecer contenido relevante y medir el rendimiento. Cada tercero maneja su propia política de privacidad.
+      </p>
 
-<ul>
-<li>Device type</li>
-<li>Operating system version</li>
-<li>IP address</li>
-<li>Anonymous usage statistics</li>
-</ul>
+      <h2>Cookies y tecnologías similares</h2>
+      <p>
+        Nuestro sitio web puede utilizar cookies o tecnologías similares para mejorar la experiencia del usuario, recordar preferencias
+        y obtener estadísticas de uso.
+      </p>
 
-<p>
-We do not collect personal information such as your name, address or payment information.
-</p>
+      <h2>Seguridad</h2>
+      <p>
+        Aplicamos medidas razonables para proteger la información técnica que se procesa a través de nuestros servicios.
+        Sin embargo, ningún sistema es completamente infalible.
+      </p>
 
-<h2>Audio Streaming</h2>
+      <h2>Enlaces a sitios externos</h2>
+      <p>
+        Nuestra app o sitio web puede contener enlaces a sitios externos. No somos responsables por el contenido ni por las prácticas
+        de privacidad de dichos sitios.
+      </p>
 
-<p>
-Our application streams live radio content. Technical information may be processed
-to provide uninterrupted audio streaming.
-</p>
+      <h2>Cambios a esta política</h2>
+      <p>
+        Podemos actualizar esta Política de Privacidad en cualquier momento. La versión vigente siempre estará disponible en esta página.
+      </p>
 
-<h2>Push Notifications</h2>
+      <h2>Contacto</h2>
+      <p>
+        <strong>LEX RADIO</strong><br />
+        Sitio web: <a href="https://www.lexxradio.com/">https://www.lexxradio.com</a><br />
+        Correo: <a href="mailto:info@lexxradio.com">info@lexxradio.com</a>
+      </p>
 
-<p>
-LEX RADIO uses OneSignal to send notifications about programming,
-music, promotions and important announcements.
-You can disable notifications at any time from your device settings.
-</p>
+      <p class="note">
+        Esta página fue preparada para cumplir con los requisitos habituales de publicación de políticas de privacidad en aplicaciones móviles.
+      </p>
 
-<h2>Advertising</h2>
-
-<p>
-If advertisements are displayed, they may be provided by third-party advertising
-partners that may collect anonymous information in accordance with their own privacy policies.
-</p>
-
-<h2>Security</h2>
-
-<p>
-We implement reasonable security measures to protect the information processed
-through our application.
-</p>
-
-<h2>Third-Party Links</h2>
-
-<p>
-Our application may contain links to external websites.
-LEX RADIO is not responsible for the privacy practices of those websites.
-</p>
-
-<h2>Changes to this Privacy Policy</h2>
-
-<p>
-We may update this Privacy Policy periodically.
-Any changes will be published on this page.
-</p>
-
-<h2>Contact</h2>
-
-<p>
-
-<strong>LEX RADIO</strong><br>
-
-Website:<br>
-
-<a href="https://www.lexxradio.com">
-https://www.lexxradio.com
-</a>
-
-<br><br>
-
-Email:<br>
-
-<a href="mailto:info@lexxradio.com">
-info@lexxradio.com
-</a>
-
-</p>
-
-<div class="footer">
-
-© 2026 LEX RADIO. All Rights Reserved.
-
-</div>
-
-</div>
-
+      <div class="footer">© 2026 LEX RADIO. Todos los derechos reservados.</div>
+    </section>
+  </main>
 </body>
 </html>
