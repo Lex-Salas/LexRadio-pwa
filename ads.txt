@@ -13,6 +13,7 @@ surfernetwork.com, 204, DIRECT
 
 adswizz.com, 724, RESELLER, 52ded3ee71b94c84
 adswizz.com, 430, RESELLER, 52ded3ee71b94c84
+adswizz.com, 330, RESELLER, 52ded3ee71b94c84
 
 #Azerion
 
