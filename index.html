@@ -293,6 +293,63 @@
       text-shadow: 0 0 15px rgba(255, 0, 153, 0.6);
     }
 
+    .recently-played {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .recently-played summary {
+      cursor: pointer;
+      font-size: 0.95em;
+      color: rgba(255, 255, 255, 0.7);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      transition: color 0.2s ease;
+    }
+
+    .recently-played summary::-webkit-details-marker { display: none; }
+    .recently-played summary:hover { color: #00f0ff; }
+
+    .recently-played-list {
+      list-style: none;
+      text-align: left;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    .recently-played-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.9em;
+    }
+
+    .recently-played-list li:last-child { border-bottom: none; }
+
+    .recently-played-list .rp-song {
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .recently-played-list .rp-time {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85em;
+      flex-shrink: 0;
+    }
+
     .audio-controls {
       display: flex;
       align-items: center;
@@ -924,6 +981,44 @@
         padding: 6px 12px;
       }
     }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.5);
+      z-index: 999;
+      animation: whatsapp-pulse 2.5s infinite;
+      transition: transform 0.2s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes whatsapp-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+      70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
+    @media (max-width: 600px) {
+      .whatsapp-float {
+        bottom: 16px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+      }
+    }
   </style>
 </head>
 <body onload="AOS.init()">
@@ -933,6 +1028,8 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <div class="particles" id="particles"></div>
+
+  <a href="https://wa.me/50684794991?text=%C2%A1Hola%20LEX%20Radio!%20Les%20mando%20un%20saludo%20%F0%9F%8E%B6" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Enviar saludo por WhatsApp">💬</a>
 
   <button class="install-button" id="installButton">
     📱 Instalar App
@@ -979,6 +1076,14 @@
         <span class="volume-icon">🔊</span>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
       </div>
+
+      <!-- REPRODUCIDO RECIENTEMENTE -->
+      <details class="recently-played">
+        <summary>🕒 Reproducido recientemente</summary>
+        <ul class="recently-played-list" id="recentlyPlayedList">
+          <li><span class="rp-song">Todavía no hay historial en esta sesión...</span></li>
+        </ul>
+      </details>
 
       <!-- ECUALIZADOR -->
       <div class="equalizer-section" id="equalizerSection">
@@ -1503,6 +1608,48 @@
       volumeSlider.style.setProperty('--volume-percent', percentage);
     }
 
+    // ========== HISTORIAL RECIENTE ==========
+    const RECENTLY_PLAYED_KEY = 'lexradio_recently_played';
+    const MAX_RECENT = 8;
+    const recentlyPlayedList = document.getElementById('recentlyPlayedList');
+
+    function loadRecentlyPlayed() {
+      try {
+        return JSON.parse(localStorage.getItem(RECENTLY_PLAYED_KEY)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveRecentlyPlayed(list) {
+      localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(list));
+    }
+
+    function addToRecentlyPlayed(song, artist) {
+      if (!song) return;
+      const list = loadRecentlyPlayed();
+      const label = artist ? `${artist} - ${song}` : song;
+      if (list.length && list[0].label === label) return; // evitar duplicado consecutivo
+
+      list.unshift({ label, time: new Date().toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' }) });
+      const trimmed = list.slice(0, MAX_RECENT);
+      saveRecentlyPlayed(trimmed);
+      renderRecentlyPlayed(trimmed);
+    }
+
+    function renderRecentlyPlayed(list) {
+      const data = list || loadRecentlyPlayed();
+      if (!data.length) {
+        recentlyPlayedList.innerHTML = '<li><span class="rp-song">Todavía no hay historial en esta sesión...</span></li>';
+        return;
+      }
+      recentlyPlayedList.innerHTML = data.map(item =>
+        `<li><span class="rp-song">${item.label}</span><span class="rp-time">${item.time}</span></li>`
+      ).join('');
+    }
+
+    renderRecentlyPlayed();
+
     // ========== METADATOS ==========
     async function fetchMetadata() {
       try {
@@ -1518,6 +1665,12 @@
         const fullTitle = source.title.trim();
         
         if (fullTitle === currentTrack) return;
+
+        // Guardar la canción anterior en el historial antes de reemplazarla
+        if (currentTrack) {
+          addToRecentlyPlayed(songTitle.textContent.replace('🎵 ', ''), artistName.textContent);
+        }
+
         currentTrack = fullTitle;
         
         let artist = '';
