@@ -1,4 +1,4 @@
-const CACHE_NAME = "lexradio-v4"; // Aumenta la versión para limpiar cache viejo
+const CACHE_NAME = "lexradio-v5"; // Aumenta la versión para limpiar cache viejo
 
 const APP_SHELL = [
   "./",
@@ -9,19 +9,19 @@ const APP_SHELL = [
   "./css/style.css",
   "./js/main.js",
 
-  "./artista.png",
-  "./lextronica.png",
-  "./startpop.png",
-  "./concierto.png",
-  "./retrovibe.png",
-  "./RAMix_Total_Poster_Web.png",
-  "./LEX.png",
-  "./Jessica.png",
+  "./artista.jpg",
+  "./lextronica.jpg",
+  "./startpop.jpg",
+  "./concierto.jpg",
+  "./retrovibe.jpg",
+  "./RAMix_Total_Poster_Web.jpg",
+  "./LEX.jpg",
+  "./Jessica.jpg",
 
   "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap",
   "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css",
   "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js",
-  "https://https://i.imgur.com/m7xt2YZ.png"
+  "https://i.imgur.com/m7xt2YZ.png"
 ];
 
 // URLs que NUNCA deben cachearse
