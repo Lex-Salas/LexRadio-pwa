@@ -50,12 +50,27 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }
-    window.addEventListener('load', () => {
-      if (!navigator.onLine) {
-        alert('Estás desconectado. Algunas funciones pueden no estar disponibles.');
-      }
-    });
   </script>
+
+  <style>
+    #offline-banner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      background: #ff6b6b;
+      color: #14141c;
+      text-align: center;
+      font-size: 0.85em;
+      font-weight: 600;
+      padding: 8px 12px;
+    }
+    #offline-banner.visible {
+      display: block;
+    }
+  </style>
 
   <!-- AOS CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -1173,6 +1188,7 @@
   </style>
 </head>
 <body onload="AOS.init()">
+  <div id="offline-banner">📡 Estás desconectado. Algunas funciones pueden no estar disponibles.</div>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG754S9D"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -1188,9 +1204,9 @@
     <button id="song-request-toggle" class="song-request-toggle" aria-label="Pide tu canción aquí" title="Pide tu canción aquí">🎵</button>
     <div id="song-request-form" class="song-request-form hidden">
       <h4>🎶 Pedí tu canción</h4>
-      <input type="text" id="req-nombre" placeholder="Tu nombre" maxlength="30" />
-      <input type="text" id="req-cancion" placeholder="Nombre de la canción" maxlength="60" />
-      <input type="text" id="req-artista" placeholder="Artista" maxlength="60" required />
+      <input type="text" id="req-nombre" placeholder="Tu nombre" aria-label="Tu nombre" maxlength="30" />
+      <input type="text" id="req-cancion" placeholder="Nombre de la canción" aria-label="Nombre de la canción" maxlength="60" />
+      <input type="text" id="req-artista" placeholder="Artista" aria-label="Artista" maxlength="60" required />
       <div id="req-error" class="song-request-error">Completá tu nombre, la canción y el artista 🎧</div>
       <button id="req-enviar">Enviar por WhatsApp</button>
     </div>
@@ -1288,9 +1304,9 @@
 
       <div id="nav-song-request-form" class="song-request-form nav-song-request-form hidden">
         <h4>🎶 Pedí tu canción</h4>
-        <input type="text" id="nav-req-nombre" placeholder="Tu nombre" maxlength="30" />
-        <input type="text" id="nav-req-cancion" placeholder="Nombre de la canción" maxlength="60" />
-        <input type="text" id="nav-req-artista" placeholder="Artista" maxlength="60" required />
+        <input type="text" id="nav-req-nombre" placeholder="Tu nombre" aria-label="Tu nombre" maxlength="30" />
+        <input type="text" id="nav-req-cancion" placeholder="Nombre de la canción" aria-label="Nombre de la canción" maxlength="60" />
+        <input type="text" id="nav-req-artista" placeholder="Artista" aria-label="Artista" maxlength="60" required />
         <div id="nav-req-error" class="song-request-error">Completá tu nombre, la canción y el artista 🎧</div>
         <button id="nav-req-enviar">Enviar por WhatsApp</button>
       </div>
@@ -1301,8 +1317,8 @@
       <a href="#equipo">Equipo</a>
       <a href="#programas-anteriores">Escuchá Antes</a>
       <a href="#contacto">Contacto</a>
-      <a href="https://facebook.com/lexxradio" target="_blank">Facebook</a>
-      <a href="https://www.lexxradio.com" target="_blank">Sitio Web</a>
+      <a href="https://facebook.com/lexxradio" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.lexxradio.com" target="_blank" rel="noopener">Sitio Web</a>
     </nav>
 
     <section id="programas">
@@ -1426,7 +1442,7 @@
         <div class="card" data-aos="fade-up">
           <div class="card-content">
             <h3 style="color: #25D366;">💬 WhatsApp</h3>
-            <p><a href="https://wa.me/50670707976" target="_blank" style="color: #fff; text-decoration: none;">+506 7070-7976</a></p>
+            <p><a href="https://wa.me/50670707976" target="_blank" rel="noopener" style="color: #fff; text-decoration: none;">+506 7070-7976</a></p>
           </div>
         </div>
       </div>
@@ -2079,6 +2095,14 @@
       fetchMetadata();
       loadEqSettings();
       loadEqCollapseState();
+
+      const offlineBanner = document.getElementById('offline-banner');
+      function actualizarEstadoConexion() {
+        offlineBanner.classList.toggle('visible', !navigator.onLine);
+      }
+      actualizarEstadoConexion();
+      window.addEventListener('online', actualizarEstadoConexion);
+      window.addEventListener('offline', actualizarEstadoConexion);
     });
   </script>
 
