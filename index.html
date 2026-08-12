@@ -2050,7 +2050,6 @@
 
       function abrirFormulario() {
         formBox.classList.remove('hidden');
-        document.getElementById('song-request-widget').scrollIntoView({ behavior: 'smooth', block: 'end' });
         nombreInput.focus();
       }
 
@@ -2085,7 +2084,9 @@
 
       // Cerrar el formulario si se hace clic afuera
       document.addEventListener('click', (e) => {
-        if (!document.getElementById('song-request-widget').contains(e.target)) {
+        const dentroDelWidget = document.getElementById('song-request-widget').contains(e.target);
+        const esBotonNav = navBtn && (e.target === navBtn || navBtn.contains(e.target));
+        if (!dentroDelWidget && !esBotonNav) {
           formBox.classList.add('hidden');
         }
       });
