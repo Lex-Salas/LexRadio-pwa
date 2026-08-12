@@ -1074,6 +1074,22 @@
       }
     }
 
+    .nav-song-request-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-song-request-form {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      bottom: auto;
+      right: auto;
+      transform: translateX(-50%);
+      margin-top: 10px;
+      z-index: 998;
+    }
+
     .song-request-form {
       position: absolute;
       bottom: 72px;
@@ -1245,9 +1261,19 @@
       </div>
     </div>
 
-    <button class="neon-button" id="navSongRequestBtn">
-      🎵 Pedí aquí tu canción
-    </button>
+    <div class="nav-song-request-wrapper">
+      <button class="neon-button" id="navSongRequestBtn">
+        🎵 Pedí aquí tu canción
+      </button>
+
+      <div id="nav-song-request-form" class="song-request-form nav-song-request-form hidden">
+        <h4>🎶 Pedí tu canción</h4>
+        <input type="text" id="nav-req-nombre" placeholder="Tu nombre" maxlength="30" />
+        <input type="text" id="nav-req-cancion" placeholder="Nombre de la canción" maxlength="60" />
+        <input type="text" id="nav-req-artista" placeholder="Artista" maxlength="60" required />
+        <button id="nav-req-enviar">Enviar por WhatsApp</button>
+      </div>
+    </div>
 
     <nav>
       <a href="#programas">Programas</a>
@@ -2041,30 +2067,64 @@
       const WHATSAPP_NUMBER = "50684794991"; // mismo número del botón de saludo
 
       const toggleBtn = document.getElementById('song-request-toggle');
-      const navBtn = document.getElementById('navSongRequestBtn');
       const formBox = document.getElementById('song-request-form');
       const enviarBtn = document.getElementById('req-enviar');
       const nombreInput = document.getElementById('req-nombre');
       const cancionInput = document.getElementById('req-cancion');
       const artistaInput = document.getElementById('req-artista');
 
-      function abrirFormulario() {
-        formBox.classList.remove('hidden');
-        nombreInput.focus();
-      }
-
       toggleBtn.addEventListener('click', () => {
         formBox.classList.toggle('hidden');
       });
 
+      enviarBtn.addEventListener('click', () => {
+        enviarPeticion(nombreInput, cancionInput, artistaInput, formBox);
+      });
+
+      // Cerrar el formulario flotante si se hace clic afuera
+      document.addEventListener('click', (e) => {
+        if (!document.getElementById('song-request-widget').contains(e.target)) {
+          formBox.classList.add('hidden');
+        }
+      });
+
+      // ===== Formulario debajo del botón "Pedí aquí tu canción" =====
+      const navBtn = document.getElementById('navSongRequestBtn');
+      const navWrapper = document.querySelector('.nav-song-request-wrapper');
+      const navFormBox = document.getElementById('nav-song-request-form');
+      const navEnviarBtn = document.getElementById('nav-req-enviar');
+      const navNombreInput = document.getElementById('nav-req-nombre');
+      const navCancionInput = document.getElementById('nav-req-cancion');
+      const navArtistaInput = document.getElementById('nav-req-artista');
+
       if (navBtn) {
-        navBtn.addEventListener('click', abrirFormulario);
+        navBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navFormBox.classList.toggle('hidden');
+          if (!navFormBox.classList.contains('hidden')) {
+            navNombreInput.focus();
+          }
+        });
       }
 
-      enviarBtn.addEventListener('click', () => {
-        const nombre = nombreInput.value.trim();
-        const cancion = cancionInput.value.trim();
-        const artista = artistaInput.value.trim();
+      if (navEnviarBtn) {
+        navEnviarBtn.addEventListener('click', () => {
+          enviarPeticion(navNombreInput, navCancionInput, navArtistaInput, navFormBox);
+        });
+      }
+
+      // Cerrar el formulario del nav si se hace clic afuera
+      document.addEventListener('click', (e) => {
+        if (navWrapper && !navWrapper.contains(e.target)) {
+          navFormBox.classList.add('hidden');
+        }
+      });
+
+      // Función compartida para armar el mensaje y abrir WhatsApp
+      function enviarPeticion(nombreEl, cancionEl, artistaEl, formEl) {
+        const nombre = nombreEl.value.trim();
+        const cancion = cancionEl.value.trim();
+        const artista = artistaEl.value.trim();
 
         if (!nombre || !cancion || !artista) {
           alert('Por favor completá tu nombre, la canción y el artista 🎧');
@@ -2075,21 +2135,11 @@
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');
 
-        // Limpiar y cerrar el formulario
-        nombreInput.value = '';
-        cancionInput.value = '';
-        artistaInput.value = '';
-        formBox.classList.add('hidden');
-      });
-
-      // Cerrar el formulario si se hace clic afuera
-      document.addEventListener('click', (e) => {
-        const dentroDelWidget = document.getElementById('song-request-widget').contains(e.target);
-        const esBotonNav = navBtn && (e.target === navBtn || navBtn.contains(e.target));
-        if (!dentroDelWidget && !esBotonNav) {
-          formBox.classList.add('hidden');
-        }
-      });
+        nombreEl.value = '';
+        cancionEl.value = '';
+        artistaEl.value = '';
+        formEl.classList.add('hidden');
+      }
     })();
   </script>
 
