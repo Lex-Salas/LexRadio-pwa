@@ -1,0 +1,53 @@
+{
+  "_instrucciones": "dias usa el formato de JavaScript: 0=Domingo, 1=Lunes, 2=Martes, 3=Miercoles, 4=Jueves, 5=Viernes, 6=Sabado. Horas en formato 24h HH:MM, hora de Costa Rica.",
+  "programas": [
+    {
+      "id": "artista-semana",
+      "nombre": "Artista de la Semana",
+      "conductor": "",
+      "dias": [6],
+      "inicio": "10:00",
+      "fin": "12:00"
+    },
+    {
+      "id": "popstart",
+      "nombre": "POPSTART",
+      "conductor": "",
+      "dias": [1, 2, 3, 4, 5],
+      "inicio": "09:00",
+      "fin": "11:00"
+    },
+    {
+      "id": "concierto-enamorados",
+      "nombre": "Concierto para Enamorados",
+      "conductor": "",
+      "dias": [1, 2, 3, 4, 5],
+      "inicio": "17:00",
+      "fin": "18:00"
+    },
+    {
+      "id": "retrovibes",
+      "nombre": "RETROVIBES",
+      "conductor": "Jessica",
+      "dias": [6],
+      "inicio": "13:00",
+      "fin": "14:00"
+    },
+    {
+      "id": "ramix-total",
+      "nombre": "RAMix Total",
+      "conductor": "DJ RAM",
+      "dias": [6],
+      "inicio": "19:00",
+      "fin": "21:00"
+    },
+    {
+      "id": "lextronica",
+      "nombre": "LEXTRONICA",
+      "conductor": "",
+      "dias": [6],
+      "inicio": "09:00",
+      "fin": "11:00"
+    }
+  ]
+}

@@ -255,6 +255,164 @@
       font-size: 1em;
       flex-shrink: 0;
     }
+
+    /* AHORA EN VIVO / PRÓXIMO PROGRAMA */
+    .live-schedule-box {
+      max-width: 900px;
+      margin: 20px auto 0;
+      background: linear-gradient(135deg, rgba(10, 14, 39, 0.85), rgba(26, 31, 58, 0.7));
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 45, 120, 0.35);
+      border-radius: 20px;
+      padding: 16px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .live-schedule-box.hidden {
+      display: none;
+    }
+
+    .live-now-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .live-now-block.hidden {
+      display: none;
+    }
+
+    .live-dot {
+      font-size: 1.6em;
+      animation: livePulse 1.6s infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .live-label {
+      color: #ff2d78;
+      font-size: 0.75em;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .live-program-name {
+      color: #fff;
+      font-size: 1.15em;
+      font-weight: 700;
+    }
+
+    .live-program-extra {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85em;
+    }
+
+    .live-next-block {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9em;
+    }
+
+    .live-next-block.hidden {
+      display: none;
+    }
+
+    .live-next-label {
+      color: #00f0ff;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    /* Badge en tarjetas de programas */
+    .card {
+      position: relative;
+    }
+
+    .program-status-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      font-size: 0.7em;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .program-status-badge.live {
+      background: #ff2d78;
+      color: #fff;
+      animation: livePulse 1.6s infinite;
+    }
+
+    .program-status-badge.next {
+      background: rgba(0, 240, 255, 0.9);
+      color: #0a0e27;
+    }
+
+    /* LEX TOP 10 */
+    .top10-list {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 20px;
+    }
+
+    .top10-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(135deg, rgba(10, 14, 39, 0.7), rgba(26, 31, 58, 0.5));
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 14px;
+      padding: 12px 18px;
+    }
+
+    .top10-pos {
+      font-size: 1.3em;
+      font-weight: 900;
+      color: #00f0ff;
+      width: 34px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .top10-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .top10-song {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top10-artist {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85em;
+    }
+
+    .top10-trend {
+      font-size: 1.1em;
+      flex-shrink: 0;
+    }
+
+    .top10-trend.up { color: #4caf50; }
+    .top10-trend.down { color: #ff6b6b; }
+    .top10-trend.same { color: rgba(255,255,255,0.4); }
   </style>
 
   <!-- AOS CSS -->
@@ -1431,6 +1589,22 @@
   </header>
 
   <main>
+    <!-- AHORA EN VIVO / PRÓXIMO PROGRAMA -->
+    <div id="live-schedule-box" class="live-schedule-box hidden" data-aos="fade-up">
+      <div id="liveNowBlock" class="live-now-block hidden">
+        <span class="live-dot">🔴</span>
+        <div>
+          <div class="live-label">EN VIVO AHORA</div>
+          <div id="liveNowName" class="live-program-name"></div>
+          <div id="liveNowExtra" class="live-program-extra"></div>
+        </div>
+      </div>
+      <div id="liveNextBlock" class="live-next-block hidden">
+        <span class="live-next-label">Después:</span>
+        <span id="liveNextName"></span>
+      </div>
+    </div>
+
     <!-- REPRODUCTOR MEJORADO CON ECUALIZADOR -->
     <div class="audio-player" data-aos="fade-up">
       <div class="album-art-container">
@@ -1532,7 +1706,7 @@
     <section id="programas">
       <h2 class="section-title">📺 Nuestros Programas</h2>
       <div class="scroll-wrapper">
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="artista-semana">
           <img src="artista.jpg" alt="Artista de la Semana" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00f0ff;">Artista de la Semana</h3>
@@ -1540,7 +1714,7 @@
             <p style="color: #ccc;">📅 Sábados · 10:00 AM - 12:00 PM</p>
           </div>
         </div>
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="popstart">
           <img src="startpop.jpg" alt="POPSTART" loading="lazy">
           <div class="card-content">
             <h3 style="color: #ff6600;">POPSTART</h3>
@@ -1548,7 +1722,7 @@
             <p style="color: #ccc;">📅 Lunes a viernes · 9:00 - 11:00 AM</p>
           </div>
         </div>
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="concierto-enamorados">
           <img src="concierto.jpg" alt="Concierto para Enamorados" loading="lazy">
           <div class="card-content">
             <h3 style="color: #ff0099;">Concierto para Enamorados</h3>
@@ -1556,7 +1730,7 @@
             <p style="color: #ccc;">📅 Lunes a viernes · 5:00 - 6:00 PM</p>
           </div>
         </div>
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="retrovibes">
           <img src="retrovibe.jpg" alt="RETROVIBES" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00f0ff;">RETROVIBES</h3>
@@ -1564,7 +1738,7 @@
             <p style="color: #ccc;">📅 Sábados · 1:00 - 2:00 PM</p>
           </div>
         </div>
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="ramix-total">
           <img src="RAMix_Total_Poster_Web.jpg" alt="RAMix Total" loading="lazy">
           <div class="card-content">
             <h3 style="color: #ff0099;">RAMix Total</h3>
@@ -1572,7 +1746,7 @@
             <p style="color: #ccc;">📅 Sábados · 7:00 - 9:00 PM</p>
           </div>
         </div>
-        <div class="card" data-aos="fade-up">
+        <div class="card" data-aos="fade-up" data-program-id="lextronica">
           <img src="lextronica.jpg" alt="LEXTRONICA" loading="lazy">
           <div class="card-content">
             <h3 style="color: #00f0ff;">LEXTRONICA</h3>
@@ -1608,6 +1782,17 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <section id="top10">
+      <h2 class="section-title">🔥 LEX Top 10</h2>
+      <p id="top10Subtitle" style="max-width: 600px; margin: 0 auto 10px; color: rgba(255,255,255,0.7); font-size: 0.95em;">
+        Las canciones más sonadas de la semana
+      </p>
+      <p style="max-width: 600px; margin: 0 auto 25px; color: #ffb020; font-size: 0.8em;">
+        ⚠️ Datos de ejemplo — todavía no conectado a estadísticas reales de reproducción.
+      </p>
+      <div id="top10List" class="top10-list"></div>
     </section>
 
     <section id="programas-anteriores">
@@ -2447,6 +2632,8 @@
       loadEqSettings();
       loadEqCollapseState();
       renderFavoritos();
+      cargarProgramacion();
+      cargarTop10();
 
       const offlineBanner = document.getElementById('offline-banner');
       function actualizarEstadoConexion() {
@@ -2456,6 +2643,148 @@
       window.addEventListener('online', actualizarEstadoConexion);
       window.addEventListener('offline', actualizarEstadoConexion);
     });
+
+    // ========== PROGRAMACIÓN AUTOMÁTICA (EN VIVO / SIGUE) ==========
+    const DIAS_NOMBRE = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const DIA_ABR_A_INDICE = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+    function parsearHora(hhmm) {
+      const [h, m] = hhmm.split(':').map(Number);
+      return h * 60 + m;
+    }
+
+    function formatearMinutos(min) {
+      const h24 = Math.floor(min / 60) % 24;
+      const m = min % 60;
+      const ampm = h24 >= 12 ? 'PM' : 'AM';
+      let h12 = h24 % 12;
+      if (h12 === 0) h12 = 12;
+      return `${h12}:${m.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    function obtenerMomentoCostaRica() {
+      const fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Costa_Rica',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+      const partes = {};
+      fmt.formatToParts(new Date()).forEach(p => { partes[p.type] = p.value; });
+      const dia = DIA_ABR_A_INDICE[partes.weekday];
+      const horas = parseInt(partes.hour, 10) % 24;
+      const minutos = parseInt(partes.minute, 10);
+      return dia * 1440 + horas * 60 + minutos;
+    }
+
+    async function cargarProgramacion() {
+      try {
+        const res = await fetch('./data/programacion.json');
+        const data = await res.json();
+        const programas = data.programas || [];
+
+        // Generar todas las ocurrencias de la semana
+        const ocurrencias = [];
+        programas.forEach(p => {
+          p.dias.forEach(dia => {
+            ocurrencias.push({
+              programa: p,
+              inicioMin: dia * 1440 + parsearHora(p.inicio),
+              finMin: dia * 1440 + parsearHora(p.fin),
+              dia
+            });
+          });
+        });
+
+        actualizarBloqueEnVivo(ocurrencias);
+        setInterval(() => actualizarBloqueEnVivo(ocurrencias), 60000);
+      } catch (e) {
+        console.error('No se pudo cargar la programación:', e);
+      }
+    }
+
+    function actualizarBloqueEnVivo(ocurrencias) {
+      const ahora = obtenerMomentoCostaRica();
+      const box = document.getElementById('live-schedule-box');
+      const liveBlock = document.getElementById('liveNowBlock');
+      const nextBlock = document.getElementById('liveNextBlock');
+
+      // Limpiar badges anteriores
+      document.querySelectorAll('.program-status-badge').forEach(b => b.remove());
+
+      const enVivo = ocurrencias.find(o => ahora >= o.inicioMin && ahora < o.finMin);
+
+      let siguiente = null;
+      let mejorDelta = Infinity;
+      ocurrencias.forEach(o => {
+        if (enVivo && o === enVivo) return;
+        const delta = ((o.inicioMin - ahora) % 10080 + 10080) % 10080;
+        if (delta > 0 && delta < mejorDelta) {
+          mejorDelta = delta;
+          siguiente = o;
+        }
+      });
+
+      if (enVivo) {
+        liveBlock.classList.remove('hidden');
+        document.getElementById('liveNowName').textContent = enVivo.programa.nombre;
+        const conductor = enVivo.programa.conductor ? `Al aire con ${enVivo.programa.conductor} · ` : '';
+        document.getElementById('liveNowExtra').textContent = `${conductor}Termina a las ${formatearMinutos(enVivo.finMin % 1440)}`;
+        agregarBadge(enVivo.programa.id, 'live', '🔴 EN VIVO');
+      } else {
+        liveBlock.classList.add('hidden');
+      }
+
+      if (siguiente) {
+        nextBlock.classList.remove('hidden');
+        const esHoy = Math.floor(siguiente.inicioMin / 1440) === Math.floor(ahora / 1440);
+        const diaTexto = esHoy ? '' : ` (${DIAS_NOMBRE[siguiente.dia]})`;
+        document.querySelector('.live-next-label').textContent = enVivo ? 'Después:' : 'Próximo programa:';
+        document.getElementById('liveNextName').textContent = `${siguiente.programa.nombre} · ${formatearMinutos(siguiente.inicioMin % 1440)}${diaTexto}`;
+        agregarBadge(siguiente.programa.id, 'next', 'SIGUE');
+      } else {
+        nextBlock.classList.add('hidden');
+      }
+
+      box.classList.toggle('hidden', !enVivo && !siguiente);
+    }
+
+    function agregarBadge(programaId, tipo, texto) {
+      const card = document.querySelector(`[data-program-id="${programaId}"]`);
+      if (!card) return;
+      const badge = document.createElement('span');
+      badge.className = `program-status-badge ${tipo}`;
+      badge.textContent = texto;
+      card.appendChild(badge);
+    }
+
+    // ========== LEX TOP 10 ==========
+    async function cargarTop10() {
+      try {
+        const res = await fetch('./data/top10.json');
+        const data = await res.json();
+        const contenedor = document.getElementById('top10List');
+        const iconoTendencia = { up: '▲', down: '▼', same: '▬' };
+
+        if (data.semanaDel) {
+          document.getElementById('top10Subtitle').textContent = `Las canciones más sonadas · ${data.semanaDel}`;
+        }
+
+        contenedor.innerHTML = (data.canciones || []).map(c => `
+          <div class="top10-item">
+            <div class="top10-pos">${c.posicion}</div>
+            <div class="top10-info">
+              <div class="top10-song">${c.cancion}</div>
+              <div class="top10-artist">${c.artista}</div>
+            </div>
+            <div class="top10-trend ${c.tendencia}">${iconoTendencia[c.tendencia] || ''}</div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('No se pudo cargar el Top 10:', e);
+      }
+    }
   </script>
 
   <script>

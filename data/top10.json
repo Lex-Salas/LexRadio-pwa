@@ -1,0 +1,16 @@
+{
+  "_instrucciones": "Esto son datos de EJEMPLO. Edita este archivo cada semana con las canciones más sonadas reales. 'tendencia' puede ser 'up', 'down' o 'same'.",
+  "semanaDel": "Ejemplo - reemplazar con la fecha real",
+  "canciones": [
+    { "posicion": 1, "artista": "A-ha", "cancion": "Take On Me", "tendencia": "up" },
+    { "posicion": 2, "artista": "Madonna", "cancion": "Like a Prayer", "tendencia": "down" },
+    { "posicion": 3, "artista": "Michael Jackson", "cancion": "Billie Jean", "tendencia": "up" },
+    { "posicion": 4, "artista": "Queen", "cancion": "Radio Ga Ga", "tendencia": "same" },
+    { "posicion": 5, "artista": "Roxette", "cancion": "The Look", "tendencia": "up" },
+    { "posicion": 6, "artista": "Duran Duran", "cancion": "Hungry Like the Wolf", "tendencia": "down" },
+    { "posicion": 7, "artista": "Whitney Houston", "cancion": "I Wanna Dance with Somebody", "tendencia": "same" },
+    { "posicion": 8, "artista": "Eurythmics", "cancion": "Sweet Dreams", "tendencia": "up" },
+    { "posicion": 9, "artista": "Cyndi Lauper", "cancion": "Girls Just Want to Have Fun", "tendencia": "down" },
+    { "posicion": 10, "artista": "Toto", "cancion": "Africa", "tendencia": "same" }
+  ]
+}
