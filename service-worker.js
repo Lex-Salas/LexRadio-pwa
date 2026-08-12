@@ -1,13 +1,10 @@
-const CACHE_NAME = "lexradio-v5"; // Aumenta la versión para limpiar cache viejo
+const CACHE_NAME = "lexradio-v6"; // Aumenta la versión para limpiar cache viejo
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./logo-lexradio.png",
-
-  "./css/style.css",
-  "./js/main.js",
 
   "./artista.jpg",
   "./lextronica.jpg",
