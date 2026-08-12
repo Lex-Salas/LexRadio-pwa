@@ -1,128 +1,41 @@
-const CACHE_NAME = "lexradio-v4"; // Aumenta la versión para limpiar cache viejo
-
+const CACHE_NAME = 'lexradio-v5';
 const APP_SHELL = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./logo-lexradio.png",
-
-  "./css/style.css",
-  "./js/main.js",
-
-  "./artista.png",
-  "./lextronica.png",
-  "./startpop.png",
-  "./concierto.png",
-  "./retrovibe.png",
-  "./RAMix_Total_Poster_Web.png",
-  "./LEX.png",
-  "./Jessica.png",
-
-  "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap",
-  "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css",
-  "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js",
-  "https://https://i.imgur.com/m7xt2YZ.png"
+  './','./index.html','./manifest.json','./logo-lexradio.png',
+  './css/style.css','./css/lex-platform.css','./js/main.js','./js/lex-platform.js',
+  './data/programacion.json','./data/replay.json',
+  './artista.jpg','./lextronica.jpg','./startpop.jpg','./concierto.jpg','./retrovibe.jpg',
+  './RAMix_Total_Poster_Web.jpg','./LEX.jpg','./Jessica.jpg'
 ];
+const NEVER_CACHE = ['status-json.xsl','stream.zeno.fm','/live','itunes.apple.com'];
+const shouldNotCache = url => NEVER_CACHE.some(pattern => url.includes(pattern));
 
-// URLs que NUNCA deben cachearse
-const NEVER_CACHE = [
-  'status-json.xsl',
-  '/live',
-  'itunes.apple.com'
-];
-
-// Función para verificar si una URL no debe cachearse
-function shouldNotCache(url) {
-  return NEVER_CACHE.some(pattern => url.includes(pattern));
-}
-
-// INSTALACIÓN
-self.addEventListener("install", (event) => {
-  console.log("[SW] Install v4");
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(APP_SHELL);
-    })
-  );
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
   self.skipWaiting();
 });
 
-// ACTIVACIÓN (limpiar caches viejos)
-self.addEventListener("activate", (event) => {
-  console.log("[SW] Activate v4");
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log("[SW] Eliminando cache viejo:", key);
-            return caches.delete(key);
-          }
-        })
-      )
-    )
-  );
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
   self.clients.claim();
 });
 
-// FETCH
-self.addEventListener("fetch", (event) => {
-  const url = event.request.url;
-
-  // No interferir con peticiones de rango (audio streaming)
-  if (event.request.headers.has("range")) {
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET' || req.headers.has('range')) return;
+  if (shouldNotCache(req.url)) {
+    event.respondWith(fetch(req, {cache:'no-store'}));
     return;
   }
-
-  // CRÍTICO: No cachear metadatos ni stream de audio
-  if (shouldNotCache(url)) {
-    console.log("[SW] Bypass cache para:", url);
-    event.respondWith(
-      fetch(event.request, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache'
-        }
-      })
-    );
+  if (req.mode === 'navigate') {
+    event.respondWith(fetch(req).then(res => {
+      const copy=res.clone(); caches.open(CACHE_NAME).then(c=>c.put('./index.html',copy)); return res;
+    }).catch(()=>caches.match('./index.html')));
     return;
   }
-
-  // Navegación (HTML) → estrategia: Network First con fallback a cache
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          return response;
-        })
-        .catch(() => {
-          return caches.match("./index.html");
-        })
-    );
-    return;
-  }
-
-  // Otros recursos (CSS, JS, imágenes) → Cache First
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
-      return fetch(event.request)
-        .then((networkResponse) => {
-          // Cachear respuestas válidas
-          if (networkResponse && networkResponse.ok) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, clone);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          return new Response("Offline", { status: 503, statusText: "Offline" });
-        });
-    })
-  );
+  event.respondWith(caches.match(req).then(cached => cached || fetch(req).then(res => {
+    if (res && res.ok && new URL(req.url).origin === self.location.origin) {
+      const copy=res.clone(); caches.open(CACHE_NAME).then(c=>c.put(req,copy));
+    }
+    return res;
+  }).catch(()=>new Response('Offline',{status:503,statusText:'Offline'}))));
 });
