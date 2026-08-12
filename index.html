@@ -1019,6 +1019,94 @@
         font-size: 26px;
       }
     }
+
+    /* Widget de petición de canciones */
+    .song-request-widget {
+      position: fixed;
+      bottom: 96px;
+      right: 24px;
+      z-index: 999;
+      font-family: inherit;
+    }
+
+    .song-request-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff2d78, #ff7a2d);
+      color: #fff;
+      font-size: 26px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 45, 120, 0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .song-request-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .song-request-form {
+      position: absolute;
+      bottom: 72px;
+      right: 0;
+      width: 250px;
+      background: #14141c;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    }
+
+    .song-request-form.hidden {
+      display: none;
+    }
+
+    .song-request-form h4 {
+      margin: 0 0 10px;
+      color: #fff;
+      font-size: 0.95em;
+    }
+
+    .song-request-form input {
+      width: 100%;
+      padding: 9px 10px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 8px;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 0.9em;
+    }
+
+    .song-request-form input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .song-request-form button#req-enviar {
+      width: 100%;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 600px) {
+      .song-request-widget {
+        bottom: 78px;
+        right: 16px;
+      }
+      .song-request-toggle {
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
 <body onload="AOS.init()">
@@ -1030,6 +1118,18 @@
   <div class="particles" id="particles"></div>
 
   <a href="https://wa.me/50684794991?text=%C2%A1Hola%20LEX%20Radio!%20Les%20mando%20un%20saludo%20%F0%9F%8E%B6" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Enviar saludo por WhatsApp">💬</a>
+
+  <!-- Widget de petición de canciones -->
+  <div id="song-request-widget" class="song-request-widget">
+    <button id="song-request-toggle" class="song-request-toggle" aria-label="Pedir canción">🎵</button>
+    <div id="song-request-form" class="song-request-form hidden">
+      <h4>🎶 Pedí tu canción</h4>
+      <input type="text" id="req-nombre" placeholder="Tu nombre" maxlength="30" />
+      <input type="text" id="req-cancion" placeholder="Nombre de la canción" maxlength="60" />
+      <input type="text" id="req-artista" placeholder="Artista (opcional)" maxlength="60" />
+      <button id="req-enviar">Enviar por WhatsApp</button>
+    </div>
+  </div>
 
   <button class="install-button" id="installButton">
     📱 Instalar App
@@ -1904,6 +2004,52 @@
       loadEqSettings();
       loadEqCollapseState();
     });
+  </script>
+
+  <script>
+    // ========== WIDGET DE PETICIÓN DE CANCIONES ==========
+    (function () {
+      const WHATSAPP_NUMBER = "50684794991"; // mismo número del botón de saludo
+
+      const toggleBtn = document.getElementById('song-request-toggle');
+      const formBox = document.getElementById('song-request-form');
+      const enviarBtn = document.getElementById('req-enviar');
+      const nombreInput = document.getElementById('req-nombre');
+      const cancionInput = document.getElementById('req-cancion');
+      const artistaInput = document.getElementById('req-artista');
+
+      toggleBtn.addEventListener('click', () => {
+        formBox.classList.toggle('hidden');
+      });
+
+      enviarBtn.addEventListener('click', () => {
+        const nombre = nombreInput.value.trim();
+        const cancion = cancionInput.value.trim();
+        const artista = artistaInput.value.trim();
+
+        if (!nombre || !cancion) {
+          alert('Por favor completá al menos tu nombre y la canción 🎧');
+          return;
+        }
+
+        const mensaje = `Hola soy ${nombre}, me complace pedir la canción "${cancion}"${artista ? ' de ' + artista : ''} 🎶`;
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, '_blank');
+
+        // Limpiar y cerrar el formulario
+        nombreInput.value = '';
+        cancionInput.value = '';
+        artistaInput.value = '';
+        formBox.classList.add('hidden');
+      });
+
+      // Cerrar el formulario si se hace clic afuera
+      document.addEventListener('click', (e) => {
+        if (!document.getElementById('song-request-widget').contains(e.target)) {
+          formBox.classList.add('hidden');
+        }
+      });
+    })();
   </script>
 
 </body>
