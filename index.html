@@ -1090,6 +1090,25 @@
       z-index: 998;
     }
 
+    @media (max-width: 600px) {
+      .song-request-form.nav-song-request-form {
+        left: 50%;
+        width: 88vw;
+        max-width: 280px;
+      }
+    }
+
+    .song-request-error {
+      display: none;
+      color: #ff6b6b;
+      font-size: 0.8em;
+      margin: -4px 0 8px;
+    }
+
+    .song-request-error.visible {
+      display: block;
+    }
+
     .song-request-form {
       position: absolute;
       bottom: 72px;
@@ -1172,6 +1191,7 @@
       <input type="text" id="req-nombre" placeholder="Tu nombre" maxlength="30" />
       <input type="text" id="req-cancion" placeholder="Nombre de la canción" maxlength="60" />
       <input type="text" id="req-artista" placeholder="Artista" maxlength="60" required />
+      <div id="req-error" class="song-request-error">Completá tu nombre, la canción y el artista 🎧</div>
       <button id="req-enviar">Enviar por WhatsApp</button>
     </div>
   </div>
@@ -1271,6 +1291,7 @@
         <input type="text" id="nav-req-nombre" placeholder="Tu nombre" maxlength="30" />
         <input type="text" id="nav-req-cancion" placeholder="Nombre de la canción" maxlength="60" />
         <input type="text" id="nav-req-artista" placeholder="Artista" maxlength="60" required />
+        <div id="nav-req-error" class="song-request-error">Completá tu nombre, la canción y el artista 🎧</div>
         <button id="nav-req-enviar">Enviar por WhatsApp</button>
       </div>
     </div>
@@ -2072,13 +2093,23 @@
       const nombreInput = document.getElementById('req-nombre');
       const cancionInput = document.getElementById('req-cancion');
       const artistaInput = document.getElementById('req-artista');
+      const errorBox = document.getElementById('req-error');
 
       toggleBtn.addEventListener('click', () => {
+        const abriendo = formBox.classList.contains('hidden');
         formBox.classList.toggle('hidden');
+        if (abriendo) {
+          navFormBox.classList.add('hidden');
+          nombreInput.focus();
+        }
       });
 
       enviarBtn.addEventListener('click', () => {
-        enviarPeticion(nombreInput, cancionInput, artistaInput, formBox);
+        enviarPeticion(nombreInput, cancionInput, artistaInput, formBox, errorBox);
+      });
+
+      artistaInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') enviarPeticion(nombreInput, cancionInput, artistaInput, formBox, errorBox);
       });
 
       // Cerrar el formulario flotante si se hace clic afuera
@@ -2096,12 +2127,15 @@
       const navNombreInput = document.getElementById('nav-req-nombre');
       const navCancionInput = document.getElementById('nav-req-cancion');
       const navArtistaInput = document.getElementById('nav-req-artista');
+      const navErrorBox = document.getElementById('nav-req-error');
 
       if (navBtn) {
         navBtn.addEventListener('click', (e) => {
           e.stopPropagation();
+          const abriendo = navFormBox.classList.contains('hidden');
           navFormBox.classList.toggle('hidden');
-          if (!navFormBox.classList.contains('hidden')) {
+          if (abriendo) {
+            formBox.classList.add('hidden');
             navNombreInput.focus();
           }
         });
@@ -2109,9 +2143,13 @@
 
       if (navEnviarBtn) {
         navEnviarBtn.addEventListener('click', () => {
-          enviarPeticion(navNombreInput, navCancionInput, navArtistaInput, navFormBox);
+          enviarPeticion(navNombreInput, navCancionInput, navArtistaInput, navFormBox, navErrorBox);
         });
       }
+
+      navArtistaInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') enviarPeticion(navNombreInput, navCancionInput, navArtistaInput, navFormBox, navErrorBox);
+      });
 
       // Cerrar el formulario del nav si se hace clic afuera
       document.addEventListener('click', (e) => {
@@ -2121,15 +2159,16 @@
       });
 
       // Función compartida para armar el mensaje y abrir WhatsApp
-      function enviarPeticion(nombreEl, cancionEl, artistaEl, formEl) {
+      function enviarPeticion(nombreEl, cancionEl, artistaEl, formEl, errorEl) {
         const nombre = nombreEl.value.trim();
         const cancion = cancionEl.value.trim();
         const artista = artistaEl.value.trim();
 
         if (!nombre || !cancion || !artista) {
-          alert('Por favor completá tu nombre, la canción y el artista 🎧');
+          if (errorEl) errorEl.classList.add('visible');
           return;
         }
+        if (errorEl) errorEl.classList.remove('visible');
 
         const mensaje = `Hola, soy ${nombre} 👋 Me complaces con "${cancion}" de ${artista} 🎶`;
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
