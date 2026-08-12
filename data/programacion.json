@@ -1,0 +1,11 @@
+{
+  "timezone": "America/Costa_Rica",
+  "programs": [
+    {"id":"popstart","name":"POPSTART","days":[1,2,3,4,5],"start":"09:00","end":"11:00","image":"startpop.jpg","color":"#ff7a2d","host":"LEX Radio","description":"Pop en inglés y español de los 80s, 90s y 2000s."},
+    {"id":"enamorados","name":"Concierto para Enamorados","days":[1,2,3,4,5],"start":"17:00","end":"18:00","image":"concierto.jpg","color":"#ff2d9a","host":"Jessica","description":"Baladas del pop y rock romántico para cerrar la tarde."},
+    {"id":"lextronica","name":"LEXTRONICA","days":[6],"start":"09:00","end":"11:00","image":"lextronica.jpg","color":"#00e5ff","host":"LEX Radio","description":"Eurodance y electrónica de los 90s, 2000s y más."},
+    {"id":"artista","name":"Artista de la Semana","days":[6],"start":"11:00","end":"13:00","image":"artista.jpg","color":"#00e5ff","host":"LEX Radio","description":"Dos horas dedicadas a una trayectoria inolvidable."},
+    {"id":"retrovibes","name":"RETROVIBES","days":[6],"start":"13:00","end":"14:00","image":"retrovibe.jpg","color":"#8b5cf6","host":"Jessica","description":"Un viaje por los 80s, 90s y 2000s."},
+    {"id":"ramix","name":"RAMix Total","days":[6],"start":"19:00","end":"21:00","image":"RAMix_Total_Poster_Web.jpg","color":"#ff2d9a","host":"DJ RAM","description":"Mezclas, energía y todos los géneros en una sola sesión."}
+  ]
+}
