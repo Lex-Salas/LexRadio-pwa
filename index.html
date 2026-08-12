@@ -1046,6 +1046,34 @@
       transform: scale(1.1);
     }
 
+    .song-request-tooltip {
+      position: absolute;
+      top: 50%;
+      right: 72px;
+      transform: translateY(-50%) translateX(6px);
+      background: #14141c;
+      color: #fff;
+      font-size: 0.8em;
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .song-request-widget:hover .song-request-tooltip {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    @media (max-width: 600px) {
+      .song-request-tooltip {
+        display: none;
+      }
+    }
+
     .song-request-form {
       position: absolute;
       bottom: 72px;
@@ -1121,12 +1149,13 @@
 
   <!-- Widget de petición de canciones -->
   <div id="song-request-widget" class="song-request-widget">
-    <button id="song-request-toggle" class="song-request-toggle" aria-label="Pedir canción">🎵</button>
+    <span class="song-request-tooltip">Pide tu canción aquí</span>
+    <button id="song-request-toggle" class="song-request-toggle" aria-label="Pide tu canción aquí" title="Pide tu canción aquí">🎵</button>
     <div id="song-request-form" class="song-request-form hidden">
       <h4>🎶 Pedí tu canción</h4>
       <input type="text" id="req-nombre" placeholder="Tu nombre" maxlength="30" />
       <input type="text" id="req-cancion" placeholder="Nombre de la canción" maxlength="60" />
-      <input type="text" id="req-artista" placeholder="Artista (opcional)" maxlength="60" />
+      <input type="text" id="req-artista" placeholder="Artista" maxlength="60" required />
       <button id="req-enviar">Enviar por WhatsApp</button>
     </div>
   </div>
@@ -1216,8 +1245,8 @@
       </div>
     </div>
 
-    <button class="neon-button" onclick="window.open('https://wa.me/50684794991')">
-      💬 Mandá tu saludo
+    <button class="neon-button" id="navSongRequestBtn">
+      🎵 Pedí aquí tu canción
     </button>
 
     <nav>
@@ -2012,27 +2041,38 @@
       const WHATSAPP_NUMBER = "50684794991"; // mismo número del botón de saludo
 
       const toggleBtn = document.getElementById('song-request-toggle');
+      const navBtn = document.getElementById('navSongRequestBtn');
       const formBox = document.getElementById('song-request-form');
       const enviarBtn = document.getElementById('req-enviar');
       const nombreInput = document.getElementById('req-nombre');
       const cancionInput = document.getElementById('req-cancion');
       const artistaInput = document.getElementById('req-artista');
 
+      function abrirFormulario() {
+        formBox.classList.remove('hidden');
+        document.getElementById('song-request-widget').scrollIntoView({ behavior: 'smooth', block: 'end' });
+        nombreInput.focus();
+      }
+
       toggleBtn.addEventListener('click', () => {
         formBox.classList.toggle('hidden');
       });
+
+      if (navBtn) {
+        navBtn.addEventListener('click', abrirFormulario);
+      }
 
       enviarBtn.addEventListener('click', () => {
         const nombre = nombreInput.value.trim();
         const cancion = cancionInput.value.trim();
         const artista = artistaInput.value.trim();
 
-        if (!nombre || !cancion) {
-          alert('Por favor completá al menos tu nombre y la canción 🎧');
+        if (!nombre || !cancion || !artista) {
+          alert('Por favor completá tu nombre, la canción y el artista 🎧');
           return;
         }
 
-        const mensaje = `Hola soy ${nombre}, me complace pedir la canción "${cancion}"${artista ? ' de ' + artista : ''} 🎶`;
+        const mensaje = `Hola, soy ${nombre} 👋 Me complaces con "${cancion}" de ${artista} 🎶`;
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');
 
