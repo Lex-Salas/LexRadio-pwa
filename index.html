@@ -70,6 +70,191 @@
     #offline-banner.visible {
       display: block;
     }
+
+    /* MINI REPRODUCTOR FLOTANTE */
+    .mini-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, rgba(10, 14, 39, 0.97), rgba(26, 31, 58, 0.97));
+      backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(0, 240, 255, 0.35);
+      box-shadow: 0 -6px 24px rgba(0,0,0,0.4);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mini-player:not(.hidden) {
+      transform: translateY(0);
+    }
+
+    .mini-player.hidden {
+      pointer-events: none;
+    }
+
+    .mini-player img {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .mini-player-info {
+      flex: 1;
+      min-width: 0;
+      color: #fff;
+    }
+
+    .mini-player-info div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #miniSongTitle {
+      font-weight: 700;
+      font-size: 0.9em;
+    }
+
+    #miniArtistName {
+      font-size: 0.8em;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .mini-player button {
+      background: linear-gradient(135deg, #00f0ff, #0099cc);
+      border: none;
+      color: #0a0e27;
+      font-size: 1.1em;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .mini-player {
+        bottom: 0;
+      }
+    }
+
+    /* BOTÓN DE FAVORITO */
+    .fav-btn {
+      background: transparent;
+      border: 2px solid rgba(255, 45, 120, 0.6);
+      color: #ff2d78;
+      font-size: 1.3em;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .fav-btn:hover {
+      background: rgba(255, 45, 120, 0.15);
+    }
+
+    .fav-btn.active {
+      background: #ff2d78;
+      color: #fff;
+    }
+
+    /* PANEL DE FAVORITAS */
+    .favorites-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 85vw;
+      z-index: 2500;
+      background: #14141c;
+      border-left: 1px solid rgba(255,255,255,0.12);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .favorites-panel:not(.hidden) {
+      transform: translateX(0);
+    }
+
+    .favorites-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .favorites-header h4 {
+      color: #fff;
+      margin: 0;
+    }
+
+    .favorites-header button {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    .favorites-list {
+      overflow-y: auto;
+      padding: 12px 18px;
+    }
+
+    .favorites-empty {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    .favorite-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .favorite-item-text {
+      color: #fff;
+      font-size: 0.85em;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .favorite-item-text span {
+      display: block;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.85em;
+    }
+
+    .favorite-remove-btn {
+      background: transparent;
+      border: none;
+      color: #ff6b6b;
+      cursor: pointer;
+      font-size: 1em;
+      flex-shrink: 0;
+    }
   </style>
 
   <!-- AOS CSS -->
@@ -1189,6 +1374,27 @@
 </head>
 <body onload="AOS.init()">
   <div id="offline-banner">📡 Estás desconectado. Algunas funciones pueden no estar disponibles.</div>
+
+  <!-- MINI REPRODUCTOR FLOTANTE -->
+  <div id="mini-player" class="mini-player hidden">
+    <img id="miniAlbumArt" src="https://i.imgur.com/m7xt2YZ.png" alt="">
+    <div class="mini-player-info">
+      <div id="miniSongTitle">🎵 CONECTANDO...</div>
+      <div id="miniArtistName"></div>
+    </div>
+    <button id="miniPlayBtn" aria-label="Reproducir/Pausar">▶️</button>
+  </div>
+
+  <!-- PANEL DE FAVORITAS -->
+  <div id="favorites-panel" class="favorites-panel hidden">
+    <div class="favorites-header">
+      <h4>❤️ Mis Favoritas</h4>
+      <button id="closeFavoritesBtn" aria-label="Cerrar">✕</button>
+    </div>
+    <div id="favoritesList" class="favorites-list">
+      <p class="favorites-empty">Todavía no guardaste ninguna canción. Tocá el ♡ junto al reproductor para guardar la que está sonando.</p>
+    </div>
+  </div>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG754S9D"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -1238,6 +1444,7 @@
 
       <div class="audio-controls">
         <button class="play-btn" id="playBtn">▶️</button>
+        <button class="fav-btn" id="favBtn" aria-label="Guardar en favoritas" title="Guardar en favoritas">♡</button>
       </div>
 
       <div class="visualizer" id="visualizer">
@@ -1319,6 +1526,7 @@
       <a href="#contacto">Contacto</a>
       <a href="https://facebook.com/lexxradio" target="_blank" rel="noopener">Facebook</a>
       <a href="https://www.lexxradio.com" target="_blank" rel="noopener">Sitio Web</a>
+      <a href="#" id="openFavoritesLink">❤️ Mis Favoritas</a>
     </nav>
 
     <section id="programas">
@@ -1482,6 +1690,12 @@
     const equalizerSection = document.getElementById('equalizerSection');
     const installButton = document.getElementById('installButton');
     const installLexRadioBtn = document.getElementById('installLexRadioBtn');
+    const favBtn = document.getElementById('favBtn');
+    const miniPlayer = document.getElementById('mini-player');
+    const miniAlbumArt = document.getElementById('miniAlbumArt');
+    const miniSongTitle = document.getElementById('miniSongTitle');
+    const miniArtistName = document.getElementById('miniArtistName');
+    const miniPlayBtn = document.getElementById('miniPlayBtn');
 
     // ========== ESTADO ==========
     let isPlaying = false;
@@ -1760,6 +1974,7 @@
 
     // ========== PLAY/PAUSE ==========
     playBtn.addEventListener('click', togglePlay);
+    miniPlayBtn.addEventListener('click', togglePlay);
 
     async function togglePlay() {
       if (isLoading) return;
@@ -1767,6 +1982,7 @@
       if (isPlaying) {
         audio.pause();
         playBtn.innerHTML = '▶️';
+        miniPlayBtn.innerHTML = '▶️';
         isPlaying = false;
         statusText.textContent = '🎶 LEX RADIO - Pausado';
         stopVisualizer();
@@ -1778,6 +1994,7 @@
       } else {
         isLoading = true;
         playBtn.innerHTML = '⏳';
+        miniPlayBtn.innerHTML = '⏳';
         statusText.textContent = '🔄 Conectando...';
         
         if (!audioContext) {
@@ -1791,6 +2008,7 @@
         audio.load();
         audio.play().then(() => {
           playBtn.innerHTML = '⏸️';
+          miniPlayBtn.innerHTML = '⏸️';
           isPlaying = true;
           isLoading = false;
           statusText.textContent = '🎶 EN VIVO - Tus Recuerdos En El Presente';
@@ -1800,6 +2018,7 @@
         }).catch(error => {
           console.error('Error reproduciendo:', error);
           playBtn.innerHTML = '▶️';
+          miniPlayBtn.innerHTML = '▶️';
           isLoading = false;
           statusText.textContent = '❌ Error de conexión';
         });
@@ -1905,6 +2124,14 @@
       songTitle.textContent = song;
       artistName.textContent = artist;
       if (artwork) albumArt.src = artwork;
+
+      miniSongTitle.textContent = song;
+      miniArtistName.textContent = artist || '';
+      if (artwork) miniAlbumArt.src = artwork;
+
+      currentSongForFav = song.replace('🎵 ', '');
+      currentArtistForFav = artist || '';
+      updateFavButtonState();
     }
 
     async function fetchAlbumArt(artist, song) {
@@ -1918,10 +2145,12 @@
           if (albumArt.src !== artwork) {
             albumArt.style.opacity = '0.5';
             albumArt.src = artwork;
+            miniAlbumArt.src = artwork;
             setTimeout(() => { albumArt.style.opacity = '1'; }, 300);
           }
         } else {
           albumArt.src = DEFAULT_IMAGE;
+          miniAlbumArt.src = DEFAULT_IMAGE;
         }
       } catch (err) {
         console.error('Error buscando carátula:', err);
@@ -1938,6 +2167,7 @@
     // ========== ERROR HANDLING ==========
     audio.addEventListener('error', () => {
       playBtn.innerHTML = '▶️';
+      miniPlayBtn.innerHTML = '▶️';
       isPlaying = false;
       isLoading = false;
       statusText.textContent = '❌ Error de transmisión';
@@ -2089,12 +2319,134 @@
 
     volumeSlider.addEventListener('change', saveEqSettings);
 
+    // ========== MINI REPRODUCTOR FLOTANTE ==========
+    const audioPlayerSection = document.querySelector('.audio-player');
+    if (audioPlayerSection) {
+      const miniPlayerObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          // Se muestra el mini player solo cuando el reproductor principal
+          // no está a la vista Y hay algo sonando (o cargando)
+          const debeMostrarse = !entry.isIntersecting && (isPlaying || isLoading);
+          miniPlayer.classList.toggle('hidden', !debeMostrarse);
+        });
+      }, { threshold: 0 });
+      miniPlayerObserver.observe(audioPlayerSection);
+
+      // También revisamos cada vez que cambia el estado de reproducción,
+      // por si el usuario le da play estando ya scrolleado hacia abajo
+      const chequearMiniPlayer = () => {
+        const rect = audioPlayerSection.getBoundingClientRect();
+        const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+        miniPlayer.classList.toggle('hidden', visible || !(isPlaying || isLoading));
+      };
+      playBtn.addEventListener('click', () => setTimeout(chequearMiniPlayer, 50));
+      miniPlayBtn.addEventListener('click', () => setTimeout(chequearMiniPlayer, 50));
+    }
+
+    // ========== FAVORITOS (❤️) ==========
+    const FAVORITES_KEY = 'lexradio_favoritos';
+    let currentSongForFav = '';
+    let currentArtistForFav = '';
+
+    function getFavoritos() {
+      try {
+        return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function guardarFavoritos(lista) {
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(lista));
+    }
+
+    function esFavorito(song, artist) {
+      return getFavoritos().some(f => f.song === song && f.artist === artist);
+    }
+
+    function updateFavButtonState() {
+      if (!currentSongForFav) {
+        favBtn.classList.remove('active');
+        favBtn.innerHTML = '♡';
+        return;
+      }
+      const activo = esFavorito(currentSongForFav, currentArtistForFav);
+      favBtn.classList.toggle('active', activo);
+      favBtn.innerHTML = activo ? '❤️' : '♡';
+    }
+
+    favBtn.addEventListener('click', () => {
+      if (!currentSongForFav) return;
+      let favoritos = getFavoritos();
+      if (esFavorito(currentSongForFav, currentArtistForFav)) {
+        favoritos = favoritos.filter(f => !(f.song === currentSongForFav && f.artist === currentArtistForFav));
+      } else {
+        favoritos.unshift({
+          song: currentSongForFav,
+          artist: currentArtistForFav,
+          art: albumArt.src,
+          savedAt: Date.now()
+        });
+        favoritos = favoritos.slice(0, 100); // límite razonable
+      }
+      guardarFavoritos(favoritos);
+      updateFavButtonState();
+      renderFavoritos();
+    });
+
+    function renderFavoritos() {
+      const lista = getFavoritos();
+      const contenedor = document.getElementById('favoritesList');
+      if (lista.length === 0) {
+        contenedor.innerHTML = '<p class="favorites-empty">Todavía no guardaste ninguna canción. Tocá el ♡ junto al reproductor para guardar la que está sonando.</p>';
+        return;
+      }
+      contenedor.innerHTML = lista.map((f, i) => `
+        <div class="favorite-item">
+          <div class="favorite-item-text">
+            ${f.song}
+            <span>${f.artist || ''}</span>
+          </div>
+          <button class="favorite-remove-btn" data-index="${i}" aria-label="Quitar de favoritas" title="Quitar">🗑️</button>
+        </div>
+      `).join('');
+
+      contenedor.querySelectorAll('.favorite-remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.index);
+          const nuevaLista = getFavoritos();
+          nuevaLista.splice(idx, 1);
+          guardarFavoritos(nuevaLista);
+          renderFavoritos();
+          updateFavButtonState();
+        });
+      });
+    }
+
+    const favoritesPanel = document.getElementById('favorites-panel');
+    const openFavoritesLink = document.getElementById('openFavoritesLink');
+    const closeFavoritesBtn = document.getElementById('closeFavoritesBtn');
+
+    if (openFavoritesLink) {
+      openFavoritesLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        renderFavoritos();
+        favoritesPanel.classList.remove('hidden');
+      });
+    }
+    if (closeFavoritesBtn) {
+      closeFavoritesBtn.addEventListener('click', () => {
+        favoritesPanel.classList.add('hidden');
+      });
+    }
+
     // ========== PRECARGA DE METADATOS ==========
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✅ LEX RADIO cargado - Metadatos listos');
       fetchMetadata();
       loadEqSettings();
       loadEqCollapseState();
+      renderFavoritos();
 
       const offlineBanner = document.getElementById('offline-banner');
       function actualizarEstadoConexion() {
