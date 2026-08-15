@@ -13,6 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEX Radio - Tus recuerdos en el presente</title>
   <meta name="description" content="LEX Radio - Tus recuerdos en el presente. Escuchá en vivo música retro, POPSTART, RETROVIBES, LEXTRONICA y más, las 24 horas desde Puerto Jiménez, Costa Rica." />
+  <link rel="canonical" href="https://www.lexxradio.com/" />
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="icons/lexradio_32.png"/>
@@ -31,6 +32,28 @@
   <meta name="twitter:title" content="LEX Radio - Tus recuerdos en el presente" />
   <meta name="twitter:description" content="Escuchá LEX Radio en vivo, las 24 horas: música retro, POPSTART, RETROVIBES, LEXTRONICA y más." />
   <meta name="twitter:image" content="https://www.lexxradio.com/logo-lexradio.png" />
+
+  <!-- Structured Data (schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RadioStation",
+    "name": "LEX Radio",
+    "alternateName": "LEX RADIO",
+    "url": "https://www.lexxradio.com/",
+    "logo": "https://www.lexxradio.com/logo-lexradio.png",
+    "image": "https://www.lexxradio.com/logo-lexradio.png",
+    "description": "LEX Radio transmite en vivo las 24 horas desde Puerto Jiménez, Península de Osa, Costa Rica, con programación variada que incluye POPSTART, RETROVIBES, LEXTRONICA y RAMix Total.",
+    "broadcastDisplayName": "LEX Radio",
+    "genre": ["Retro", "Pop", "Electrónica", "Variada"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Puerto Jiménez",
+      "addressRegion": "Puntarenas",
+      "addressCountry": "CR"
+    }
+  }
+  </script>
 
   <!-- OneSignal Push Notifications -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -2171,10 +2194,6 @@
         isPlaying = false;
         statusText.textContent = '🎶 LEX RADIO - Pausado';
         stopVisualizer();
-        if (metadataInterval) {
-          clearInterval(metadataInterval);
-          metadataInterval = null;
-        }
         albumArt.classList.remove('playing');
       } else {
         isLoading = true;
@@ -2357,10 +2376,6 @@
       isLoading = false;
       statusText.textContent = '❌ Error de transmisión';
       stopVisualizer();
-      if (metadataInterval) {
-        clearInterval(metadataInterval);
-        metadataInterval = null;
-      }
       albumArt.classList.remove('playing');
     });
 
@@ -2628,7 +2643,7 @@
     // ========== PRECARGA DE METADATOS ==========
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✅ LEX RADIO cargado - Metadatos listos');
-      fetchMetadata();
+      startMetadataFetch();
       loadEqSettings();
       loadEqCollapseState();
       renderFavoritos();
