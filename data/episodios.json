@@ -1,0 +1,14 @@
+{
+  "_instrucciones": "Agrega un episodio nuevo al INICIO de la lista 'episodios' cada vez que subas uno a Zeno. Copia titulo, audioUrl (del <enclosure url>), imagen (itunes:image), duracion y fecha desde tu feed RSS: https://podcast.zenomedia.com/api/public/podcasts/8064941b-b98d-4d78-a967-01a6f6dc8cc3/rss",
+  "episodios": [
+    {
+      "titulo": "LEXTRONIC - Episodio 1",
+      "descripcion": "Un viaje electrizante por lo mejor de la música electrónica de los 90s, 2000s y de hoy: House, Trance, Techno, Eurodance y Electro.",
+      "audioUrl": "https://podcast.zenomedia.com/public/podcasts/media/8064941b-b98d-4d78-a967-01a6f6dc8cc3/9adf020e-db55-4940-b0ca-2ab678770d31.mp3",
+      "imagen": "https://zenoimages.s3.us-west-001.backblazeb2.com/podcasts/8064941b-b98d-4d78-a967-01a6f6dc8cc3/images/9adf020e-db55-4940-b0ca-2ab678770d31",
+      "duracion": "1h 42min",
+      "fecha": "24 jul 2026",
+      "linkZeno": "https://zeno.fm/show/8064941b-b98d-4d78-a967-01a6f6dc8cc3/episodes/9adf020e-db55-4940-b0ca-2ab678770d31"
+    }
+  ]
+}

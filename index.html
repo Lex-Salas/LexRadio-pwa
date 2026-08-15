@@ -1824,11 +1824,9 @@
         ¿Te perdiste la transmisión en vivo? Escuchá nuestros episodios grabados cuando quieras.
       </p>
       <div class="scroll-wrapper" id="episodesWrapper">
-        <!-- Próximamente: embeds de Spotify for Creators por episodio -->
         <div class="card" data-aos="fade-up">
           <div class="card-content">
-            <h3 style="color: #1DB954;">🎙️ Próximamente</h3>
-            <p>Estamos preparando nuestro archivo de episodios grabados. ¡Vuelve pronto!</p>
+            <h3 style="color: #1DB954;">🎙️ Cargando episodios...</h3>
           </div>
         </div>
       </div>
@@ -2649,6 +2647,7 @@
       renderFavoritos();
       cargarProgramacion();
       cargarTop10();
+      cargarEpisodios();
 
       const offlineBanner = document.getElementById('offline-banner');
       function actualizarEstadoConexion() {
@@ -2798,6 +2797,41 @@
         `).join('');
       } catch (e) {
         console.error('No se pudo cargar el Top 10:', e);
+      }
+    }
+
+    async function cargarEpisodios() {
+      try {
+        const res = await fetch('./data/episodios.json');
+        const data = await res.json();
+        const contenedor = document.getElementById('episodesWrapper');
+        const episodios = (data.episodios || []).slice(0, 3);
+
+        if (!episodios.length) {
+          contenedor.innerHTML = `
+            <div class="card" data-aos="fade-up">
+              <div class="card-content">
+                <h3 style="color: #1DB954;">🎙️ Próximamente</h3>
+                <p>Estamos preparando nuestro archivo de episodios grabados. ¡Vuelve pronto!</p>
+              </div>
+            </div>`;
+          return;
+        }
+
+        contenedor.innerHTML = episodios.map(ep => `
+          <div class="card" data-aos="fade-up">
+            ${ep.imagen ? `<img src="${ep.imagen}" alt="${ep.titulo}" loading="lazy">` : ''}
+            <div class="card-content">
+              <h3 style="color: #1DB954;">🎙️ ${ep.titulo}</h3>
+              <p style="font-size: 0.85em; color: rgba(255,255,255,0.6);">${ep.fecha || ''}${ep.duracion ? ' · ' + ep.duracion : ''}</p>
+              <p>${ep.descripcion || ''}</p>
+              ${ep.audioUrl ? `<audio controls preload="none" style="width: 100%; margin-top: 10px;"><source src="${ep.audioUrl}" type="audio/mpeg"></audio>` : ''}
+              ${ep.linkZeno ? `<p style="margin-top: 8px;"><a href="${ep.linkZeno}" target="_blank" rel="noopener" style="color: #1DB954; text-decoration: none; font-size: 0.85em;">Ver en Zeno.FM ↗</a></p>` : ''}
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('No se pudieron cargar los episodios:', e);
       }
     }
   </script>
