@@ -1878,7 +1878,7 @@
   <script>
     // ========== CONFIGURACIÓN ==========
     const STREAM_URL = 'https://stream.zeno.fm/rgfniwauxxdtv';
-    const METADATA_URL = 'https://stream.lexxradio.com/status-json.xsl';
+    const METADATA_URL = 'https://stream.lexxradio.com/nowplaying';
     const DEFAULT_IMAGE = 'https://i.imgur.com/m7xt2YZ.png';
 
     // ========== ELEMENTOS DOM ==========
@@ -2285,15 +2285,14 @@
       try {
         const response = await fetch(METADATA_URL);
         const data = await response.json();
-        
-        const source = data.icestats.source;
-        if (!source || !source.title) {
+
+        if (!data || !data.fullTitle) {
           updateDisplay('LEX RADIO', 'EN VIVO', DEFAULT_IMAGE);
           return;
         }
-        
-        const fullTitle = source.title.trim();
-        
+
+        const fullTitle = data.fullTitle.trim();
+
         if (fullTitle === currentTrack) return;
 
         // Guardar la canción anterior en el historial antes de reemplazarla
@@ -2302,15 +2301,9 @@
         }
 
         currentTrack = fullTitle;
-        
-        let artist = '';
-        let song = fullTitle;
-        
-        if (fullTitle.includes(' - ')) {
-          const parts = fullTitle.split(' - ');
-          artist = parts[0].trim();
-          song = parts.slice(1).join(' - ').trim();
-        }
+
+        const artist = (data.artist || '').trim();
+        const song = (data.title || fullTitle).trim();
 
         updateDisplay(song, artist);
         if (artist && song) {
