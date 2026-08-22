@@ -1,4 +1,4 @@
-const CACHE_NAME = "lexradio-v6"; // Aumenta la versión para limpiar cache viejo
+const CACHE_NAME = "lexradio-v7"; // Aumenta la versión para limpiar cache viejo
 
 const APP_SHELL = [
   "./",
@@ -24,6 +24,7 @@ const APP_SHELL = [
 // URLs que NUNCA deben cachearse
 const NEVER_CACHE = [
   'status-json.xsl',
+  '/nowplaying',
   '/live',
   'itunes.apple.com'
 ];
